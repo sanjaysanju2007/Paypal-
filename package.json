@@ -1,0 +1,23 @@
+{
+  "name": "spendwise-ai",
+  "version": "1.0.0",
+  "description": "SpendWise AI – Intelligent Money Management Platform with PayPal Sandbox Integration",
+  "scripts": {
+    "start": "node server/src/index.js",
+    "server": "cd server && npm start",
+    "server:dev": "cd server && npm run dev",
+    "client": "cd client && npm run dev",
+    "build": "cd client && npm run build",
+    "install:all": "cd server && npm install && cd ../client && npm install"
+  },
+  "keywords": [
+    "fintech",
+    "money-management",
+    "paypal-sandbox",
+    "gemini-ai",
+    "personal-finance",
+    "spendwise"
+  ],
+  "author": "SpendWise AI Team",
+  "license": "MIT"
+}

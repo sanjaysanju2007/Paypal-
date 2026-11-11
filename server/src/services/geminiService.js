@@ -271,3 +271,4 @@ Here is a summary of your financial position:
 
 export const geminiService = new GeminiService();
 export default geminiService;
+

@@ -195,3 +195,4 @@ The Vite development server will run on [http://localhost:5173](http://localhost
 ## 🛡️ License
 
 This project is licensed under the MIT License.
+

@@ -507,3 +507,4 @@ class Database {
 
 export const db = new Database();
 export default db;
+

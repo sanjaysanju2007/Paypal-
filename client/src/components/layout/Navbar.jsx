@@ -13,7 +13,9 @@ import {
   User,
   Shield,
   CreditCard,
-  Settings as SettingsIcon
+  Settings as SettingsIcon,
+  Sun,
+  Moon
 } from 'lucide-react';
 import api from '../../services/api';
 
@@ -27,8 +29,12 @@ export default function Navbar() {
     setSettings,
     refreshAll,
     notifications,
-    markAllNotificationsRead
+    markAllNotificationsRead,
+    theme,
+    toggleTheme
   } = useApp();
+
+  const isDark = theme === 'dark';
 
   const [showNotifications, setShowNotifications] = useState(false);
   const [showCurrencyMenu, setShowCurrencyMenu] = useState(false);
@@ -75,18 +81,18 @@ export default function Navbar() {
   };
 
   return (
-    <header className="h-18 bg-[#0D1527]/75 backdrop-blur-2xl border-b border-[#38BDF8]/15 fixed top-0 right-0 left-64 z-30 px-7 flex items-center justify-between shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
+    <header className="h-18 bg-white/85 dark:bg-[#0D1527]/75 backdrop-blur-2xl border-b border-blue-500/15 dark:border-[#38BDF8]/15 fixed top-0 right-0 left-64 z-30 px-7 flex items-center justify-between shadow-[0_4px_25px_rgba(37,99,235,0.06)] dark:shadow-[0_4px_30px_rgba(0,0,0,0.5)] transition-colors duration-250">
       {/* Page Title & Live Date */}
       <div className="flex items-center gap-4">
         <div>
-          <h1 className="text-base font-extrabold text-white tracking-tight flex items-center gap-2">
+          <h1 className="text-base font-extrabold text-[#10233F] dark:text-white tracking-tight flex items-center gap-2">
             <span>{getPageTitle(activeTab)}</span>
           </h1>
-          <div className="flex items-center gap-2 text-[11px] text-slate-400 font-medium">
-            <Calendar className="w-3 h-3 text-[#38BDF8]" />
+          <div className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+            <Calendar className="w-3 h-3 text-[#2563EB] dark:text-[#38BDF8]" />
             <span>{todayDateString}</span>
-            <span className="text-[#38BDF8]/40">•</span>
-            <span className="text-[#38BDF8]/80 font-mono">Encrypted 256-bit Sandbox</span>
+            <span className="text-blue-500/40 dark:text-[#38BDF8]/40">•</span>
+            <span className="text-[#2563EB] dark:text-[#38BDF8]/80 font-mono">Encrypted 256-bit Sandbox</span>
           </div>
         </div>
       </div>
@@ -96,7 +102,7 @@ export default function Navbar() {
         {/* Animated Expandable Search Input */}
         <motion.div 
           className="relative"
-          animate={{ width: isSearchExpanded || searchQuery ? 320 : 210 }}
+          animate={{ width: isSearchExpanded || searchQuery ? 300 : 190 }}
           transition={{ type: 'spring', stiffness: 300, damping: 28 }}
         >
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -107,17 +113,17 @@ export default function Navbar() {
             onBlur={() => !searchQuery && setIsSearchExpanded(false)}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search transactions, AI..."
-            className="w-full pl-9 pr-10 py-2 text-xs glass-input rounded-xl placeholder-slate-500 font-medium text-slate-200"
+            className="w-full pl-9 pr-10 py-2 text-xs glass-input rounded-xl placeholder-slate-400 dark:placeholder-slate-500 font-medium text-[#10233F] dark:text-slate-200"
           />
           {searchQuery ? (
             <button
               onClick={() => setSearchQuery('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#38BDF8]"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#2563EB] dark:hover:text-[#38BDF8]"
             >
               <X className="w-3.5 h-3.5" />
             </button>
           ) : (
-            <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] font-mono text-slate-400 bg-white/[0.06] border border-white/[0.08] px-1.5 py-0.5 rounded">
+            <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] font-mono text-slate-500 dark:text-slate-400 bg-slate-200/60 dark:bg-white/[0.06] border border-blue-500/10 dark:border-white/[0.08] px-1.5 py-0.5 rounded">
               ⌘K
             </span>
           )}
@@ -128,28 +134,60 @@ export default function Navbar() {
           onClick={() => setActiveTab('ai-advisor')}
           whileHover={{ scale: 1.04 }}
           whileTap={{ scale: 0.96 }}
-          className="hidden md:flex items-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-r from-[#38BDF8]/15 to-[#2563EB]/20 border border-[#38BDF8]/30 text-[#38BDF8] text-xs font-semibold shadow-[0_0_15px_rgba(56,189,248,0.2)] hover:border-[#38BDF8]/60 transition-all"
+          className="hidden md:flex items-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-r from-blue-500/10 to-cyan-500/15 dark:from-[#38BDF8]/15 dark:to-[#2563EB]/20 border border-blue-500/25 dark:border-[#38BDF8]/30 text-[#2563EB] dark:text-[#38BDF8] text-xs font-semibold shadow-[0_0_15px_rgba(37,99,235,0.1)] dark:shadow-[0_0_15px_rgba(56,189,248,0.2)] hover:border-blue-500/50 dark:hover:border-[#38BDF8]/60 transition-all"
         >
-          <Sparkles className="w-3.5 h-3.5 fill-[#38BDF8]/30 animate-pulse" />
+          <Sparkles className="w-3.5 h-3.5 fill-[#2563EB]/20 dark:fill-[#38BDF8]/30 animate-pulse text-[#2563EB] dark:text-[#38BDF8]" />
           <span>Ask SpendWise AI</span>
         </motion.button>
 
         {/* PayPal Sandbox Status Badge */}
-        <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#060913]/80 border border-[#38BDF8]/20 text-[11px] font-semibold text-slate-300">
+        <div className="hidden xl:flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50/80 dark:bg-[#060913]/80 border border-blue-500/20 dark:border-[#38BDF8]/20 text-[11px] font-semibold text-slate-700 dark:text-slate-300 transition-colors">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#38BDF8] opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-[#38BDF8]"></span>
           </span>
-          <span className="text-[#38BDF8] font-mono font-bold">PayPal Live Sandbox</span>
+          <span className="text-[#2563EB] dark:text-[#38BDF8] font-mono font-bold">PayPal Sandbox</span>
+        </div>
+
+        {/* Dynamic Animated Light Mode / Dark Mode Toggle */}
+        <div className="relative">
+          <button
+            type="button"
+            onClick={toggleTheme}
+            aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+            title={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+            className="relative flex items-center h-9 w-[68px] p-1 rounded-full bg-slate-200/80 dark:bg-[#060913]/90 border border-blue-500/20 dark:border-[#38BDF8]/25 hover:border-blue-500/40 dark:hover:border-[#38BDF8]/50 shadow-[0_2px_10px_rgba(37,99,235,0.08)] dark:shadow-[0_2px_12px_rgba(0,0,0,0.5)] transition-all cursor-pointer group"
+          >
+            {/* Smooth animated sliding indicator pill */}
+            <motion.div
+              layout
+              transition={{ type: 'spring', stiffness: 450, damping: 28 }}
+              className={`absolute top-1 bottom-1 w-7 rounded-full bg-gradient-to-br from-[#38BDF8] to-[#2563EB] shadow-[0_0_12px_rgba(56,189,248,0.5)] ${
+                isDark ? 'right-1' : 'left-1'
+              }`}
+            />
+            <div className="relative z-10 flex items-center justify-between w-full px-1.5 pointer-events-none select-none">
+              <Sun
+                className={`w-3.5 h-3.5 transition-colors duration-200 ${
+                  !isDark ? 'text-white' : 'text-slate-500 group-hover:text-slate-300'
+                }`}
+              />
+              <Moon
+                className={`w-3.5 h-3.5 transition-colors duration-200 ${
+                  isDark ? 'text-white' : 'text-slate-500 group-hover:text-slate-700'
+                }`}
+              />
+            </div>
+          </button>
         </div>
 
         {/* Currency Selector */}
         <div className="relative">
           <button
             onClick={() => setShowCurrencyMenu(!showCurrencyMenu)}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/[0.05] border border-white/[0.1] hover:border-[#38BDF8]/40 text-xs font-semibold text-slate-300 hover:text-white transition-all"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-100/80 dark:bg-white/[0.05] border border-blue-500/15 dark:border-white/[0.1] hover:border-blue-500/40 dark:hover:border-[#38BDF8]/40 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-[#10233F] dark:hover:text-white transition-all"
           >
-            <Globe className="w-3.5 h-3.5 text-[#38BDF8]" />
+            <Globe className="w-3.5 h-3.5 text-[#2563EB] dark:text-[#38BDF8]" />
             <span>{settings?.currency || 'INR'} ({settings?.currencySymbol || '₹'})</span>
             <ChevronDown className="w-3 h-3 text-slate-400" />
           </button>
@@ -172,14 +210,14 @@ export default function Navbar() {
                   <button
                     key={c.code}
                     onClick={() => handleCurrencyChange(c.code)}
-                    className={`w-full text-left px-3.5 py-2 flex items-center justify-between hover:bg-[#38BDF8]/10 transition-colors ${
+                    className={`w-full text-left px-3.5 py-2 flex items-center justify-between hover:bg-blue-500/10 dark:hover:bg-[#38BDF8]/10 transition-colors ${
                       settings?.currency === c.code
-                        ? 'text-[#38BDF8] font-semibold bg-[#38BDF8]/10'
-                        : 'text-slate-300'
+                        ? 'text-[#2563EB] dark:text-[#38BDF8] font-semibold bg-blue-500/10 dark:bg-[#38BDF8]/10'
+                        : 'text-slate-700 dark:text-slate-300'
                     }`}
                   >
                     <span>{c.label}</span>
-                    {settings?.currency === c.code && <CheckCircle2 className="w-3.5 h-3.5 text-[#38BDF8]" />}
+                    {settings?.currency === c.code && <CheckCircle2 className="w-3.5 h-3.5 text-[#2563EB] dark:text-[#38BDF8]" />}
                   </button>
                 ))}
               </motion.div>
@@ -192,9 +230,9 @@ export default function Navbar() {
           <motion.button
             whileTap={{ scale: 0.94 }}
             onClick={() => setShowNotifications(!showNotifications)}
-            className="relative p-2.5 rounded-xl bg-white/[0.05] border border-white/[0.1] hover:border-[#38BDF8]/40 text-slate-300 hover:text-white transition-all"
+            className="relative p-2.5 rounded-xl bg-slate-100/80 dark:bg-white/[0.05] border border-blue-500/15 dark:border-white/[0.1] hover:border-blue-500/40 dark:hover:border-[#38BDF8]/40 text-slate-700 dark:text-slate-300 hover:text-[#10233F] dark:hover:text-white transition-all"
           >
-            <Bell className="w-4 h-4 text-slate-300" />
+            <Bell className="w-4 h-4 text-slate-600 dark:text-slate-300" />
             {unreadCount > 0 && (
               <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#38BDF8] shadow-[0_0_8px_#38BDF8]"></span>
             )}
@@ -209,17 +247,17 @@ export default function Navbar() {
                 transition={{ duration: 0.15 }}
                 className="absolute right-0 mt-2 w-84 glass-panel-elevated rounded-2xl p-3.5 z-50"
               >
-                <div className="flex items-center justify-between pb-2 mb-2 border-b border-white/[0.08]">
+                <div className="flex items-center justify-between pb-2 mb-2 border-b border-blue-500/10 dark:border-white/[0.08]">
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold text-white">System Notifications</span>
-                    <span className="text-[10px] bg-[#38BDF8]/15 text-[#38BDF8] px-1.5 py-0.2 rounded font-mono font-bold">
+                    <span className="text-xs font-bold text-[#10233F] dark:text-white">System Notifications</span>
+                    <span className="text-[10px] bg-blue-500/15 dark:bg-[#38BDF8]/15 text-[#2563EB] dark:text-[#38BDF8] px-1.5 py-0.2 rounded font-mono font-bold">
                       {unreadCount} new
                     </span>
                   </div>
                   {unreadCount > 0 && (
                     <button
                       onClick={markAllNotificationsRead}
-                      className="text-[11px] font-semibold text-[#38BDF8] hover:underline"
+                      className="text-[11px] font-semibold text-[#2563EB] dark:text-[#38BDF8] hover:underline"
                     >
                       Mark all read
                     </button>
@@ -231,15 +269,15 @@ export default function Navbar() {
                       key={item.id}
                       className={`p-3 rounded-xl border text-xs transition-all ${
                         item.unread
-                          ? 'bg-[#38BDF8]/10 border-[#38BDF8]/30 shadow-[0_0_15px_rgba(56,189,248,0.1)]'
-                          : 'bg-[#060913]/60 border-white/[0.06]'
+                          ? 'bg-blue-500/10 dark:bg-[#38BDF8]/10 border-blue-500/25 dark:border-[#38BDF8]/30 shadow-[0_0_15px_rgba(37,99,235,0.06)]'
+                          : 'bg-white/60 dark:bg-[#060913]/60 border-blue-500/10 dark:border-white/[0.06]'
                       }`}
                     >
                       <div className="flex items-center justify-between mb-1">
-                        <span className="font-semibold text-slate-200">{item.title}</span>
-                        <span className="text-[10px] text-slate-400">{item.time}</span>
+                        <span className="font-semibold text-[#10233F] dark:text-slate-200">{item.title}</span>
+                        <span className="text-[10px] text-slate-500 dark:text-slate-400">{item.time}</span>
                       </div>
-                      <p className="text-slate-400 leading-relaxed text-[11px]">{item.message}</p>
+                      <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-[11px]">{item.message}</p>
                     </div>
                   ))}
                 </div>
@@ -253,20 +291,20 @@ export default function Navbar() {
           <motion.button
             whileTap={{ scale: 0.96 }}
             onClick={() => setShowProfileMenu(!showProfileMenu)}
-            className="flex items-center gap-2.5 pl-2 pr-3 py-1.5 rounded-xl bg-white/[0.05] border border-white/[0.1] hover:border-[#38BDF8]/40 transition-all text-left group"
+            className="flex items-center gap-2.5 pl-2 pr-3 py-1.5 rounded-xl bg-slate-100/80 dark:bg-white/[0.05] border border-blue-500/15 dark:border-white/[0.1] hover:border-blue-500/40 dark:hover:border-[#38BDF8]/40 transition-all text-left group"
           >
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#38BDF8] to-[#2563EB] flex items-center justify-center font-extrabold text-white text-xs shadow-[0_0_12px_rgba(56,189,248,0.35)]">
               AS
             </div>
             <div className="hidden md:block">
-              <div className="text-xs font-bold text-white leading-tight">
+              <div className="text-xs font-bold text-[#10233F] dark:text-white leading-tight">
                 {settings?.user?.name || 'Aditya Sharma'}
               </div>
-              <div className="text-[10px] text-[#38BDF8] font-mono leading-none font-bold">
+              <div className="text-[10px] text-[#2563EB] dark:text-[#38BDF8] font-mono leading-none font-bold">
                 {settings?.user?.tier || 'SpendWise Pro'}
               </div>
             </div>
-            <ChevronDown className="w-3.5 h-3.5 text-slate-400 group-hover:text-white transition-colors" />
+            <ChevronDown className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 group-hover:text-[#10233F] dark:group-hover:text-white transition-colors" />
           </motion.button>
 
           <AnimatePresence>
@@ -278,10 +316,10 @@ export default function Navbar() {
                 transition={{ duration: 0.15 }}
                 className="absolute right-0 mt-2 w-56 glass-panel-elevated rounded-2xl p-2 z-50 text-xs"
               >
-                <div className="p-3 border-b border-white/[0.08] mb-1">
-                  <p className="font-bold text-white">{settings?.user?.name || 'Aditya Sharma'}</p>
-                  <p className="text-[11px] text-slate-400 truncate">{settings?.user?.email || 'aditya.sharma@example.com'}</p>
-                  <div className="mt-2 inline-flex items-center gap-1.5 text-[10px] font-mono text-[#38BDF8] bg-[#38BDF8]/10 px-2 py-0.5 rounded-full border border-[#38BDF8]/20">
+                <div className="p-3 border-b border-blue-500/10 dark:border-white/[0.08] mb-1">
+                  <p className="font-bold text-[#10233F] dark:text-white">{settings?.user?.name || 'Aditya Sharma'}</p>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate">{settings?.user?.email || 'aditya.sharma@example.com'}</p>
+                  <div className="mt-2 inline-flex items-center gap-1.5 text-[10px] font-mono text-[#2563EB] dark:text-[#38BDF8] bg-blue-500/10 dark:bg-[#38BDF8]/10 px-2 py-0.5 rounded-full border border-blue-500/20 dark:border-[#38BDF8]/20">
                     <Shield className="w-2.5 h-2.5" />
                     <span>PayPal Verified Tier</span>
                   </div>
@@ -290,23 +328,23 @@ export default function Navbar() {
                 <div className="space-y-1">
                   <button
                     onClick={() => { setActiveTab('profile'); setShowProfileMenu(false); }}
-                    className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/[0.06] transition-colors text-left"
+                    className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-slate-700 dark:text-slate-300 hover:text-[#10233F] dark:hover:text-white hover:bg-blue-500/[0.06] dark:hover:bg-white/[0.06] transition-colors text-left"
                   >
-                    <User className="w-3.5 h-3.5 text-[#38BDF8]" />
+                    <User className="w-3.5 h-3.5 text-[#2563EB] dark:text-[#38BDF8]" />
                     <span>Profile Details</span>
                   </button>
                   <button
                     onClick={() => { setActiveTab('payments'); setShowProfileMenu(false); }}
-                    className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/[0.06] transition-colors text-left"
+                    className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-slate-700 dark:text-slate-300 hover:text-[#10233F] dark:hover:text-white hover:bg-blue-500/[0.06] dark:hover:bg-white/[0.06] transition-colors text-left"
                   >
-                    <CreditCard className="w-3.5 h-3.5 text-[#38BDF8]" />
+                    <CreditCard className="w-3.5 h-3.5 text-[#2563EB] dark:text-[#38BDF8]" />
                     <span>PayPal Management</span>
                   </button>
                   <button
                     onClick={() => { setActiveTab('settings'); setShowProfileMenu(false); }}
-                    className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/[0.06] transition-colors text-left"
+                    className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-slate-700 dark:text-slate-300 hover:text-[#10233F] dark:hover:text-white hover:bg-blue-500/[0.06] dark:hover:bg-white/[0.06] transition-colors text-left"
                   >
-                    <SettingsIcon className="w-3.5 h-3.5 text-[#38BDF8]" />
+                    <SettingsIcon className="w-3.5 h-3.5 text-[#2563EB] dark:text-[#38BDF8]" />
                     <span>Preferences & Security</span>
                   </button>
                 </div>

@@ -27,8 +27,11 @@ export default function AnalyticsPage() {
     summary,
     transactions,
     currencySymbol,
-    formatCurrency
+    formatCurrency,
+    theme
   } = useApp();
+
+  const isDark = theme === 'dark';
 
   const [timeRange, setTimeRange] = useState('6m');
 
@@ -70,7 +73,7 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Time Range Selector */}
-        <div className="flex items-center gap-1 bg-[#060913] p-1 rounded-xl border border-white/[0.08] text-xs font-bold">
+        <div className="flex items-center gap-1 bg-slate-200/60 dark:bg-[#060913] p-1 rounded-xl border border-blue-500/15 dark:border-white/[0.08] text-xs font-bold">
           {[
             { id: '1m', label: '30 Days' },
             { id: '3m', label: '90 Days' },
@@ -82,8 +85,8 @@ export default function AnalyticsPage() {
               onClick={() => setTimeRange(t.id)}
               className={`px-3 py-1.5 rounded-lg transition-all ${
                 timeRange === t.id
-                  ? 'bg-[#38BDF8] text-[#060913] shadow-[0_0_10px_rgba(56,189,248,0.4)]'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'bg-[#2563EB] dark:bg-[#38BDF8] text-white dark:text-[#060913] shadow-[0_0_10px_rgba(37,99,235,0.3)] dark:shadow-[0_0_10px_rgba(56,189,248,0.4)]'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-[#10233F] dark:hover:text-white'
               }`}
             >
               {t.label}
@@ -96,17 +99,17 @@ export default function AnalyticsPage() {
       <div className="glass-panel p-6 rounded-2xl shadow-[0_10px_35px_rgba(0,0,0,0.5)]">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
           <div>
-            <h3 className="font-extrabold text-white text-base">Inflow vs Outflow Trajectory</h3>
-            <p className="text-xs text-slate-400">Tracking monthly income against expenses and net surplus</p>
+            <h3 className="font-extrabold text-[#10233F] dark:text-white text-base">Inflow vs Outflow Trajectory</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400">Tracking monthly income against expenses and net surplus</p>
           </div>
           <div className="flex items-center gap-3 text-xs font-medium">
             <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#38BDF8] shadow-[0_0_8px_#38BDF8]"></span>
-              <span className="text-slate-300">Income Inflow</span>
+              <span className="w-2.5 h-2.5 rounded-full bg-[#2563EB] dark:bg-[#38BDF8] shadow-[0_0_8px_#38BDF8]"></span>
+              <span className="text-slate-700 dark:text-slate-300">Income Inflow</span>
             </div>
             <div className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-[#F43F5E] shadow-[0_0_8px_#F43F5E]"></span>
-              <span className="text-slate-300">Expense Outflow</span>
+              <span className="text-slate-700 dark:text-slate-300">Expense Outflow</span>
             </div>
           </div>
         </div>
@@ -125,15 +128,15 @@ export default function AnalyticsPage() {
               <Tooltip
                 formatter={(val) => [formatCurrency(val), '']}
                 contentStyle={{
-                  backgroundColor: 'rgba(13, 21, 39, 0.95)',
-                  borderColor: 'rgba(56, 189, 248, 0.25)',
-                  color: '#FFFFFF',
+                  backgroundColor: isDark ? 'rgba(13, 21, 39, 0.95)' : 'rgba(255, 255, 255, 0.96)',
+                  borderColor: isDark ? 'rgba(56, 189, 248, 0.25)' : 'rgba(37, 99, 235, 0.25)',
+                  color: isDark ? '#FFFFFF' : '#10233F',
                   borderRadius: '12px',
                   fontSize: '12px',
-                  boxShadow: '0 8px 30px rgba(0,0,0,0.6)'
+                  boxShadow: isDark ? '0 8px 30px rgba(0,0,0,0.6)' : '0 8px 25px rgba(37,99,235,0.12)'
                 }}
               />
-              <Bar dataKey="income" fill="#38BDF8" radius={[6, 6, 0, 0]} maxBarSize={32} />
+              <Bar dataKey="income" fill={isDark ? '#38BDF8' : '#2563EB'} radius={[6, 6, 0, 0]} maxBarSize={32} />
               <Bar dataKey="expenses" fill="#F43F5E" radius={[6, 6, 0, 0]} maxBarSize={32} />
             </BarChart>
           </ResponsiveContainer>
@@ -145,8 +148,8 @@ export default function AnalyticsPage() {
         {/* Category Breakdown Donut */}
         <div className="glass-panel p-5 rounded-2xl flex flex-col justify-between">
           <div>
-            <h3 className="font-extrabold text-white text-sm mb-1">Expense Category Distribution</h3>
-            <p className="text-xs text-slate-400 mb-4">Detailed proportion across spending classes</p>
+            <h3 className="font-extrabold text-[#10233F] dark:text-white text-sm mb-1">Expense Category Distribution</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">Detailed proportion across spending classes</p>
 
             <div className="h-52 w-full flex items-center justify-center relative">
               <ResponsiveContainer width="100%" height="100%">
@@ -165,11 +168,12 @@ export default function AnalyticsPage() {
                   <Tooltip
                     formatter={(val) => [formatCurrency(val), '']}
                     contentStyle={{
-                      backgroundColor: 'rgba(13, 21, 39, 0.95)',
-                      borderColor: 'rgba(56, 189, 248, 0.2)',
-                      color: '#FFFFFF',
+                      backgroundColor: isDark ? 'rgba(13, 21, 39, 0.95)' : 'rgba(255, 255, 255, 0.96)',
+                      borderColor: isDark ? 'rgba(56, 189, 248, 0.2)' : 'rgba(37, 99, 235, 0.2)',
+                      color: isDark ? '#FFFFFF' : '#10233F',
                       borderRadius: '8px',
-                      fontSize: '11px'
+                      fontSize: '11px',
+                      boxShadow: isDark ? '0 8px 30px rgba(0,0,0,0.6)' : '0 8px 25px rgba(37,99,235,0.12)'
                     }}
                   />
                 </PieChart>

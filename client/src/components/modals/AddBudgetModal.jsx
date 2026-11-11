@@ -80,18 +80,18 @@ export default function AddBudgetModal() {
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 15 }}
         transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-        className="glass-panel-elevated rounded-3xl w-full max-w-md overflow-hidden text-white relative shadow-[0_25px_60px_rgba(0,0,0,0.8)] border-[#38BDF8]/25"
+        className="glass-panel-elevated rounded-3xl w-full max-w-md overflow-hidden text-[#10233F] dark:text-white relative shadow-[0_25px_60px_rgba(0,0,0,0.8)] border-blue-500/25 dark:border-[#38BDF8]/25"
       >
-        <div className="px-6 py-4 border-b border-white/[0.08] flex items-center justify-between">
+        <div className="px-6 py-4 border-b border-blue-500/15 dark:border-white/[0.08] flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 flex items-center justify-center font-bold">
+            <div className="w-8 h-8 rounded-xl bg-blue-500/15 dark:bg-[#38BDF8]/15 text-[#2563EB] dark:text-[#38BDF8] border border-blue-500/30 dark:border-[#38BDF8]/30 flex items-center justify-center font-bold">
               <PieChart className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="font-extrabold text-white text-base">
+              <h3 className="font-extrabold text-[#10233F] dark:text-white text-base">
                 {editItem ? 'Edit Budget' : 'Create Category Budget'}
               </h3>
-              <p className="text-xs text-slate-400">Set monthly spending threshold</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Set monthly spending threshold</p>
             </div>
           </div>
           <button
@@ -99,7 +99,7 @@ export default function AddBudgetModal() {
               closeModal('addBudget');
               closeModal('editBudget');
             }}
-            className="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/[0.08] transition-colors"
+            className="p-1.5 rounded-xl text-slate-400 hover:text-[#10233F] dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-white/[0.08] transition-colors"
           >
             <X className="w-4 h-4" />
           </button>

@@ -17,16 +17,17 @@
   },
   "transactions": [
     {
-      "id": "tx-pp-628683",
-      "description": "PayPal: Regress Merchant",
-      "category": "Payment Transfer",
+      "id": "tx-299456",
+      "description": "Otaa vadda buisness",
+      "amount": 172,
       "type": "expense",
-      "amount": 2500,
+      "category": "Food & Dining",
       "date": "2026-11-11",
-      "paymentMethod": "PayPal Sandbox",
+      "paymentMethod": "Credit Card",
       "status": "Completed",
-      "paypalOrderId": "8999600698694831C",
-      "notes": "Regression test capture"
+      "notes": "all oil items availabble",
+      "paypalOrderId": null,
+      "createdAt": "2026-11-11T15:51:39.456Z"
     },
     {
       "id": "tx-pp-089636",

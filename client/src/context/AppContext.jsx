@@ -7,25 +7,57 @@ export function AppProvider({ children }) {
   const [activeTab, setActiveTab] = useState('overview');
   const [searchQuery, setSearchQuery] = useState('');
   
-  // Theme state: 'light' (Blue & White) or 'dark' (Dark Blue & Black)
+  // Theme state: 'light' (Frosted Blue) or 'dark' (Midnight Navy)
   const [theme, setTheme] = useState(() => {
-    const saved = localStorage.getItem('spendwise-theme');
-    if (saved) return saved;
-    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    try {
+      const saved = localStorage.getItem('spendwise-theme');
+      if (saved === 'light' || saved === 'dark') return saved;
+      if (typeof window !== 'undefined' && window.matchMedia) {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+    } catch (e) {
+      // fallback
+    }
+    return 'dark';
   });
 
   useEffect(() => {
+    const root = document.documentElement;
     if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
+      root.classList.add('dark');
+      root.classList.remove('light');
+      root.setAttribute('data-theme', 'dark');
+      root.style.colorScheme = 'dark';
     } else {
-      document.documentElement.classList.remove('dark');
+      root.classList.remove('dark');
+      root.classList.add('light');
+      root.setAttribute('data-theme', 'light');
+      root.style.colorScheme = 'light';
     }
-    localStorage.setItem('spendwise-theme', theme);
+    try {
+      localStorage.setItem('spendwise-theme', theme);
+    } catch (e) {
+      // ignore
+    }
   }, [theme]);
 
-  const toggleTheme = () => {
-    setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
-  };
+  // System preference listener when user hasn't manually overridden
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return;
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = (e) => {
+      const saved = localStorage.getItem('spendwise-theme');
+      if (!saved) {
+        setTheme(e.matches ? 'dark' : 'light');
+      }
+    };
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
+
+  const toggleTheme = useCallback(() => {
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  }, []);
   
   // Data states
   const [transactions, setTransactions] = useState([]);
@@ -175,6 +207,7 @@ export function AppProvider({ children }) {
     currencySymbol,
     formatCurrency,
     theme,
+    isDark: theme === 'dark',
     setTheme,
     toggleTheme,
     modalState,

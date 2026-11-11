@@ -169,30 +169,30 @@ export default function PayPalCheckoutModal() {
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 15 }}
         transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-        className="glass-panel-elevated rounded-3xl w-full max-w-lg overflow-hidden text-white relative shadow-[0_20px_60px_rgba(0,0,0,0.8)] border-[#38BDF8]/25"
+        className="glass-panel-elevated rounded-3xl w-full max-w-lg overflow-hidden text-[#10233F] dark:text-white relative shadow-[0_20px_60px_rgba(0,0,0,0.8)] border-blue-500/25 dark:border-[#38BDF8]/25"
       >
         {/* Subtle Ambient Glow behind Header */}
         <div className="absolute -top-12 -left-12 w-36 h-36 bg-[#38BDF8]/20 rounded-full blur-2xl pointer-events-none" />
 
         {/* Modal Header */}
-        <div className="px-6 py-4 border-b border-white/[0.08] flex items-center justify-between relative z-10">
+        <div className="px-6 py-4 border-b border-blue-500/15 dark:border-white/[0.08] flex items-center justify-between relative z-10">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#38BDF8] to-[#2563EB] text-[#060913] flex items-center justify-center font-black shadow-[0_0_15px_rgba(56,189,248,0.3)]">
-              <CreditCard className="w-5 h-5 fill-[#060913]" />
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#38BDF8] to-[#2563EB] text-white flex items-center justify-center font-black shadow-[0_0_15px_rgba(56,189,248,0.3)]">
+              <CreditCard className="w-5 h-5 fill-white" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="font-extrabold text-white text-base">PayPal Sandbox Checkout</h3>
-                <span className="text-[10px] font-mono font-bold bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 px-2 py-0.5 rounded-full">
+                <h3 className="font-extrabold text-[#10233F] dark:text-white text-base">PayPal Sandbox Checkout</h3>
+                <span className="text-[10px] font-mono font-bold bg-[#38BDF8]/15 text-[#2563EB] dark:text-[#38BDF8] border border-[#38BDF8]/30 px-2 py-0.5 rounded-full">
                   acsPaypal
                 </span>
               </div>
-              <p className="text-xs text-slate-400">Official REST v2 & JavaScript SDK</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Official REST v2 & JavaScript SDK</p>
             </div>
           </div>
           <button
             onClick={() => closeModal('paypalCheckout')}
-            className="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/[0.08] transition-colors"
+            className="p-1.5 rounded-xl text-slate-400 hover:text-[#10233F] dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-white/[0.08] transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
@@ -313,15 +313,15 @@ export default function PayPalCheckoutModal() {
 
             {/* Checkout Mode Toggle */}
             <div className="flex items-center justify-between pt-1">
-              <span className="text-xs font-bold text-slate-300">Checkout Mode:</span>
-              <div className="flex items-center gap-1 bg-[#060913] p-1 rounded-xl border border-white/[0.08] text-[11px] font-bold">
+              <span className="text-xs font-bold text-slate-700 dark:text-slate-300">Checkout Mode:</span>
+              <div className="flex items-center gap-1 bg-slate-200/80 dark:bg-[#060913] p-1 rounded-xl border border-blue-500/15 dark:border-white/[0.08] text-[11px] font-bold">
                 <button
                   type="button"
                   onClick={() => setCheckoutMode('sdk')}
                   className={`px-3 py-1 rounded-lg transition-all ${
                     checkoutMode === 'sdk' 
-                      ? 'bg-[#38BDF8] text-[#060913] shadow-[0_0_10px_rgba(56,189,248,0.4)]' 
-                      : 'text-slate-400 hover:text-white'
+                      ? 'bg-[#2563EB] dark:bg-[#38BDF8] text-white dark:text-[#060913] shadow-[0_0_10px_rgba(37,99,235,0.3)] dark:shadow-[0_0_10px_rgba(56,189,248,0.4)]' 
+                      : 'text-slate-600 dark:text-slate-400 hover:text-[#10233F] dark:hover:text-white'
                   }`}
                 >
                   Live PayPal SDK
@@ -331,8 +331,8 @@ export default function PayPalCheckoutModal() {
                   onClick={() => setCheckoutMode('simulate')}
                   className={`px-3 py-1 rounded-lg transition-all ${
                     checkoutMode === 'simulate' 
-                      ? 'bg-[#38BDF8] text-[#060913] shadow-[0_0_10px_rgba(56,189,248,0.4)]' 
-                      : 'text-slate-400 hover:text-white'
+                      ? 'bg-[#2563EB] dark:bg-[#38BDF8] text-white dark:text-[#060913] shadow-[0_0_10px_rgba(37,99,235,0.3)] dark:shadow-[0_0_10px_rgba(56,189,248,0.4)]' 
+                      : 'text-slate-600 dark:text-slate-400 hover:text-[#10233F] dark:hover:text-white'
                   }`}
                 >
                   1-Click Test Sandbox

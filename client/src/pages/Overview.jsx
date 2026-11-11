@@ -38,8 +38,11 @@ export default function Overview() {
     openModal,
     setActiveTab,
     analytics,
-    aiSummary
+    aiSummary,
+    theme
   } = useApp();
+
+  const isDark = theme === 'dark';
 
   const [hideBalance, setHideBalance] = useState(false);
   const [timeRange, setTimeRange] = useState('30D');
@@ -262,15 +265,15 @@ export default function Overview() {
             </div>
 
             {/* Time range switcher */}
-            <div className="flex items-center gap-1 bg-[#060913]/60 p-1 rounded-xl border border-white/[0.08]">
+            <div className="flex items-center gap-1 bg-slate-200/60 dark:bg-[#060913]/60 p-1 rounded-xl border border-blue-500/15 dark:border-white/[0.08]">
               {['7D', '30D', '90D', '1Y'].map((range) => (
                 <button
                   key={range}
                   onClick={() => setTimeRange(range)}
                   className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all ${
                     timeRange === range
-                      ? 'bg-[#38BDF8] text-[#060913] shadow-[0_0_10px_rgba(56,189,248,0.4)]'
-                      : 'text-slate-400 hover:text-white'
+                      ? 'bg-[#2563EB] dark:bg-[#38BDF8] text-white dark:text-[#060913] shadow-[0_0_10px_rgba(37,99,235,0.3)] dark:shadow-[0_0_10px_rgba(56,189,248,0.4)]'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-[#10233F] dark:hover:text-white'
                   }`}
                 >
                   {range}
@@ -284,8 +287,8 @@ export default function Overview() {
               <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                 <defs>
                   <linearGradient id="blueIncomeGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#38BDF8" stopOpacity={0.4} />
-                    <stop offset="95%" stopColor="#38BDF8" stopOpacity={0.0} />
+                    <stop offset="5%" stopColor={isDark ? '#38BDF8' : '#2563EB'} stopOpacity={0.4} />
+                    <stop offset="95%" stopColor={isDark ? '#38BDF8' : '#2563EB'} stopOpacity={0.0} />
                   </linearGradient>
                   <linearGradient id="roseExpenseGrad" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#F43F5E" stopOpacity={0.25} />
@@ -294,13 +297,13 @@ export default function Overview() {
                 </defs>
                 <XAxis 
                   dataKey="month" 
-                  stroke="#64748B" 
+                  stroke={isDark ? '#64748B' : '#64748B'} 
                   fontSize={11} 
                   tickLine={false} 
                   axisLine={false} 
                 />
                 <YAxis
-                  stroke="#64748B"
+                  stroke={isDark ? '#64748B' : '#64748B'}
                   fontSize={11}
                   tickLine={false}
                   axisLine={false}
@@ -309,20 +312,20 @@ export default function Overview() {
                 <Tooltip
                   formatter={(val) => [formatCurrency(val), '']}
                   contentStyle={{
-                    backgroundColor: 'rgba(13, 21, 39, 0.92)',
+                    backgroundColor: isDark ? 'rgba(13, 21, 39, 0.94)' : 'rgba(255, 255, 255, 0.96)',
                     backdropFilter: 'blur(12px)',
-                    borderColor: 'rgba(56, 189, 248, 0.25)',
-                    color: '#FFFFFF',
+                    borderColor: isDark ? 'rgba(56, 189, 248, 0.25)' : 'rgba(37, 99, 235, 0.25)',
+                    color: isDark ? '#FFFFFF' : '#10233F',
                     borderRadius: '12px',
                     fontSize: '12px',
-                    boxShadow: '0 8px 30px rgba(0,0,0,0.6)'
+                    boxShadow: isDark ? '0 8px 30px rgba(0,0,0,0.6)' : '0 8px 25px rgba(37,99,235,0.12)'
                   }}
                 />
                 <Area
                   type="monotone"
                   dataKey="income"
                   name="Income Inflow"
-                  stroke="#38BDF8"
+                  stroke={isDark ? '#38BDF8' : '#2563EB'}
                   strokeWidth={2.5}
                   fillOpacity={1}
                   fill="url(#blueIncomeGrad)"
@@ -372,11 +375,12 @@ export default function Overview() {
                   <Tooltip
                     formatter={(val) => [formatCurrency(val), '']}
                     contentStyle={{
-                      backgroundColor: 'rgba(13, 21, 39, 0.92)',
-                      borderColor: 'rgba(56, 189, 248, 0.25)',
-                      color: '#FFFFFF',
+                      backgroundColor: isDark ? 'rgba(13, 21, 39, 0.94)' : 'rgba(255, 255, 255, 0.96)',
+                      borderColor: isDark ? 'rgba(56, 189, 248, 0.25)' : 'rgba(37, 99, 235, 0.25)',
+                      color: isDark ? '#FFFFFF' : '#10233F',
                       borderRadius: '8px',
-                      fontSize: '11px'
+                      fontSize: '11px',
+                      boxShadow: isDark ? '0 8px 30px rgba(0,0,0,0.6)' : '0 8px 25px rgba(37,99,235,0.12)'
                     }}
                   />
                 </PieChart>

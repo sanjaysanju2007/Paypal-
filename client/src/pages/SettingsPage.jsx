@@ -10,11 +10,14 @@ import {
   Save,
   Loader2,
   AlertCircle,
-  Lock
+  Lock,
+  Sun,
+  Moon,
+  Palette
 } from 'lucide-react';
 
 export default function SettingsPage() {
-  const { settings, setSettings, refreshAll } = useApp();
+  const { settings, setSettings, refreshAll, theme, setTheme } = useApp();
 
   const [formData, setFormData] = useState({
     currency: 'INR',
@@ -91,6 +94,83 @@ export default function SettingsPage() {
             <span>{errorMsg}</span>
           </div>
         )}
+
+        {/* Appearance & Dynamic Theme System */}
+        <div className="glass-panel p-5 rounded-2xl space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-blue-500/15 dark:border-white/[0.08]">
+            <div className="flex items-center gap-2">
+              <Palette className="w-4 h-4 text-[#2563EB] dark:text-[#38BDF8]" />
+              <h3 className="font-extrabold text-[#10233F] dark:text-white text-sm">Appearance & Visual Theme</h3>
+            </div>
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/10 text-[#2563EB] dark:text-[#38BDF8] border border-blue-500/20">
+              Active: {theme === 'dark' ? 'Midnight Blue' : 'Frosted Blue'}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* Dark Mode Card */}
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => setTheme('dark')}
+              className={`p-4 rounded-2xl cursor-pointer border transition-all ${
+                theme === 'dark'
+                  ? 'bg-[#0D1527] border-[#38BDF8] shadow-[0_0_20px_rgba(56,189,248,0.25)] ring-2 ring-[#38BDF8]/40'
+                  : 'bg-[#0D1527]/50 border-white/[0.1] hover:border-[#38BDF8]/50 opacity-80'
+              }`}
+            >
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-xl bg-[#38BDF8]/20 text-[#38BDF8] flex items-center justify-center font-bold">
+                    <Moon className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-black text-white">Midnight Blue</h4>
+                    <p className="text-[10px] text-slate-400">Dark Glassmorphism</p>
+                  </div>
+                </div>
+                {theme === 'dark' && (
+                  <CheckCircle2 className="w-4 h-4 text-[#38BDF8]" />
+                )}
+              </div>
+              <div className="p-2.5 rounded-xl bg-[#060913] border border-white/[0.08] flex items-center gap-2 text-[10px] text-slate-300">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#38BDF8]"></span>
+                <span>Deep Navy • Cyan Highlights • White Text</span>
+              </div>
+            </motion.div>
+
+            {/* Light Mode Card */}
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => setTheme('light')}
+              className={`p-4 rounded-2xl cursor-pointer border transition-all ${
+                theme === 'light'
+                  ? 'bg-white border-[#2563EB] shadow-[0_0_20px_rgba(37,99,235,0.18)] ring-2 ring-[#2563EB]/40'
+                  : 'bg-white/80 border-slate-300 hover:border-[#2563EB]/50 opacity-80'
+              }`}
+            >
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-xl bg-blue-500/15 text-[#2563EB] flex items-center justify-center font-bold">
+                    <Sun className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-black text-[#10233F]">Frosted Blue</h4>
+                    <p className="text-[10px] text-slate-500">Light Glassmorphism</p>
+                  </div>
+                </div>
+                {theme === 'light' && (
+                  <CheckCircle2 className="w-4 h-4 text-[#2563EB]" />
+                )}
+              </div>
+              <div className="p-2.5 rounded-xl bg-[#F0F6FF] border border-blue-500/15 flex items-center gap-2 text-[10px] text-slate-700">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#2563EB]"></span>
+                <span>Soft Blue • Electric Blue • Deep Navy Text</span>
+              </div>
+            </motion.div>
+          </div>
+        </div>
 
         {/* Currency Standards */}
         <div className="glass-panel p-5 rounded-2xl space-y-4">

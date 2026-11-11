@@ -19,7 +19,8 @@ import {
 } from 'lucide-react';
 
 export default function Sidebar() {
-  const { activeTab, setActiveTab, openModal } = useApp();
+  const { activeTab, setActiveTab, openModal, theme } = useApp();
+  const isDark = theme === 'dark';
 
   const mainMenuItems = [
     { id: 'overview', label: 'Overview', icon: LayoutDashboard },
@@ -40,9 +41,9 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="w-64 bg-[#0D1527]/80 backdrop-blur-2xl border-r border-[#38BDF8]/15 h-screen flex flex-col fixed left-0 top-0 z-40 select-none shadow-[4px_0_30px_rgba(0,0,0,0.6)]">
+    <aside className="w-64 bg-white/80 dark:bg-[#0D1527]/80 backdrop-blur-2xl border-r border-blue-500/15 dark:border-[#38BDF8]/15 h-screen flex flex-col fixed left-0 top-0 z-40 select-none shadow-[4px_0_25px_rgba(37,99,235,0.06)] dark:shadow-[4px_0_30px_rgba(0,0,0,0.6)] transition-colors duration-250">
       {/* Brand Header */}
-      <div className="p-5 pb-4 flex items-center justify-between border-b border-[#38BDF8]/10 relative overflow-hidden">
+      <div className="p-5 pb-4 flex items-center justify-between border-b border-blue-500/10 dark:border-[#38BDF8]/10 relative overflow-hidden">
         {/* Subtle Ambient Light behind Logo */}
         <div className="absolute -left-4 top-2 w-28 h-28 bg-[#38BDF8]/15 rounded-full blur-2xl pointer-events-none" />
 
@@ -55,12 +56,12 @@ export default function Sidebar() {
           </motion.div>
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="font-extrabold text-white tracking-tight text-lg">SpendWise</span>
-              <span className="text-[10px] font-bold bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 px-1.5 py-0.5 rounded-full shadow-[0_0_10px_rgba(56,189,248,0.2)]">
+              <span className="font-extrabold text-[#10233F] dark:text-white tracking-tight text-lg">SpendWise</span>
+              <span className="text-[10px] font-bold bg-[#38BDF8]/15 text-[#2563EB] dark:text-[#38BDF8] border border-[#38BDF8]/30 px-1.5 py-0.5 rounded-full shadow-[0_0_10px_rgba(56,189,248,0.2)]">
                 AI
               </span>
             </div>
-            <p className="text-[11px] font-medium text-slate-400">Intelligent Wealth Suite</p>
+            <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400">Intelligent Wealth Suite</p>
           </div>
         </div>
       </div>
@@ -69,8 +70,8 @@ export default function Sidebar() {
       <div className="flex-1 overflow-y-auto px-3 py-4 space-y-6">
         {/* Main Menu */}
         <div>
-          <div className="px-3 mb-2 text-[10px] font-bold uppercase tracking-wider text-[#38BDF8]/80 flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#38BDF8]" />
+          <div className="px-3 mb-2 text-[10px] font-bold uppercase tracking-wider text-[#2563EB] dark:text-[#38BDF8]/80 flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] dark:bg-[#38BDF8]" />
             Main Menu
           </div>
           <nav className="space-y-1">
@@ -86,15 +87,15 @@ export default function Sidebar() {
                   transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                   className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-colors relative group ${
                     isActive
-                      ? 'text-[#38BDF8] font-semibold bg-[#38BDF8]/10 border border-[#38BDF8]/25 shadow-[0_0_20px_rgba(56,189,248,0.15)]'
-                      : 'text-slate-400 hover:text-white hover:bg-white/[0.04] border border-transparent'
+                      ? 'text-[#2563EB] dark:text-[#38BDF8] font-semibold bg-blue-500/10 dark:bg-[#38BDF8]/10 border border-blue-500/25 dark:border-[#38BDF8]/25 shadow-[0_0_20px_rgba(37,99,235,0.1)] dark:shadow-[0_0_20px_rgba(56,189,248,0.15)]'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-[#10233F] dark:hover:text-white hover:bg-blue-500/[0.06] dark:hover:bg-white/[0.04] border border-transparent'
                   }`}
                 >
                   {/* Active Indicator Glow Pill */}
                   {isActive && (
                     <motion.div
                       layoutId="activeNavPill"
-                      className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#38BDF8]/15 to-transparent pointer-events-none -z-10"
+                      className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/15 dark:from-[#38BDF8]/15 to-transparent pointer-events-none -z-10"
                       transition={{ type: 'spring', stiffness: 350, damping: 30 }}
                     />
                   )}
@@ -102,7 +103,9 @@ export default function Sidebar() {
                   <div className="flex items-center gap-3">
                     <Icon
                       className={`w-4 h-4 transition-transform duration-200 group-hover:scale-110 ${
-                        isActive ? 'text-[#38BDF8] drop-shadow-[0_0_8px_rgba(56,189,248,0.6)]' : 'text-slate-400 group-hover:text-white'
+                        isActive 
+                          ? 'text-[#2563EB] dark:text-[#38BDF8] drop-shadow-[0_0_8px_rgba(56,189,248,0.6)]' 
+                          : 'text-slate-500 dark:text-slate-400 group-hover:text-[#10233F] dark:group-hover:text-white'
                       }`}
                     />
                     <span className="truncate">{item.label}</span>
@@ -112,8 +115,8 @@ export default function Sidebar() {
                     <span
                       className={`text-[10px] font-bold px-2 py-0.5 rounded-full transition-all ${
                         isActive
-                          ? 'bg-[#38BDF8] text-[#060913] shadow-[0_0_12px_rgba(56,189,248,0.5)]'
-                          : 'bg-white/[0.06] text-slate-300 border border-white/[0.08]'
+                          ? 'bg-[#2563EB] dark:bg-[#38BDF8] text-white dark:text-[#060913] shadow-[0_0_12px_rgba(56,189,248,0.5)]'
+                          : 'bg-slate-200/80 dark:bg-white/[0.06] text-slate-700 dark:text-slate-300 border border-blue-500/15 dark:border-white/[0.08]'
                       }`}
                     >
                       {item.badge}
@@ -127,8 +130,8 @@ export default function Sidebar() {
 
         {/* General Menu */}
         <div>
-          <div className="px-3 mb-2 text-[10px] font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-slate-600" />
+          <div className="px-3 mb-2 text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-slate-400 dark:bg-slate-600" />
             General
           </div>
           <nav className="space-y-1">
@@ -144,13 +147,15 @@ export default function Sidebar() {
                   transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                   className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors relative group ${
                     isActive
-                      ? 'text-[#38BDF8] font-semibold bg-[#38BDF8]/10 border border-[#38BDF8]/25 shadow-[0_0_20px_rgba(56,189,248,0.15)]'
-                      : 'text-slate-400 hover:text-white hover:bg-white/[0.04] border border-transparent'
+                      ? 'text-[#2563EB] dark:text-[#38BDF8] font-semibold bg-blue-500/10 dark:bg-[#38BDF8]/10 border border-blue-500/25 dark:border-[#38BDF8]/25 shadow-[0_0_20px_rgba(37,99,235,0.1)] dark:shadow-[0_0_20px_rgba(56,189,248,0.15)]'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-[#10233F] dark:hover:text-white hover:bg-blue-500/[0.06] dark:hover:bg-white/[0.04] border border-transparent'
                   }`}
                 >
                   <Icon
                     className={`w-4 h-4 transition-transform duration-200 group-hover:scale-110 ${
-                      isActive ? 'text-[#38BDF8] drop-shadow-[0_0_8px_rgba(56,189,248,0.6)]' : 'text-slate-400 group-hover:text-white'
+                      isActive 
+                        ? 'text-[#2563EB] dark:text-[#38BDF8] drop-shadow-[0_0_8px_rgba(56,189,248,0.6)]' 
+                        : 'text-slate-500 dark:text-slate-400 group-hover:text-[#10233F] dark:group-hover:text-white'
                     }`}
                   />
                   <span>{item.label}</span>
@@ -162,7 +167,7 @@ export default function Sidebar() {
       </div>
 
       {/* Sidebar Quick Action & Live Sandbox Status */}
-      <div className="p-3 border-t border-[#38BDF8]/10 bg-[#060913]/70 space-y-2.5">
+      <div className="p-3 border-t border-blue-500/10 dark:border-[#38BDF8]/10 bg-blue-50/70 dark:bg-[#060913]/70 space-y-2.5 transition-colors duration-250">
         <motion.button
           onClick={() => openModal('paypalCheckout')}
           whileHover={{ scale: 1.02 }}
@@ -173,15 +178,15 @@ export default function Sidebar() {
           <span>Pay with PayPal</span>
         </motion.button>
 
-        <div className="flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-[#0D1527]/90 border border-[#38BDF8]/20 text-[11px]">
+        <div className="flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-white/90 dark:bg-[#0D1527]/90 border border-blue-500/15 dark:border-[#38BDF8]/20 text-[11px] transition-colors duration-250">
           <div className="flex items-center gap-1.5">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#38BDF8] opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#38BDF8]"></span>
             </span>
-            <span className="font-semibold text-slate-200">Sandbox</span>
+            <span className="font-semibold text-slate-800 dark:text-slate-200">Sandbox</span>
           </div>
-          <span className="text-[#38BDF8] font-mono text-[10px] bg-[#38BDF8]/10 px-1.5 py-0.5 rounded border border-[#38BDF8]/25">
+          <span className="text-[#2563EB] dark:text-[#38BDF8] font-mono text-[10px] bg-[#38BDF8]/10 px-1.5 py-0.5 rounded border border-[#38BDF8]/25 font-bold">
             acsPaypal
           </span>
         </div>

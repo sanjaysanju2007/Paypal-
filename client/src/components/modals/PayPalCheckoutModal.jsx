@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useApp } from '../../context/AppContext';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
+import confetti from 'canvas-confetti';
 import api from '../../services/api';
 import {
   X,
   CreditCard,
-  ShieldCheck,
   CheckCircle2,
   AlertCircle,
   Loader2,
   SendHorizontal,
-  ExternalLink,
   Receipt,
-  Sparkles
+  Sparkles,
+  ShieldCheck,
+  Lock
 } from 'lucide-react';
 
 export default function PayPalCheckoutModal() {
@@ -41,17 +43,27 @@ export default function PayPalCheckoutModal() {
     setIsProcessing(false);
   }, [isOpen, initialData]);
 
+  const triggerConfetti = () => {
+    try {
+      confetti({
+        particleCount: 80,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#7CFFB2', '#20D995', '#38BDF8', '#FFFFFF']
+      });
+    } catch (e) {
+      // safe fallback
+    }
+  };
+
   if (!isOpen) return null;
 
-  // Convert INR amount to USD for PayPal Sandbox checkout if needed (~85 INR = 1 USD)
   const usdAmount = (Number(amount) / 85).toFixed(2);
 
-  // Official PayPal SDK createOrder handler
   const handleCreateOrder = async (data, actions) => {
     try {
       setIsProcessing(true);
       setPaymentError(null);
-      // Attempt backend REST create-order
       const res = await api.createPayPalOrder({
         amount: Number(amount),
         currency: 'USD',
@@ -62,7 +74,6 @@ export default function PayPalCheckoutModal() {
         return res.orderId;
       }
 
-      // Fallback to actions.order.create if actions is available
       if (actions?.order) {
         return actions.order.create({
           purchase_units: [
@@ -79,19 +90,17 @@ export default function PayPalCheckoutModal() {
       throw new Error('Could not initialize PayPal order');
     } catch (err) {
       console.error('PayPal createOrder failed:', err);
-      setPaymentError('Could not initialize PayPal order. Please check sandbox credentials or try test simulation.');
+      setPaymentError('Could not initialize PayPal order. Check sandbox credentials or use 1-Click Test Sandbox.');
       setIsProcessing(false);
       throw err;
     }
   };
 
-  // Official PayPal SDK onApprove handler
   const handleApprove = async (data, actions) => {
     try {
       setIsProcessing(true);
       const orderId = data.orderID;
 
-      // Capture payment order through backend REST API
       const captureRes = await api.capturePayPalOrder({
         orderId,
         recipient,
@@ -102,6 +111,7 @@ export default function PayPalCheckoutModal() {
       });
 
       if (captureRes.success) {
+        triggerConfetti();
         setPaymentSuccess({
           orderId: captureRes.orderId,
           captureId: captureRes.captureId,
@@ -134,6 +144,7 @@ export default function PayPalCheckoutModal() {
       });
 
       if (res.success && res.payment) {
+        triggerConfetti();
         setPaymentSuccess({
           orderId: res.payment.orderId,
           captureId: res.payment.captureId,
@@ -152,27 +163,36 @@ export default function PayPalCheckoutModal() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs animate-fade-in">
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-2xl w-full max-w-lg overflow-hidden">
-        {/* Header */}
-        <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-[#0070BA]/10 text-[#0070BA] flex items-center justify-center font-bold">
-              <CreditCard className="w-5 h-5" />
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 15 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 15 }}
+        transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+        className="glass-panel-elevated rounded-3xl w-full max-w-lg overflow-hidden text-white relative shadow-[0_20px_60px_rgba(0,0,0,0.8)] border-[#7CFFB2]/25"
+      >
+        {/* Subtle Ambient Glow behind Header */}
+        <div className="absolute -top-12 -left-12 w-36 h-36 bg-[#7CFFB2]/20 rounded-full blur-2xl pointer-events-none" />
+
+        {/* Modal Header */}
+        <div className="px-6 py-4 border-b border-white/[0.08] flex items-center justify-between relative z-10">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#7CFFB2] to-[#20D995] text-[#071512] flex items-center justify-center font-black shadow-[0_0_15px_rgba(124,255,178,0.3)]">
+              <CreditCard className="w-5 h-5 fill-[#071512]" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="font-bold text-slate-900 text-base">Pay with PayPal Sandbox</h3>
-                <span className="text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200 px-1.5 py-0.5 rounded">
-                  Sandbox
+                <h3 className="font-extrabold text-white text-base">PayPal Sandbox Checkout</h3>
+                <span className="text-[10px] font-mono font-bold bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30 px-2 py-0.5 rounded-full">
+                  acsPaypal
                 </span>
               </div>
-              <p className="text-xs text-slate-400">Official REST API & JavaScript SDK Integration</p>
+              <p className="text-xs text-slate-400">Official REST v2 & JavaScript SDK</p>
             </div>
           </div>
           <button
             onClick={() => closeModal('paypalCheckout')}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+            className="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/[0.08] transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
@@ -180,35 +200,40 @@ export default function PayPalCheckoutModal() {
 
         {/* Success View */}
         {paymentSuccess ? (
-          <div className="p-6 text-center space-y-4">
-            <div className="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto border border-emerald-200">
-              <CheckCircle2 className="w-8 h-8" />
-            </div>
+          <div className="p-6 text-center space-y-4 relative z-10">
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+              className="w-16 h-16 bg-[#7CFFB2]/15 border border-[#7CFFB2]/40 text-[#7CFFB2] rounded-full flex items-center justify-center mx-auto shadow-[0_0_30px_rgba(124,255,178,0.4)]"
+            >
+              <CheckCircle2 className="w-9 h-9" />
+            </motion.div>
             <div>
-              <h4 className="text-lg font-bold text-slate-900">Payment Completed!</h4>
-              <p className="text-xs text-slate-500 mt-1">
-                Your payment of <strong className="text-slate-900">{currencySymbol}{Number(paymentSuccess.amount).toLocaleString()}</strong> to <strong>{paymentSuccess.recipient}</strong> has been confirmed by PayPal Sandbox.
+              <h4 className="text-xl font-black text-white">Payment Confirmed!</h4>
+              <p className="text-xs text-slate-300 mt-1">
+                Your payment of <strong className="text-[#7CFFB2]">{currencySymbol}{Number(paymentSuccess.amount).toLocaleString()}</strong> to <strong className="text-white">{paymentSuccess.recipient}</strong> has been synchronously captured by PayPal Sandbox.
               </p>
             </div>
 
-            <div className="bg-slate-50 rounded-xl p-3 text-left border border-slate-200 space-y-2 text-xs font-mono">
-              <div className="flex justify-between">
-                <span className="text-slate-500">Order ID:</span>
-                <span className="font-semibold text-slate-800">{paymentSuccess.orderId}</span>
+            <div className="glass-card rounded-2xl p-4 text-left space-y-2 text-xs font-mono">
+              <div className="flex justify-between py-1 border-b border-white/[0.06]">
+                <span className="text-slate-400">Order ID:</span>
+                <span className="font-bold text-slate-200 select-all">{paymentSuccess.orderId}</span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-slate-500">Capture ID:</span>
-                <span className="font-semibold text-emerald-700">{paymentSuccess.captureId}</span>
+              <div className="flex justify-between py-1 border-b border-white/[0.06]">
+                <span className="text-slate-400">Capture ID:</span>
+                <span className="font-bold text-[#7CFFB2] select-all">{paymentSuccess.captureId}</span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-slate-500">Status:</span>
-                <span className="px-1.5 py-0.5 bg-emerald-100 text-emerald-800 rounded font-sans font-bold text-[10px]">
+              <div className="flex justify-between py-1 border-b border-white/[0.06]">
+                <span className="text-slate-400">Status:</span>
+                <span className="px-2 py-0.5 bg-[#7CFFB2]/15 text-[#7CFFB2] rounded-full font-bold text-[10px] border border-[#7CFFB2]/25">
                   {paymentSuccess.status}
                 </span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-slate-500">Timestamp:</span>
-                <span className="text-slate-700">{new Date(paymentSuccess.timestamp).toLocaleTimeString()}</span>
+              <div className="flex justify-between py-1">
+                <span className="text-slate-400">Timestamp:</span>
+                <span className="text-slate-300">{new Date(paymentSuccess.timestamp).toLocaleTimeString()}</span>
               </div>
             </div>
 
@@ -218,45 +243,45 @@ export default function PayPalCheckoutModal() {
                   closeModal('paypalCheckout');
                   openModal('receiptModal', paymentSuccess);
                 }}
-                className="px-4 py-2 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-colors"
+                className="px-4 py-2.5 glass-card hover:border-[#7CFFB2]/50 text-slate-200 hover:text-white rounded-xl text-xs font-bold flex items-center gap-2 transition-all"
               >
-                <Receipt className="w-3.5 h-3.5" />
-                <span>View Receipt</span>
+                <Receipt className="w-3.5 h-3.5 text-[#7CFFB2]" />
+                <span>View Digital Receipt</span>
               </button>
               <button
                 onClick={() => closeModal('paypalCheckout')}
-                className="px-5 py-2 bg-emerald-600 text-white hover:bg-emerald-700 rounded-xl text-xs font-bold transition-colors"
+                className="px-6 py-2.5 btn-mint rounded-xl text-xs font-bold"
               >
                 Done
               </button>
             </div>
           </div>
         ) : (
-          <div className="p-6 space-y-4">
+          <div className="p-6 space-y-4 relative z-10">
             {paymentError && (
-              <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
-                <AlertCircle className="w-4 h-4 shrink-0" />
+              <div className="p-3 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
                 <span>{paymentError}</span>
               </div>
             )}
 
-            {/* Recipient and Amount */}
+            {/* Recipient & Amount Inputs */}
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
+              <label className="block text-xs font-bold text-slate-300 mb-1 uppercase tracking-wider">
                 Recipient / Merchant
               </label>
               <input
                 type="text"
                 value={recipient}
                 onChange={(e) => setRecipient(e.target.value)}
-                placeholder="e.g. Swiggy, Netflix, PixelCraft Studios"
-                className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-slate-900"
+                placeholder="e.g. Swiggy, Netflix, AWS Services"
+                className="w-full px-4 py-2.5 text-xs glass-input rounded-xl"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                <label className="block text-xs font-bold text-slate-300 mb-1 uppercase tracking-wider">
                   Amount ({currencySymbol})
                 </label>
                 <input
@@ -265,36 +290,38 @@ export default function PayPalCheckoutModal() {
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
                   placeholder="1500"
-                  className="w-full px-3.5 py-2.5 text-sm font-semibold bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-slate-900"
+                  className="w-full px-4 py-2.5 text-xs font-bold text-[#7CFFB2] glass-input rounded-xl"
                 />
-                <span className="text-[10px] text-slate-400 mt-0.5 block">
+                <span className="text-[10px] text-slate-400 mt-1 block font-mono">
                   ≈ ${usdAmount} USD in sandbox
                 </span>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Payment Note
+                <label className="block text-xs font-bold text-slate-300 mb-1 uppercase tracking-wider">
+                  Reference Note
                 </label>
                 <input
                   type="text"
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
-                  placeholder="e.g. Invoice #1029"
-                  className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-slate-800"
+                  placeholder="e.g. Invoice #2041"
+                  className="w-full px-4 py-2.5 text-xs glass-input rounded-xl"
                 />
               </div>
             </div>
 
-            {/* Mode selection tabs */}
+            {/* Checkout Mode Toggle */}
             <div className="flex items-center justify-between pt-1">
-              <span className="text-xs font-semibold text-slate-700">Checkout Mode:</span>
-              <div className="flex items-center gap-1 bg-slate-100 p-0.5 rounded-lg text-[11px] font-semibold">
+              <span className="text-xs font-bold text-slate-300">Checkout Mode:</span>
+              <div className="flex items-center gap-1 bg-[#071512] p-1 rounded-xl border border-white/[0.08] text-[11px] font-bold">
                 <button
                   type="button"
                   onClick={() => setCheckoutMode('sdk')}
-                  className={`px-2.5 py-1 rounded-md transition-all ${
-                    checkoutMode === 'sdk' ? 'bg-white text-slate-900 shadow-2xs' : 'text-slate-500'
+                  className={`px-3 py-1 rounded-lg transition-all ${
+                    checkoutMode === 'sdk' 
+                      ? 'bg-[#7CFFB2] text-[#071512] shadow-[0_0_10px_rgba(124,255,178,0.4)]' 
+                      : 'text-slate-400 hover:text-white'
                   }`}
                 >
                   Live PayPal SDK
@@ -302,8 +329,10 @@ export default function PayPalCheckoutModal() {
                 <button
                   type="button"
                   onClick={() => setCheckoutMode('simulate')}
-                  className={`px-2.5 py-1 rounded-md transition-all ${
-                    checkoutMode === 'simulate' ? 'bg-white text-emerald-800 shadow-2xs' : 'text-slate-500'
+                  className={`px-3 py-1 rounded-lg transition-all ${
+                    checkoutMode === 'simulate' 
+                      ? 'bg-[#7CFFB2] text-[#071512] shadow-[0_0_10px_rgba(124,255,178,0.4)]' 
+                      : 'text-slate-400 hover:text-white'
                   }`}
                 >
                   1-Click Test Sandbox
@@ -313,17 +342,17 @@ export default function PayPalCheckoutModal() {
 
             {/* Mode 1: Official PayPal SDK Buttons */}
             {checkoutMode === 'sdk' ? (
-              <div className="mt-3 p-4 rounded-2xl bg-slate-50 border border-slate-200">
+              <div className="mt-3 p-4 rounded-2xl glass-card border-[#7CFFB2]/20">
                 <div className="flex items-center justify-between mb-3 text-xs">
-                  <span className="text-slate-500 font-medium">PayPal Sandbox Gateway:</span>
-                  <span className="text-[10px] font-mono text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded">
+                  <span className="text-slate-300 font-medium">PayPal Sandbox Gateway:</span>
+                  <span className="text-[10px] font-mono text-[#7CFFB2] bg-[#7CFFB2]/10 border border-[#7CFFB2]/30 px-2 py-0.5 rounded-full">
                     App: acsPaypal
                   </span>
                 </div>
 
                 {isProcessing && (
-                  <div className="py-6 flex flex-col items-center justify-center text-xs text-slate-500 gap-2">
-                    <Loader2 className="w-6 h-6 animate-spin text-emerald-600" />
+                  <div className="py-6 flex flex-col items-center justify-center text-xs text-slate-300 gap-2">
+                    <Loader2 className="w-6 h-6 animate-spin text-[#7CFFB2]" />
                     <span>Communicating with PayPal Sandbox servers...</span>
                   </div>
                 )}
@@ -339,7 +368,7 @@ export default function PayPalCheckoutModal() {
                     <PayPalButtons
                       style={{
                         layout: 'vertical',
-                        color: 'gold',
+                        color: 'blue',
                         shape: 'rect',
                         label: 'pay',
                         height: 42
@@ -348,45 +377,46 @@ export default function PayPalCheckoutModal() {
                       onApprove={handleApprove}
                       onError={(err) => {
                         console.warn('PayPal button error:', err);
-                        setPaymentError('PayPal Checkout encountered an issue. You can use 1-Click Test Sandbox below to verify the flow.');
+                        setPaymentError('PayPal Checkout encountered an issue. You can use 1-Click Test Sandbox to verify the flow.');
                       }}
                     />
                   </PayPalScriptProvider>
                 </div>
 
-                <p className="mt-2 text-[10px] text-slate-400 text-center">
-                  Use your PayPal Sandbox test buyer account credentials to approve.
+                <p className="mt-2 text-[10px] text-slate-400 text-center font-mono">
+                  Sign in with your PayPal Sandbox buyer credentials to approve.
                 </p>
               </div>
             ) : (
-              /* Mode 2: Fast Sandbox Simulation */
-              <div className="mt-3 p-4 rounded-2xl bg-emerald-50/50 border border-emerald-200 space-y-3">
-                <div className="flex items-center gap-2 text-emerald-800 text-xs font-semibold">
-                  <Sparkles className="w-4 h-4 text-emerald-600" />
+              /* Mode 2: Instant Test Sandbox Simulation */
+              <div className="mt-3 p-4 rounded-2xl glass-card border-[#7CFFB2]/30 space-y-3">
+                <div className="flex items-center gap-2 text-[#7CFFB2] text-xs font-bold">
+                  <Sparkles className="w-4 h-4 fill-[#7CFFB2]/20" />
                   <span>Instant Sandbox Simulation Checkout</span>
                 </div>
-                <p className="text-[11px] text-slate-600 leading-relaxed">
-                  Executes the complete PayPal order creation, authorization, and capture pipeline locally. Validates order generation, updates transaction history, and links a verified Order ID.
+                <p className="text-[11px] text-slate-300 leading-relaxed">
+                  Executes the complete PayPal order creation and backend REST capture pipeline synchronously.
                 </p>
-                <button
+                <motion.button
                   type="button"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   onClick={handleSimulatePayment}
                   disabled={isProcessing || !amount}
-                  className="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-xs shadow-emerald-600/30 flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
+                  className="w-full py-2.5 px-4 btn-mint rounded-xl text-xs font-extrabold flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   {isProcessing ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
                   ) : (
                     <SendHorizontal className="w-4 h-4" />
                   )}
-                  <span>Confirm Test Payment ({currencySymbol}{Number(amount).toLocaleString()})</span>
-                </button>
+                  <span>Authorize & Capture ({currencySymbol}{Number(amount).toLocaleString()})</span>
+                </motion.button>
               </div>
             )}
           </div>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 }
-

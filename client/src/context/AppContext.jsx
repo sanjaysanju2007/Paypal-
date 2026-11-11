@@ -7,6 +7,26 @@ export function AppProvider({ children }) {
   const [activeTab, setActiveTab] = useState('overview');
   const [searchQuery, setSearchQuery] = useState('');
   
+  // Theme state: 'light' (Blue & White) or 'dark' (Dark Blue & Black)
+  const [theme, setTheme] = useState(() => {
+    const saved = localStorage.getItem('spendwise-theme');
+    if (saved) return saved;
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  });
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    localStorage.setItem('spendwise-theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
+  };
+  
   // Data states
   const [transactions, setTransactions] = useState([]);
   const [summary, setSummary] = useState({
@@ -154,6 +174,9 @@ export function AppProvider({ children }) {
     refreshAll: loadAllData,
     currencySymbol,
     formatCurrency,
+    theme,
+    setTheme,
+    toggleTheme,
     modalState,
     openModal,
     closeModal,

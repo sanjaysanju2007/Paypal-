@@ -1,9 +1,11 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { useApp } from '../../context/AppContext';
-import { X, ArrowDownRight, ArrowUpRight, Calendar, CreditCard, Tag, FileText, CheckCircle2 } from 'lucide-react';
+import { X, ArrowDownRight, ArrowUpRight, Calendar, CreditCard, Tag, CheckCircle2, Edit3, Trash2 } from 'lucide-react';
+import api from '../../services/api';
 
 export default function TransactionDetailModal() {
-  const { modalState, closeModal, currencySymbol, openModal } = useApp();
+  const { modalState, closeModal, currencySymbol, openModal, refreshAll } = useApp();
   const tx = modalState.viewTransaction;
   const isOpen = Boolean(tx);
 
@@ -11,27 +13,52 @@ export default function TransactionDetailModal() {
 
   const isIncome = tx.type === 'income';
 
+  const handleDelete = async () => {
+    if (window.confirm(`Delete transaction "${tx.description}"?`)) {
+      try {
+        await api.deleteTransaction(tx.id);
+        closeModal('viewTransaction');
+        refreshAll();
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  };
+
+  const handleEdit = () => {
+    closeModal('viewTransaction');
+    openModal('editTransaction', tx);
+  };
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs animate-fade-in">
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-2xl w-full max-w-md overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 15 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 15 }}
+        transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+        className="glass-panel-elevated rounded-3xl w-full max-w-md overflow-hidden text-white relative shadow-[0_25px_60px_rgba(0,0,0,0.8)] border-[#7CFFB2]/25"
+      >
         {/* Header */}
-        <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+        <div className="px-6 py-4 border-b border-white/[0.08] flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
             <div
-              className={`w-8 h-8 rounded-xl flex items-center justify-center ${
-                isIncome ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'
+              className={`w-9 h-9 rounded-xl flex items-center justify-center ${
+                isIncome
+                  ? 'bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30 shadow-[0_0_10px_rgba(124,255,178,0.2)]'
+                  : 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
               }`}
             >
               {isIncome ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
             </div>
             <div>
-              <h3 className="font-bold text-slate-900 text-sm">Transaction Details</h3>
-              <p className="text-[11px] text-slate-400 font-mono">ID: {tx.id}</p>
+              <h3 className="font-extrabold text-white text-sm">Transaction Details</h3>
+              <p className="text-[10px] text-slate-400 font-mono">Ledger ID: {tx.id}</p>
             </div>
           </div>
           <button
             onClick={() => closeModal('viewTransaction')}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+            className="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/[0.08] transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
@@ -39,58 +66,58 @@ export default function TransactionDetailModal() {
 
         {/* Content */}
         <div className="p-6 space-y-5">
-          <div className="text-center pb-4 border-b border-slate-100">
-            <h4 className="text-sm font-semibold text-slate-500 mb-1">{tx.description}</h4>
+          <div className="text-center pb-4 border-b border-white/[0.08]">
+            <h4 className="text-sm font-semibold text-slate-300 mb-1">{tx.description}</h4>
             <div
-              className={`text-2xl font-bold tracking-tight ${
-                isIncome ? 'text-emerald-600' : 'text-slate-900'
+              className={`text-3xl font-black tracking-tight ${
+                isIncome ? 'text-[#7CFFB2]' : 'text-white'
               }`}
             >
               {isIncome ? '+' : '-'}{currencySymbol}{Number(tx.amount || 0).toLocaleString()}
             </div>
-            <div className="mt-2 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-              <CheckCircle2 className="w-3 h-3" />
+            <div className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-bold bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30 shadow-[0_0_10px_rgba(124,255,178,0.15)]">
+              <CheckCircle2 className="w-3.5 h-3.5" />
               <span>{tx.status || 'Completed'}</span>
             </div>
           </div>
 
           <div className="space-y-3 text-xs">
             <div className="flex items-center justify-between">
-              <span className="text-slate-500 flex items-center gap-1.5">
-                <Tag className="w-3.5 h-3.5 text-slate-400" /> Category
+              <span className="text-slate-400 flex items-center gap-1.5">
+                <Tag className="w-3.5 h-3.5 text-[#7CFFB2]" /> Category
               </span>
-              <span className="font-semibold text-slate-800 bg-slate-100 px-2 py-0.5 rounded-md">
+              <span className="font-bold text-white bg-white/[0.06] border border-white/[0.08] px-2.5 py-1 rounded-lg">
                 {tx.category}
               </span>
             </div>
 
             <div className="flex items-center justify-between">
-              <span className="text-slate-500 flex items-center gap-1.5">
-                <Calendar className="w-3.5 h-3.5 text-slate-400" /> Date
+              <span className="text-slate-400 flex items-center gap-1.5">
+                <Calendar className="w-3.5 h-3.5 text-[#7CFFB2]" /> Date
               </span>
-              <span className="font-medium text-slate-700">{tx.date}</span>
+              <span className="font-medium text-slate-200">{tx.date}</span>
             </div>
 
             <div className="flex items-center justify-between">
-              <span className="text-slate-500 flex items-center gap-1.5">
-                <CreditCard className="w-3.5 h-3.5 text-slate-400" /> Payment Method
+              <span className="text-slate-400 flex items-center gap-1.5">
+                <CreditCard className="w-3.5 h-3.5 text-[#7CFFB2]" /> Payment Channel
               </span>
-              <span className="font-semibold text-slate-700">{tx.paymentMethod || 'Bank Transfer'}</span>
+              <span className="font-semibold text-slate-200">{tx.paymentMethod || 'Bank Transfer'}</span>
             </div>
 
             {tx.paypalOrderId && (
               <div className="flex items-center justify-between">
-                <span className="text-slate-500">PayPal Order ID</span>
-                <span className="font-mono font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded text-[11px]">
+                <span className="text-slate-400">PayPal Order ID</span>
+                <span className="font-mono font-medium text-[#7CFFB2] bg-[#7CFFB2]/10 border border-[#7CFFB2]/20 px-2 py-0.5 rounded text-[11px]">
                   {tx.paypalOrderId}
                 </span>
               </div>
             )}
 
             {tx.notes && (
-              <div className="pt-2 border-t border-slate-100">
-                <span className="text-slate-500 text-[11px] block mb-1">Notes</span>
-                <p className="text-slate-700 bg-slate-50 p-2.5 rounded-xl border border-slate-100 leading-relaxed text-[11px]">
+              <div className="pt-2 border-t border-white/[0.08]">
+                <span className="text-slate-400 text-[11px] block mb-1">Notes</span>
+                <p className="text-slate-300 glass-card p-3 rounded-xl leading-relaxed text-[11px]">
                   {tx.notes}
                 </p>
               </div>
@@ -99,25 +126,31 @@ export default function TransactionDetailModal() {
         </div>
 
         {/* Footer Actions */}
-        <div className="px-6 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+        <div className="px-6 py-4 bg-[#071512]/60 border-t border-white/[0.08] flex items-center justify-between">
           <button
-            onClick={() => {
-              closeModal('viewTransaction');
-              openModal('editTransaction', tx);
-            }}
-            className="px-3.5 py-1.5 text-xs font-semibold text-slate-700 hover:text-slate-900 border border-slate-200 rounded-xl bg-white hover:bg-slate-50 transition-colors"
+            onClick={handleDelete}
+            className="px-3.5 py-2 text-xs font-bold text-rose-400 hover:text-rose-300 glass-card hover:border-rose-500/40 rounded-xl flex items-center gap-1.5 transition-colors"
           >
-            Edit Transaction
+            <Trash2 className="w-3.5 h-3.5" />
+            <span>Delete</span>
           </button>
-          <button
-            onClick={() => closeModal('viewTransaction')}
-            className="px-4 py-1.5 text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-xl transition-colors"
-          >
-            Done
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleEdit}
+              className="px-4 py-2 text-xs font-bold glass-card hover:border-[#7CFFB2]/40 rounded-xl text-slate-200 hover:text-white flex items-center gap-1.5"
+            >
+              <Edit3 className="w-3.5 h-3.5 text-[#7CFFB2]" />
+              <span>Edit</span>
+            </button>
+            <button
+              onClick={() => closeModal('viewTransaction')}
+              className="px-5 py-2 text-xs font-bold btn-mint rounded-xl"
+            >
+              Done
+            </button>
+          </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
-

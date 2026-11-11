@@ -1,20 +1,19 @@
 import React, { useState, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useApp } from '../context/AppContext';
 import api from '../services/api';
 import {
   Plus,
   Search,
-  Filter,
   Download,
   ArrowUpRight,
   ArrowDownRight,
   Trash2,
   Edit2,
   Eye,
-  SlidersHorizontal,
-  ChevronDown,
-  Calendar,
-  X
+  X,
+  Filter,
+  Calendar
 } from 'lucide-react';
 
 export default function TransactionsPage() {
@@ -40,20 +39,15 @@ export default function TransactionsPage() {
     return ['all', ...Array.from(set)];
   }, [transactions]);
 
-  // Combined search term
   const query = (localSearch || globalSearch || '').toLowerCase();
 
   const filteredTransactions = useMemo(() => {
     return transactions
       .filter((t) => {
-        // Tab filter
         if (activeTab !== 'all' && t.type !== activeTab) return false;
-        // Category filter
         if (selectedCategory !== 'all' && t.category !== selectedCategory) return false;
-        // Date filters
         if (startDate && t.date < startDate) return false;
         if (endDate && t.date > endDate) return false;
-        // Search
         if (query) {
           const matchDesc = t.description?.toLowerCase().includes(query);
           const matchCat = t.category?.toLowerCase().includes(query);
@@ -113,41 +107,50 @@ export default function TransactionsPage() {
   };
 
   return (
-    <div className="space-y-6 animate-fade-in pb-12">
-      {/* Page Header */}
+    <div className="space-y-6 pb-12">
+      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl font-bold text-slate-900 tracking-tight">Transactions Management</h1>
-          <p className="text-xs text-slate-500">
-            View, search, filter, and reconcile all account transactions
+          <div className="flex items-center gap-2 mb-1">
+            <h1 className="text-2xl font-black text-white tracking-tight">Financial Ledger</h1>
+            <span className="text-[10px] font-bold bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30 px-2 py-0.5 rounded-full">
+              {filteredTransactions.length} Records
+            </span>
+          </div>
+          <p className="text-xs text-slate-400">
+            Real-time auditable ledger entries, category tagging, and multi-channel reconciliation
           </p>
         </div>
 
         <div className="flex items-center gap-2.5">
-          <button
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
             onClick={handleExportCSV}
-            className="px-3 py-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 rounded-xl text-xs font-semibold shadow-2xs flex items-center gap-1.5 transition-colors"
+            className="px-3.5 py-2.5 glass-card rounded-xl text-xs font-bold text-slate-200 hover:text-white flex items-center gap-2"
           >
-            <Download className="w-3.5 h-3.5 text-slate-500" />
+            <Download className="w-3.5 h-3.5 text-[#7CFFB2]" />
             <span>Export CSV</span>
-          </button>
-          <button
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
             onClick={() => openModal('addTransaction')}
-            className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-xs shadow-emerald-600/30 flex items-center gap-1.5 transition-colors"
+            className="px-4 py-2.5 btn-mint rounded-xl text-xs font-bold flex items-center gap-2 shadow-[0_0_20px_rgba(124,255,178,0.3)]"
           >
             <Plus className="w-3.5 h-3.5" />
             <span>Add Transaction</span>
-          </button>
+          </motion.button>
         </div>
       </div>
 
-      {/* Control Bar: Tabs, Search, Category, Sorting, Dates */}
-      <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs space-y-3.5">
-        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
-          {/* Tabs */}
-          <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl text-xs font-semibold">
+      {/* Filter and Search Glass Bar */}
+      <div className="glass-panel p-4 rounded-2xl space-y-3 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+          {/* Tabs: All / Inflow / Outflow */}
+          <div className="flex items-center gap-1 bg-[#071512] p-1 rounded-xl border border-white/[0.08] text-xs font-bold">
             {[
-              { id: 'all', label: 'All Transactions' },
+              { id: 'all', label: 'All Records' },
               { id: 'income', label: 'Income (+)' },
               { id: 'expense', label: 'Expenses (-)' }
             ].map((tab) => (
@@ -156,8 +159,8 @@ export default function TransactionsPage() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`px-3 py-1.5 rounded-lg transition-all ${
                   activeTab === tab.id
-                    ? 'bg-white text-slate-900 shadow-2xs font-bold'
-                    : 'text-slate-500 hover:text-slate-900'
+                    ? 'bg-[#7CFFB2] text-[#071512] shadow-[0_0_10px_rgba(124,255,178,0.4)]'
+                    : 'text-slate-400 hover:text-white'
                 }`}
               >
                 {tab.label}
@@ -165,230 +168,184 @@ export default function TransactionsPage() {
             ))}
           </div>
 
-          {/* Search Field */}
+          {/* Search Box */}
           <div className="relative flex-1 max-w-sm">
-            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={localSearch}
               onChange={(e) => setLocalSearch(e.target.value)}
-              placeholder="Filter by description, tag, or note..."
-              className="w-full pl-8 pr-8 py-1.5 text-xs bg-slate-50 hover:bg-slate-100/70 focus:bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-slate-800"
+              placeholder="Filter by description, channel..."
+              className="w-full pl-9 pr-8 py-2 text-xs glass-input rounded-xl"
             />
             {localSearch && (
               <button
                 onClick={() => setLocalSearch('')}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
               >
-                <X className="w-3 h-3" />
+                <X className="w-3.5 h-3.5" />
               </button>
             )}
           </div>
         </div>
 
-        {/* Secondary Filter Line */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 border-t border-slate-100 text-xs">
-          {/* Category Dropdown */}
-          <div className="flex items-center gap-1.5">
-            <span className="text-slate-400 text-[11px] font-medium hidden sm:inline">Category:</span>
+        {/* Category, Date & Sort Controls */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 pt-2 border-t border-white/[0.06] text-xs">
+          <div>
+            <label className="text-[10px] uppercase font-bold text-slate-400 block mb-1">Category</label>
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="w-full py-1.5 px-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-700 outline-none focus:border-emerald-500"
+              className="w-full px-3 py-1.5 glass-input rounded-xl bg-[#071512] text-xs"
             >
-              {categories.map((c) => (
-                <option key={c} value={c}>
-                  {c === 'all' ? 'All Categories' : c}
-                </option>
+              <option value="all">All Categories</option>
+              {categories.filter(c => c !== 'all').map((c) => (
+                <option key={c} value={c} className="bg-[#071512] text-white">{c}</option>
               ))}
             </select>
           </div>
 
-          {/* Sort By Dropdown */}
-          <div className="flex items-center gap-1.5">
-            <span className="text-slate-400 text-[11px] font-medium hidden sm:inline">Sort:</span>
+          <div>
+            <label className="text-[10px] uppercase font-bold text-slate-400 block mb-1">Sort Order</label>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="w-full py-1.5 px-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-700 outline-none focus:border-emerald-500"
+              className="w-full px-3 py-1.5 glass-input rounded-xl bg-[#071512] text-xs"
             >
-              <option value="date-desc">Date (Newest)</option>
-              <option value="date-asc">Date (Oldest)</option>
-              <option value="amount-desc">Amount (Highest)</option>
-              <option value="amount-asc">Amount (Lowest)</option>
+              <option value="date-desc">Newest First</option>
+              <option value="date-asc">Oldest First</option>
+              <option value="amount-desc">Amount: High to Low</option>
+              <option value="amount-asc">Amount: Low to High</option>
             </select>
           </div>
 
-          {/* Start Date */}
-          <div className="flex items-center gap-1.5">
+          <div>
+            <label className="text-[10px] uppercase font-bold text-slate-400 block mb-1">From Date</label>
             <input
               type="date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
-              placeholder="From Date"
-              className="w-full py-1.5 px-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-700 text-[11px] outline-none"
+              className="w-full px-3 py-1.5 glass-input rounded-xl text-xs"
             />
           </div>
 
-          {/* End Date & Reset */}
-          <div className="flex items-center gap-1.5">
+          <div>
+            <label className="text-[10px] uppercase font-bold text-slate-400 block mb-1">To Date</label>
             <input
               type="date"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              placeholder="To Date"
-              className="w-full py-1.5 px-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-700 text-[11px] outline-none"
+              className="w-full px-3 py-1.5 glass-input rounded-xl text-xs"
             />
-            {(startDate || endDate || selectedCategory !== 'all' || localSearch) && (
-              <button
-                onClick={() => {
-                  setStartDate('');
-                  setEndDate('');
-                  setSelectedCategory('all');
-                  setLocalSearch('');
-                }}
-                className="px-2 py-1.5 text-[10px] text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-lg font-semibold shrink-0"
-                title="Clear Filters"
-              >
-                Reset
-              </button>
-            )}
           </div>
         </div>
       </div>
 
-      {/* Transactions List Table */}
-      <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
+      {/* Transactions List */}
+      <div className="glass-panel rounded-2xl overflow-hidden shadow-[0_10px_35px_rgba(0,0,0,0.5)]">
         {filteredTransactions.length === 0 ? (
-          <div className="p-12 text-center space-y-3">
-            <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center mx-auto text-slate-400">
-              <Search className="w-6 h-6" />
-            </div>
-            <h3 className="font-bold text-slate-800 text-sm">No transactions match your criteria</h3>
-            <p className="text-xs text-slate-500 max-w-sm mx-auto">
-              Try adjusting your category filters, search terms, or date range.
-            </p>
+          <div className="p-12 text-center text-xs text-slate-400">
+            No transactions found matching your filters.
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-slate-100 bg-slate-50/50 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-                  <th className="py-3 px-4">Transaction / Merchant</th>
+                <tr className="border-b border-white/[0.08] bg-[#071512]/70 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                  <th className="py-3 px-4">Description / Merchant</th>
                   <th className="py-3 px-4">Category</th>
                   <th className="py-3 px-4">Date</th>
-                  <th className="py-3 px-4">Payment Method</th>
+                  <th className="py-3 px-4">Channel</th>
                   <th className="py-3 px-4 text-right">Amount</th>
                   <th className="py-3 px-4 text-center">Status</th>
                   <th className="py-3 px-4 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 text-xs">
+              <tbody className="divide-y divide-white/[0.06] text-xs">
                 {filteredTransactions.map((tx) => {
                   const isIncome = tx.type === 'income';
                   return (
-                    <tr
+                    <motion.tr
                       key={tx.id}
+                      whileHover={{ backgroundColor: 'rgba(255, 255, 255, 0.02)' }}
                       onClick={() => openModal('viewTransaction', tx)}
-                      className="hover:bg-slate-50/60 transition-colors cursor-pointer group"
+                      className="cursor-pointer transition-colors"
                     >
-                      {/* Name & Icon */}
-                      <td className="py-3.5 px-4">
-                        <div className="flex items-center gap-3">
+                      <td className="py-3.5 px-4 font-semibold text-white">
+                        <div className="flex items-center gap-2.5">
                           <div
                             className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${
-                              isIncome ? 'bg-emerald-50 text-emerald-600' : 'bg-slate-100 text-slate-600'
+                              isIncome
+                                ? 'bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30'
+                                : 'bg-white/[0.06] text-slate-300 border border-white/[0.08]'
                             }`}
                           >
-                            {isIncome ? <ArrowUpRight className="w-3.5 h-3.5" /> : <ArrowDownRight className="w-3.5 h-3.5" />}
+                            {isIncome ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
                           </div>
                           <div>
-                            <div className="font-semibold text-slate-900 leading-tight">
-                              {tx.description}
-                            </div>
-                            {tx.notes && (
-                              <div className="text-[11px] text-slate-400 truncate max-w-xs mt-0.5">
-                                {tx.notes}
-                              </div>
-                            )}
+                            <div className="text-white font-bold">{tx.description}</div>
+                            {tx.notes && <div className="text-[10px] text-slate-400 font-normal">{tx.notes}</div>}
                           </div>
                         </div>
                       </td>
 
-                      {/* Category */}
                       <td className="py-3.5 px-4">
-                        <span className="inline-flex px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 font-medium text-[11px]">
+                        <span className="font-semibold text-slate-300 bg-white/[0.05] border border-white/[0.08] px-2.5 py-0.5 rounded-lg text-[11px]">
                           {tx.category}
                         </span>
                       </td>
 
-                      {/* Date */}
-                      <td className="py-3.5 px-4 text-slate-600 whitespace-nowrap">
+                      <td className="py-3.5 px-4 text-slate-400 whitespace-nowrap">
                         {tx.date}
                       </td>
 
-                      {/* Payment Method */}
-                      <td className="py-3.5 px-4 text-slate-600 whitespace-nowrap">
-                        <div className="flex items-center gap-1.5">
-                          {tx.paymentMethod === 'PayPal Sandbox' && (
-                            <span className="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
-                          )}
-                          <span>{tx.paymentMethod || 'Bank Transfer'}</span>
-                        </div>
+                      <td className="py-3.5 px-4 text-slate-300 whitespace-nowrap">
+                        <span className="font-medium">{tx.paymentMethod || 'Bank Transfer'}</span>
+                        {tx.paymentMethod === 'PayPal Sandbox' && (
+                          <span className="ml-1.5 text-[9px] bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30 px-1 py-0.2 rounded font-mono">
+                            SDK
+                          </span>
+                        )}
                       </td>
 
-                      {/* Amount */}
                       <td className="py-3.5 px-4 text-right whitespace-nowrap">
-                        <span
-                          className={`font-bold ${
-                            isIncome ? 'text-emerald-600' : 'text-slate-900'
-                          }`}
-                        >
+                        <span className={`font-black ${isIncome ? 'text-[#7CFFB2]' : 'text-white'}`}>
                           {isIncome ? '+' : '-'}{formatCurrency(tx.amount)}
                         </span>
                       </td>
 
-                      {/* Status */}
                       <td className="py-3.5 px-4 text-center whitespace-nowrap">
-                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#7CFFB2]/10 text-[#7CFFB2] border border-[#7CFFB2]/25 font-mono">
                           {tx.status || 'Completed'}
                         </span>
                       </td>
 
-                      {/* Actions */}
-                      <td className="py-3.5 px-4 text-right whitespace-nowrap">
-                        <div className="flex items-center justify-end gap-1 opacity-70 group-hover:opacity-100 transition-opacity">
+                      <td className="py-3.5 px-4 text-right whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
+                        <div className="flex items-center justify-end gap-1.5">
                           <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              openModal('viewTransaction', tx);
-                            }}
-                            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100"
+                            onClick={() => openModal('viewTransaction', tx)}
+                            className="p-1.5 rounded-lg glass-card hover:border-[#7CFFB2]/50 text-slate-300 hover:text-white"
                             title="View Details"
                           >
-                            <Eye className="w-3.5 h-3.5" />
+                            <Eye className="w-3.5 h-3.5 text-[#7CFFB2]" />
                           </button>
                           <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              openModal('editTransaction', tx);
-                            }}
-                            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100"
+                            onClick={() => openModal('editTransaction', tx)}
+                            className="p-1.5 rounded-lg glass-card hover:border-[#7CFFB2]/50 text-slate-300 hover:text-white"
                             title="Edit"
                           >
                             <Edit2 className="w-3.5 h-3.5" />
                           </button>
                           <button
                             onClick={(e) => handleDelete(tx.id, e)}
-                            disabled={deletingId === tx.id}
-                            className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50"
+                            className="p-1.5 rounded-lg glass-card hover:border-rose-500/40 text-slate-400 hover:text-rose-400"
                             title="Delete"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
                           </button>
                         </div>
                       </td>
-                    </tr>
+                    </motion.tr>
                   );
                 })}
               </tbody>

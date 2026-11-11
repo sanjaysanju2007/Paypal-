@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { useApp } from '../../context/AppContext';
 import api from '../../services/api';
-import { X, Sparkles, Loader2, Plus, Check } from 'lucide-react';
+import { X, Sparkles, Loader2, Check, ArrowUpRight, ArrowDownRight } from 'lucide-react';
 
 export default function AddTransactionModal() {
   const { modalState, closeModal, refreshAll, currencySymbol } = useApp();
@@ -103,114 +104,120 @@ export default function AddTransactionModal() {
   };
 
   const categories = [
-    'Food & Dining',
-    'Groceries',
     'Housing',
+    'Food & Dining',
     'Utilities',
-    'Entertainment',
     'Transportation',
+    'Entertainment',
+    'Healthcare',
+    'Investments',
     'Shopping',
-    'Health & Fitness',
     'Salary',
     'Freelance',
-    'Investments',
-    'Payment Transfer',
-    'General Expenses'
+    'Other'
+  ];
+
+  const paymentMethods = [
+    'Credit Card',
+    'Debit Card',
+    'UPI Transfer',
+    'PayPal Sandbox',
+    'Net Banking',
+    'Cash'
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs animate-fade-in">
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-2xl w-full max-w-lg overflow-hidden">
-        {/* Modal Header */}
-        <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold">
-              {editItem ? '✎' : '+'}
-            </div>
-            <div>
-              <h3 className="font-bold text-slate-900 text-base">
-                {editItem ? 'Edit Transaction' : 'Add New Transaction'}
-              </h3>
-              <p className="text-xs text-slate-400">Record a new income or expense transaction</p>
-            </div>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 15 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 15 }}
+        transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+        className="glass-panel-elevated rounded-3xl w-full max-w-lg overflow-hidden text-white relative shadow-[0_25px_60px_rgba(0,0,0,0.8)] border-[#7CFFB2]/25"
+      >
+        {/* Header */}
+        <div className="px-6 py-4 border-b border-white/[0.08] flex items-center justify-between">
+          <div>
+            <h3 className="font-extrabold text-white text-base">
+              {editItem ? 'Edit Transaction' : 'Record New Transaction'}
+            </h3>
+            <p className="text-xs text-slate-400">Live ledger transaction with AI categorization</p>
           </div>
           <button
             onClick={() => {
-              closeModal('addTransaction');
-              closeModal('editTransaction');
+              if (editItem) closeModal('editTransaction');
+              else closeModal('addTransaction');
             }}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+            className="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/[0.08] transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
-        {/* Modal Form */}
+        {/* Form Body */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           {error && (
-            <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs">
+            <div className="p-3 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs">
               {error}
             </div>
           )}
 
-          {/* Type Toggle: Expense / Income */}
-          <div className="grid grid-cols-2 gap-2 p-1 bg-slate-100 rounded-xl">
+          {/* Type Toggle: Inflow vs Outflow */}
+          <div className="grid grid-cols-2 gap-2 p-1 bg-[#071512] rounded-xl border border-white/[0.08]">
             <button
               type="button"
               onClick={() => setFormData(prev => ({ ...prev, type: 'expense' }))}
-              className={`py-2 text-xs font-bold rounded-lg transition-all ${
+              className={`py-2 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition-all ${
                 formData.type === 'expense'
-                  ? 'bg-white text-rose-700 shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30 shadow-[0_0_10px_rgba(244,63,94,0.2)]'
+                  : 'text-slate-400 hover:text-white'
               }`}
             >
-              Expense (-)
+              <ArrowDownRight className="w-3.5 h-3.5" />
+              <span>Expense (Outflow)</span>
             </button>
             <button
               type="button"
               onClick={() => setFormData(prev => ({ ...prev, type: 'income' }))}
-              className={`py-2 text-xs font-bold rounded-lg transition-all ${
+              className={`py-2 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition-all ${
                 formData.type === 'income'
-                  ? 'bg-white text-emerald-700 shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-[#7CFFB2]/20 text-[#7CFFB2] border border-[#7CFFB2]/30 shadow-[0_0_10px_rgba(124,255,178,0.2)]'
+                  : 'text-slate-400 hover:text-white'
               }`}
             >
-              Income (+)
+              <ArrowUpRight className="w-3.5 h-3.5" />
+              <span>Income (Inflow)</span>
             </button>
           </div>
 
-          {/* Description with AI Auto-Categorize Button */}
+          {/* Description & AI Button */}
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-              Description / Merchant Name
-            </label>
-            <div className="relative">
-              <input
-                type="text"
-                required
-                placeholder="e.g. Swiggy Gourmet, Uber Ride, TechCorp Salary"
-                value={formData.description}
-                onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                onBlur={handleAiCategorize}
-                className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-slate-800"
-              />
+            <div className="flex items-center justify-between mb-1">
+              <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">
+                Description / Merchant
+              </label>
               <button
                 type="button"
                 onClick={handleAiCategorize}
                 disabled={aiSuggesting || !formData.description}
-                className="absolute right-2 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-[11px] font-semibold flex items-center gap-1 border border-emerald-200/80 transition-colors disabled:opacity-50"
+                className="text-[10px] text-[#7CFFB2] hover:text-[#20D995] font-bold flex items-center gap-1 disabled:opacity-40"
               >
-                {aiSuggesting ? (
-                  <Loader2 className="w-3 h-3 animate-spin" />
-                ) : (
-                  <Sparkles className="w-3 h-3" />
-                )}
-                <span>Auto-Categorize</span>
+                <Sparkles className="w-3 h-3" />
+                <span>{aiSuggesting ? 'Analyzing...' : 'AI Categorize'}</span>
               </button>
             </div>
+            <input
+              type="text"
+              required
+              value={formData.description}
+              onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+              placeholder="e.g. Starbucks, Cult.fit Gym, Freelance UX Design"
+              className="w-full px-4 py-2.5 text-xs glass-input rounded-xl"
+            />
             {aiFeedback && (
-              <p className="mt-1 text-[11px] text-emerald-700 flex items-center gap-1">
-                <Check className="w-3 h-3" /> {aiFeedback}
+              <p className="text-[11px] text-[#7CFFB2] mt-1 flex items-center gap-1">
+                <Check className="w-3 h-3" />
+                <span>{aiFeedback}</span>
               </p>
             )}
           </div>
@@ -218,21 +225,21 @@ export default function AddTransactionModal() {
           {/* Amount & Date */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+              <label className="block text-xs font-bold text-slate-300 mb-1 uppercase tracking-wider">
                 Amount ({currencySymbol})
               </label>
               <input
                 type="number"
                 step="any"
                 required
-                placeholder="0.00"
                 value={formData.amount}
                 onChange={(e) => setFormData(prev => ({ ...prev, amount: e.target.value }))}
-                className="w-full px-3.5 py-2.5 text-sm font-semibold bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-slate-900"
+                placeholder="2500"
+                className="w-full px-4 py-2.5 text-xs font-black text-[#7CFFB2] glass-input rounded-xl"
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+              <label className="block text-xs font-bold text-slate-300 mb-1 uppercase tracking-wider">
                 Date
               </label>
               <input
@@ -240,7 +247,7 @@ export default function AddTransactionModal() {
                 required
                 value={formData.date}
                 onChange={(e) => setFormData(prev => ({ ...prev, date: e.target.value }))}
-                className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-slate-800"
+                className="w-full px-4 py-2.5 text-xs glass-input rounded-xl"
               />
             </div>
           </div>
@@ -248,78 +255,74 @@ export default function AddTransactionModal() {
           {/* Category & Payment Method */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+              <label className="block text-xs font-bold text-slate-300 mb-1 uppercase tracking-wider">
                 Category
               </label>
               <select
                 value={formData.category}
                 onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
-                className="w-full px-3 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-slate-800"
+                className="w-full px-3 py-2.5 text-xs glass-input rounded-xl bg-[#071512]"
               >
                 {categories.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
+                  <option key={c} value={c} className="bg-[#071512] text-white">{c}</option>
                 ))}
               </select>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                Payment Method
+              <label className="block text-xs font-bold text-slate-300 mb-1 uppercase tracking-wider">
+                Payment Channel
               </label>
               <select
                 value={formData.paymentMethod}
                 onChange={(e) => setFormData(prev => ({ ...prev, paymentMethod: e.target.value }))}
-                className="w-full px-3 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-slate-800"
+                className="w-full px-3 py-2.5 text-xs glass-input rounded-xl bg-[#071512]"
               >
-                <option value="PayPal Sandbox">PayPal Sandbox</option>
-                <option value="Credit Card">Credit Card</option>
-                <option value="Debit Card">Debit Card</option>
-                <option value="Bank Transfer">Bank Transfer</option>
-                <option value="UPI">UPI</option>
-                <option value="Cash">Cash</option>
+                {paymentMethods.map((m) => (
+                  <option key={m} value={m} className="bg-[#071512] text-white">{m}</option>
+                ))}
               </select>
             </div>
           </div>
 
           {/* Notes */}
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+            <label className="block text-xs font-bold text-slate-300 mb-1 uppercase tracking-wider">
               Notes (Optional)
             </label>
             <input
               type="text"
-              placeholder="e.g. Paid during business trip"
               value={formData.notes}
               onChange={(e) => setFormData(prev => ({ ...prev, notes: e.target.value }))}
-              className="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-slate-800"
+              placeholder="e.g. Team dinner celebration, invoice reference"
+              className="w-full px-4 py-2.5 text-xs glass-input rounded-xl"
             />
           </div>
 
-          {/* Submit Actions */}
-          <div className="pt-2 flex items-center justify-end gap-2 border-t border-slate-100">
+          {/* Actions */}
+          <div className="pt-3 border-t border-white/[0.08] flex items-center justify-end gap-3">
             <button
               type="button"
               onClick={() => {
-                closeModal('addTransaction');
-                closeModal('editTransaction');
+                if (editItem) closeModal('editTransaction');
+                else closeModal('addTransaction');
               }}
-              className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-800 rounded-xl hover:bg-slate-100 transition-colors"
+              className="px-4 py-2.5 glass-card rounded-xl text-xs font-bold text-slate-300 hover:text-white"
             >
               Cancel
             </button>
-            <button
+            <motion.button
               type="submit"
               disabled={loading}
-              className="px-5 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-xs shadow-emerald-600/30 transition-all flex items-center gap-1.5 disabled:opacity-50"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              className="px-5 py-2.5 btn-mint rounded-xl text-xs font-bold flex items-center gap-2"
             >
               {loading && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
-              <span>{editItem ? 'Save Changes' : 'Record Transaction'}</span>
-            </button>
+              <span>{editItem ? 'Save Updates' : 'Add to Ledger'}</span>
+            </motion.button>
           </div>
         </form>
-      </div>
+      </motion.div>
     </div>
   );
 }
-

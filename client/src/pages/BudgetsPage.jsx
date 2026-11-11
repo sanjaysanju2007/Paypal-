@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { useApp } from '../context/AppContext';
 import api from '../services/api';
 import {
   PieChart,
   Plus,
-  AlertTriangle,
-  CheckCircle2,
-  TrendingDown,
   Trash2,
   Edit2,
   Sparkles,
-  ArrowRight,
-  ShieldAlert
+  ShieldAlert,
+  ArrowRight
 } from 'lucide-react';
 
 export default function BudgetsPage() {
@@ -49,163 +47,169 @@ export default function BudgetsPage() {
   };
 
   return (
-    <div className="space-y-6 animate-fade-in pb-12">
+    <div className="space-y-6 pb-12">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl font-bold text-slate-900 tracking-tight">Smart Budget Management</h1>
-          <p className="text-xs text-slate-500">
-            Set category limits, monitor real-time outflow, and receive predictive warnings
+          <div className="flex items-center gap-2 mb-1">
+            <h1 className="text-2xl font-black text-white tracking-tight">Smart Budget Management</h1>
+            <span className="text-[10px] font-bold bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30 px-2 py-0.5 rounded-full">
+              {budgets.length} Categories Active
+            </span>
+          </div>
+          <p className="text-xs text-slate-400">
+            Set threshold limits, monitor real-time outflow, and receive AI-driven overspending warnings
           </p>
         </div>
 
-        <button
+        <motion.button
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
           onClick={() => openModal('addBudget')}
-          className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-xs shadow-emerald-600/30 flex items-center gap-1.5 transition-colors self-start sm:self-auto"
+          className="px-4 py-2.5 btn-mint rounded-xl text-xs font-bold flex items-center gap-2 shadow-[0_0_20px_rgba(124,255,178,0.3)] self-start sm:self-auto"
         >
           <Plus className="w-3.5 h-3.5" />
           <span>Create New Budget</span>
-        </button>
+        </motion.button>
       </div>
 
       {/* Warnings & Alerts if any */}
       {(overBudgetCategories.length > 0 || nearLimitCategories.length > 0) && (
-        <div className="p-4 rounded-2xl bg-amber-50/80 border border-amber-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+        <div className="p-4 rounded-2xl glass-panel border-amber-500/30 bg-amber-500/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs shadow-[0_0_25px_rgba(245,158,11,0.15)]">
           <div className="flex items-start sm:items-center gap-2.5">
-            <ShieldAlert className="w-5 h-5 text-amber-600 shrink-0 mt-0.5 sm:mt-0" />
+            <ShieldAlert className="w-5 h-5 text-amber-400 shrink-0 mt-0.5 sm:mt-0" />
             <div>
-              <span className="font-bold text-amber-900 block sm:inline mr-1">
-                Budget Attention Needed:
+              <span className="font-bold text-amber-200 block sm:inline mr-1">
+                Budget Attention Triggered:
               </span>
-              <span className="text-amber-800">
+              <span className="text-amber-300/90">
                 {overBudgetCategories.length > 0
-                  ? `${overBudgetCategories.map((b) => b.category).join(', ')} exceeded monthly limit.`
+                  ? `${overBudgetCategories.map((b) => b.category).join(', ')} exceeded monthly ceiling.`
                   : `${nearLimitCategories.map((b) => b.category).join(', ')} reached >85% of monthly threshold.`}
               </span>
             </div>
           </div>
-          <button
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
             onClick={() => setActiveTab('ai-advisor')}
-            className="shrink-0 px-3 py-1.5 bg-white text-amber-900 hover:bg-amber-100/50 rounded-xl font-bold text-[11px] border border-amber-200 transition-colors flex items-center gap-1"
+            className="shrink-0 px-3.5 py-1.5 glass-panel text-amber-300 hover:text-white rounded-xl font-bold text-[11px] border-amber-500/30 flex items-center gap-1.5"
           >
-            <Sparkles className="w-3 h-3 text-amber-600" />
-            <span>Get AI Overspending Advice</span>
-          </button>
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+            <span>AI Overspending Plan</span>
+          </motion.button>
         </div>
       )}
 
-      {/* Overview Metric Cards */}
+      {/* Overview 3 KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
-          <span className="text-xs text-slate-400 font-semibold block mb-1">Total Budget Pool</span>
-          <div className="text-2xl font-black text-slate-900">{formatCurrency(totalLimit)}</div>
-          <div className="text-[11px] text-slate-500 mt-1">Across {budgets.length} spending categories</div>
+        <div className="glass-card p-5 rounded-2xl">
+          <span className="text-xs text-slate-400 font-bold uppercase tracking-wider block mb-1">Total Budget Pool</span>
+          <div className="text-2xl font-black text-white">{formatCurrency(totalLimit)}</div>
+          <div className="text-[11px] text-slate-400 mt-1">Across {budgets.length} assigned categories</div>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
-          <span className="text-xs text-slate-400 font-semibold block mb-1">Total Spent So Far</span>
-          <div className="text-2xl font-black text-slate-900">{formatCurrency(totalSpent)}</div>
-          <div className="text-[11px] text-slate-500 mt-1">{overallPercent}% of total allocation used</div>
+        <div className="glass-card p-5 rounded-2xl">
+          <span className="text-xs text-slate-400 font-bold uppercase tracking-wider block mb-1">Total Spent This Cycle</span>
+          <div className="text-2xl font-black text-[#7CFFB2]">{formatCurrency(totalSpent)}</div>
+          <div className="text-[11px] text-slate-400 mt-1">{overallPercent}% of cumulative allowance utilized</div>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
-          <span className="text-xs text-slate-400 font-semibold block mb-1">Available Remaining Balance</span>
-          <div className="text-2xl font-black text-emerald-700">{formatCurrency(totalRemaining)}</div>
-          <div className="text-[11px] text-emerald-600 font-medium mt-1">Surplus buffer intact</div>
+        <div className="glass-card p-5 rounded-2xl">
+          <span className="text-xs text-slate-400 font-bold uppercase tracking-wider block mb-1">Remaining Safety Cushion</span>
+          <div className="text-2xl font-black text-[#20D995]">{formatCurrency(totalRemaining)}</div>
+          <div className="text-[11px] text-slate-400 mt-1">Available for remaining month</div>
         </div>
       </div>
 
-      {/* Category Budgets Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {/* Budget Category Cards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {budgets.map((b) => {
           const percent = Math.min(100, b.percentage || 0);
           const isOver = b.spent > b.limit;
-          const isWarning = percent >= 85 && !isOver;
+          const isNear = percent > 85 && !isOver;
 
           return (
-            <div
+            <motion.div
               key={b.id}
-              className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col justify-between space-y-4 hover:border-slate-300 transition-colors"
+              whileHover={{ y: -3 }}
+              className="glass-panel p-5 rounded-2xl flex flex-col justify-between space-y-4"
             >
               <div>
-                <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
-                    <span
-                      className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: b.color || '#10B981' }}
-                    />
-                    <h3 className="font-bold text-slate-900 text-sm">{b.category}</h3>
+                    <span className="w-3 h-3 rounded-full shadow-[0_0_8px_currentColor]" style={{ backgroundColor: b.color || '#7CFFB2' }} />
+                    <h3 className="font-extrabold text-white text-sm">{b.category}</h3>
                   </div>
-
                   <div className="flex items-center gap-1">
                     <button
                       onClick={() => openModal('editBudget', b)}
-                      className="p-1 rounded-md text-slate-400 hover:text-slate-700 hover:bg-slate-100"
-                      title="Edit"
+                      className="p-1 rounded-lg glass-card text-slate-400 hover:text-white"
+                      title="Edit Budget"
                     >
                       <Edit2 className="w-3.5 h-3.5" />
                     </button>
                     <button
                       onClick={() => handleDelete(b.id)}
-                      disabled={deletingId === b.id}
-                      className="p-1 rounded-md text-slate-400 hover:text-rose-600 hover:bg-rose-50"
-                      title="Delete"
+                      className="p-1 rounded-lg glass-card text-slate-400 hover:text-rose-400"
+                      title="Delete Budget"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
                   </div>
                 </div>
 
-                {/* Amounts Breakdown */}
-                <div className="flex justify-between items-baseline mb-2">
+                <div className="flex items-baseline justify-between mt-3 mb-2">
                   <div>
-                    <span className="text-xs text-slate-400">Spent:</span>
-                    <span className="ml-1 text-sm font-bold text-slate-900">{formatCurrency(b.spent)}</span>
+                    <span className="text-xl font-black text-white">{formatCurrency(b.spent)}</span>
+                    <span className="text-xs text-slate-400 ml-1">/ {formatCurrency(b.limit)}</span>
                   </div>
-                  <div>
-                    <span className="text-xs text-slate-400">Limit:</span>
-                    <span className="ml-1 text-xs font-semibold text-slate-600">{formatCurrency(b.limit)}</span>
-                  </div>
+                  <span
+                    className={`text-xs font-bold px-2 py-0.5 rounded-full ${
+                      isOver
+                        ? 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
+                        : isNear
+                        ? 'bg-amber-400/15 text-amber-300 border border-amber-400/30'
+                        : 'bg-[#7CFFB2]/10 text-[#7CFFB2] border border-[#7CFFB2]/20'
+                    }`}
+                  >
+                    {percent}%
+                  </span>
                 </div>
 
-                {/* Progress Bar */}
-                <div className="w-full h-2.5 rounded-full bg-slate-100 overflow-hidden mb-2">
+                {/* Progress bar */}
+                <div className="w-full h-2 rounded-full bg-[#071512] overflow-hidden border border-white/[0.08]">
                   <div
-                    className={`h-full rounded-full transition-all duration-300 ${
-                      isOver ? 'bg-rose-500' : isWarning ? 'bg-amber-500' : 'bg-emerald-500'
+                    className={`h-full rounded-full transition-all duration-500 ${
+                      isOver
+                        ? 'bg-rose-500 shadow-[0_0_10px_#F43F5E]'
+                        : isNear
+                        ? 'bg-amber-400 shadow-[0_0_10px_#FBBF24]'
+                        : 'bg-gradient-to-r from-[#20D995] to-[#7CFFB2] shadow-[0_0_10px_rgba(124,255,178,0.5)]'
                     }`}
                     style={{ width: `${percent}%` }}
                   />
                 </div>
 
-                {/* Status Indicator */}
-                <div className="flex justify-between items-center text-[11px]">
-                  <span className="font-semibold text-slate-500">{percent}% utilized</span>
-                  <span
-                    className={`font-semibold ${
-                      isOver ? 'text-rose-600' : isWarning ? 'text-amber-600' : 'text-emerald-700'
-                    }`}
-                  >
-                    {isOver ? (
-                      `Over by ${formatCurrency(b.spent - b.limit)}`
-                    ) : (
-                      `${formatCurrency(b.remaining)} remaining`
-                    )}
-                  </span>
+                <div className="flex justify-between text-[11px] text-slate-400 mt-2">
+                  <span>Remaining: <strong className="text-white">{formatCurrency(b.remaining)}</strong></span>
+                  <span className="font-mono">{b.period || 'Monthly'}</span>
                 </div>
               </div>
 
-              {/* Action / Quick Insight */}
-              <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
-                <span>Cycle: Monthly</span>
-                <button
-                  onClick={() => openModal('addTransaction')}
-                  className="font-semibold text-emerald-700 hover:text-emerald-800"
-                >
-                  + Add Expense
-                </button>
-              </div>
-            </div>
+              {/* Overspending Advice Chip */}
+              {isOver && (
+                <div className="p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-[11px] flex items-center justify-between">
+                  <span>Over budget by {formatCurrency(b.spent - b.limit)}</span>
+                  <button
+                    onClick={() => setActiveTab('ai-advisor')}
+                    className="font-bold underline hover:text-white"
+                  >
+                    Ask AI
+                  </button>
+                </div>
+              )}
+            </motion.div>
           );
         })}
       </div>

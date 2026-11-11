@@ -1,21 +1,20 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useApp } from '../context/AppContext';
 import {
   CreditCard,
   ShieldCheck,
-  CheckCircle2,
-  Clock,
   SendHorizontal,
-  ExternalLink,
   Receipt,
-  FileCheck2,
   Copy,
   Check,
-  HelpCircle,
-  AlertCircle,
   RefreshCw,
   ArrowUpRight,
-  ArrowDownRight
+  ArrowDownRight,
+  ExternalLink,
+  Lock,
+  Zap,
+  CheckCircle2
 } from 'lucide-react';
 
 export default function PaymentsPage() {
@@ -54,148 +53,159 @@ export default function PaymentsPage() {
   });
 
   return (
-    <div className="space-y-6 animate-fade-in pb-12">
+    <div className="space-y-6 pb-12">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-xl font-bold text-slate-900 tracking-tight">
-              PayPal Sandbox Payments
+          <div className="flex items-center gap-2 mb-1">
+            <h1 className="text-2xl font-black text-white tracking-tight">
+              PayPal Gateway & Payments
             </h1>
-            <span className="text-[11px] font-bold bg-sky-50 text-sky-700 border border-sky-200/80 px-2 py-0.5 rounded-md">
-              REST API & SDK
+            <span className="text-[10px] font-bold bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30 px-2 py-0.5 rounded-full shadow-[0_0_10px_rgba(124,255,178,0.2)]">
+              REST v2 & SDK
             </span>
           </div>
-          <p className="text-xs text-slate-500">
-            Secure payments, capture verification, and transaction history powered by PayPal Sandbox
+          <p className="text-xs text-slate-400">
+            Real-time server capture verification, cryptographic order IDs, and instant PayPal Sandbox execution
           </p>
         </div>
 
         <div className="flex items-center gap-2.5">
-          <button
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             onClick={() => refreshAll()}
-            className="p-2 bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 rounded-xl transition-colors"
+            className="p-2.5 glass-card rounded-xl text-slate-300 hover:text-white"
             title="Refresh History"
           >
-            <RefreshCw className="w-4 h-4" />
-          </button>
-          <button
+            <RefreshCw className="w-4 h-4 text-[#7CFFB2]" />
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
             onClick={() => openModal('paypalCheckout')}
-            className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-xs shadow-emerald-600/30 flex items-center gap-1.5 transition-colors"
+            className="px-4 py-2.5 btn-mint rounded-xl text-xs font-bold flex items-center gap-2 shadow-[0_0_20px_rgba(124,255,178,0.3)]"
           >
             <SendHorizontal className="w-3.5 h-3.5" />
-            <span>New PayPal Payment</span>
-          </button>
+            <span>Launch PayPal Checkout</span>
+          </motion.button>
         </div>
       </div>
 
-      {/* Sandbox Connection & Status Banner */}
-      <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-4 border-b border-slate-100">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#003087] to-[#0070BA] flex items-center justify-center text-white shadow-sm">
+      {/* Luxury Sandbox Connection Card */}
+      <div className="glass-panel p-6 rounded-2xl relative overflow-hidden space-y-5">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-5 border-b border-white/[0.08]">
+          <div className="flex items-center gap-3.5">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#003087] to-[#0070BA] flex items-center justify-center text-white shadow-[0_0_25px_rgba(0,112,186,0.4)]">
               <CreditCard className="w-6 h-6" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <span className="font-bold text-slate-900 text-base">acsPaypal Sandbox App</span>
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-[11px] font-semibold border border-emerald-200">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                  Active & Connected
+              <div className="flex items-center gap-2.5">
+                <span className="font-extrabold text-white text-base">acsPaypal Sandbox Gateway</span>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#7CFFB2]/15 text-[#7CFFB2] text-[11px] font-bold border border-[#7CFFB2]/30 shadow-[0_0_10px_rgba(124,255,178,0.2)]">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#7CFFB2] opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#7CFFB2]"></span>
+                  </span>
+                  <span>Active & Verified</span>
                 </span>
               </div>
-              <p className="text-xs text-slate-400">
-                Sandbox Base URL: <code className="font-mono text-slate-600">https://api-m.sandbox.paypal.com</code>
+              <p className="text-xs text-slate-400 mt-0.5">
+                Official REST endpoint: <code className="font-mono text-[#7CFFB2]">https://api-m.sandbox.paypal.com</code>
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <div className="text-right hidden sm:block">
-              <span className="text-[11px] text-slate-400 block">Environment</span>
-              <span className="text-xs font-semibold text-slate-700">Sandbox Developer Tier</span>
+              <span className="text-[10px] uppercase tracking-wider text-slate-400 block font-mono">Environment</span>
+              <span className="text-xs font-bold text-white flex items-center gap-1 justify-end">
+                <Lock className="w-3 h-3 text-[#7CFFB2]" />
+                <span>Tier 1 Sandbox Developer</span>
+              </span>
             </div>
           </div>
         </div>
 
-        {/* Client ID & Config Inspector */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
-          <div className="md:col-span-2 p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between gap-3">
+        {/* Credentials Inspector */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 text-xs">
+          <div className="md:col-span-2 p-3.5 rounded-xl glass-card flex items-center justify-between gap-3">
             <div className="truncate">
-              <span className="text-slate-400 font-semibold block text-[10px] uppercase">
-                Frontend Sandbox Client ID
+              <span className="text-[#7CFFB2] font-mono font-bold block text-[10px] uppercase tracking-wider">
+                Public Frontend Client ID
               </span>
-              <code className="text-[11px] font-mono text-slate-800 font-medium truncate block">
+              <code className="text-[11px] font-mono text-slate-200 font-medium truncate block mt-0.5">
                 {clientId}
               </code>
             </div>
-            <button
+            <motion.button
+              whileTap={{ scale: 0.9 }}
               onClick={copyClientId}
-              className="shrink-0 p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-200/60 rounded-lg transition-colors"
+              className="shrink-0 p-2 glass-card hover:border-[#7CFFB2]/50 text-slate-300 hover:text-white rounded-lg transition-colors"
               title="Copy Client ID"
             >
-              {copied ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
-            </button>
+              {copied ? <Check className="w-4 h-4 text-[#7CFFB2]" /> : <Copy className="w-4 h-4 text-[#7CFFB2]" />}
+            </motion.button>
           </div>
 
-          <div className="p-3 rounded-xl bg-emerald-50/60 border border-emerald-200/80 flex items-center justify-between">
+          <div className="p-3.5 rounded-xl glass-card flex items-center justify-between border-[#7CFFB2]/30">
             <div>
-              <span className="text-emerald-800 font-semibold block text-[10px] uppercase">
-                Backend REST Order Status
+              <span className="text-[#7CFFB2] font-mono font-bold block text-[10px] uppercase tracking-wider">
+                Backend REST Order Capture
               </span>
-              <span className="text-xs font-bold text-emerald-900">
-                Live Capture Ready
+              <span className="text-xs font-bold text-white">
+                Synchronous Capture Ready
               </span>
             </div>
-            <ShieldCheck className="w-5 h-5 text-emerald-600" />
+            <ShieldCheck className="w-6 h-6 text-[#7CFFB2] drop-shadow-[0_0_8px_rgba(124,255,178,0.5)]" />
           </div>
         </div>
       </div>
 
-      {/* Payment Metrics Cards */}
+      {/* Payment Volume Metrics Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs">
-          <span className="text-xs text-slate-400 font-semibold block mb-1">Total Payments Volume</span>
-          <div className="text-xl font-bold text-slate-900">
+        <div className="glass-card p-4 rounded-2xl">
+          <span className="text-xs text-slate-400 font-bold uppercase tracking-wider block mb-1">Total Gateway Flow</span>
+          <div className="text-xl font-black text-white">
             {formatCurrency(totalOutgoing + totalIncoming)}
           </div>
-          <span className="text-[11px] text-slate-500 mt-1 block">
+          <span className="text-[11px] text-[#7CFFB2] font-mono mt-1 block">
             {payments.length} verified sandbox orders
           </span>
         </div>
 
-        <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs">
-          <span className="text-xs text-slate-400 font-semibold block mb-1">Outgoing Disbursals</span>
-          <div className="text-xl font-bold text-rose-600">
+        <div className="glass-card p-4 rounded-2xl">
+          <span className="text-xs text-slate-400 font-bold uppercase tracking-wider block mb-1">Outgoing Disbursals</span>
+          <div className="text-xl font-black text-rose-400">
             -{formatCurrency(totalOutgoing)}
           </div>
-          <span className="text-[11px] text-slate-500 mt-1 block">
+          <span className="text-[11px] text-slate-400 mt-1 block">
             Merchants & subscriptions
           </span>
         </div>
 
-        <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs">
-          <span className="text-xs text-slate-400 font-semibold block mb-1">Incoming Payouts</span>
-          <div className="text-xl font-bold text-emerald-600">
+        <div className="glass-card p-4 rounded-2xl">
+          <span className="text-xs text-slate-400 font-bold uppercase tracking-wider block mb-1">Incoming Payouts</span>
+          <div className="text-xl font-black text-[#7CFFB2]">
             +{formatCurrency(totalIncoming)}
           </div>
-          <span className="text-[11px] text-slate-500 mt-1 block">
-            Freelance & client settlements
+          <span className="text-[11px] text-slate-400 mt-1 block">
+            Client & freelance settlements
           </span>
         </div>
       </div>
 
       {/* Payment History Section */}
-      <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
-        <div className="p-4 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div className="glass-panel rounded-2xl overflow-hidden shadow-[0_10px_35px_rgba(0,0,0,0.5)]">
+        <div className="p-4 border-b border-white/[0.08] flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#071512]/50">
           <div>
-            <h3 className="font-bold text-slate-900 text-sm">PayPal Payment History</h3>
+            <h3 className="font-bold text-white text-sm">PayPal Payment Ledger</h3>
             <p className="text-xs text-slate-400">
-              Authenticated orders captured via official PayPal endpoints
+              Authenticated orders verified via official PayPal REST v2 endpoints
             </p>
           </div>
 
-          <div className="flex items-center gap-1 bg-slate-100 p-0.5 rounded-xl text-xs font-semibold">
+          <div className="flex items-center gap-1 bg-[#071512] p-1 rounded-xl border border-white/[0.08] text-xs font-semibold">
             {[
               { id: 'all', label: 'All Orders' },
               { id: 'outgoing', label: 'Sent' },
@@ -204,10 +214,10 @@ export default function PaymentsPage() {
               <button
                 key={tab.id}
                 onClick={() => setFilterType(tab.id)}
-                className={`px-3 py-1.5 rounded-lg transition-all ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                   filterType === tab.id
-                    ? 'bg-white text-slate-900 shadow-2xs font-bold'
-                    : 'text-slate-500 hover:text-slate-900'
+                    ? 'bg-[#7CFFB2] text-[#071512] shadow-[0_0_10px_rgba(124,255,178,0.4)]'
+                    : 'text-slate-400 hover:text-white'
                 }`}
               >
                 {tab.label}
@@ -217,78 +227,86 @@ export default function PaymentsPage() {
         </div>
 
         {filteredPayments.length === 0 ? (
-          <div className="p-12 text-center text-xs text-slate-500">
-            No payments recorded yet. Click "New PayPal Payment" to test.
+          <div className="p-12 text-center text-xs text-slate-400">
+            No payments recorded yet. Click "Launch PayPal Checkout" to test live Sandbox flow.
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-slate-100 bg-slate-50/50 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                <tr className="border-b border-white/[0.08] bg-[#071512]/70 text-[11px] font-bold uppercase tracking-wider text-slate-400">
                   <th className="py-3 px-4">Recipient / Payer</th>
                   <th className="py-3 px-4">PayPal Order ID</th>
                   <th className="py-3 px-4">Capture ID</th>
-                  <th className="py-3 px-4">Date & Time</th>
+                  <th className="py-3 px-4">Timestamp</th>
                   <th className="py-3 px-4 text-right">Amount</th>
                   <th className="py-3 px-4 text-center">Status</th>
-                  <th className="py-3 px-4 text-right">Receipt</th>
+                  <th className="py-3 px-4 text-right">Digital Receipt</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 text-xs">
+              <tbody className="divide-y divide-white/[0.06] text-xs">
                 {filteredPayments.map((p) => {
                   const isIncoming = p.type === 'INCOMING';
                   return (
-                    <tr key={p.id} className="hover:bg-slate-50/60 transition-colors">
-                      <td className="py-3.5 px-4 font-semibold text-slate-900">
-                        <div className="flex items-center gap-2">
+                    <motion.tr 
+                      key={p.id}
+                      whileHover={{ backgroundColor: 'rgba(255, 255, 255, 0.02)' }}
+                      className="transition-colors"
+                    >
+                      <td className="py-3.5 px-4 font-semibold text-white">
+                        <div className="flex items-center gap-2.5">
                           <div
                             className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${
-                              isIncoming ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'
+                              isIncoming
+                                ? 'bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30'
+                                : 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
                             }`}
                           >
                             {isIncoming ? <ArrowUpRight className="w-3.5 h-3.5" /> : <ArrowDownRight className="w-3.5 h-3.5" />}
                           </div>
                           <div>
-                            <div>{p.recipient}</div>
+                            <div className="text-white font-bold">{p.recipient}</div>
                             {p.note && <div className="text-[10px] text-slate-400 font-normal">{p.note}</div>}
                           </div>
                         </div>
                       </td>
 
-                      <td className="py-3.5 px-4 font-mono text-[11px] text-slate-600 select-all">
+                      <td className="py-3.5 px-4 font-mono text-[11px] text-slate-300 select-all">
                         {p.orderId}
                       </td>
 
-                      <td className="py-3.5 px-4 font-mono text-[11px] text-emerald-700 select-all">
+                      <td className="py-3.5 px-4 font-mono text-[11px] text-[#7CFFB2] select-all">
                         {p.captureId || 'N/A'}
                       </td>
 
-                      <td className="py-3.5 px-4 text-slate-500 whitespace-nowrap">
+                      <td className="py-3.5 px-4 text-slate-400 whitespace-nowrap">
                         {new Date(p.timestamp).toLocaleString()}
                       </td>
 
                       <td className="py-3.5 px-4 text-right whitespace-nowrap">
-                        <span className={`font-bold ${isIncoming ? 'text-emerald-600' : 'text-slate-900'}`}>
+                        <span className={`font-black ${isIncoming ? 'text-[#7CFFB2]' : 'text-white'}`}>
                           {isIncoming ? '+' : '-'}{formatCurrency(p.amount)}
                         </span>
                       </td>
 
                       <td className="py-3.5 px-4 text-center whitespace-nowrap">
-                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#7CFFB2]/10 text-[#7CFFB2] border border-[#7CFFB2]/25 shadow-[0_0_8px_rgba(124,255,178,0.2)]">
                           {p.status || 'COMPLETED'}
                         </span>
                       </td>
 
                       <td className="py-3.5 px-4 text-right whitespace-nowrap">
-                        <button
+                        <motion.button
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
                           onClick={() => openModal('receiptModal', p)}
-                          className="px-2.5 py-1 text-slate-600 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg font-semibold inline-flex items-center gap-1 text-[11px] border border-slate-200 transition-colors"
+                          className="px-2.5 py-1 glass-card hover:border-[#7CFFB2]/50 text-slate-200 hover:text-[#7CFFB2] rounded-lg font-bold inline-flex items-center gap-1.5 text-[11px] transition-colors"
                         >
-                          <Receipt className="w-3 h-3" />
+                          <Receipt className="w-3 h-3 text-[#7CFFB2]" />
                           <span>Receipt</span>
-                        </button>
+                        </motion.button>
                       </td>
-                    </tr>
+                    </motion.tr>
                   );
                 })}
               </tbody>

@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { useApp } from '../context/AppContext';
 import {
-  BarChart3,
-  TrendingUp,
-  TrendingDown,
-  PieChart as PieIcon,
-  Calendar,
   Sparkles,
   ArrowUpRight,
   ArrowDownRight,
-  ShieldCheck
+  BarChart3,
+  TrendingUp,
+  PieChart as PieIcon
 } from 'lucide-react';
 import {
   ResponsiveContainer,
@@ -18,12 +16,9 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  Legend,
   PieChart,
   Pie,
-  Cell,
-  LineChart,
-  Line
+  Cell
 } from 'recharts';
 
 export default function AnalyticsPage() {
@@ -35,7 +30,7 @@ export default function AnalyticsPage() {
     formatCurrency
   } = useApp();
 
-  const [timeRange, setTimeRange] = useState('6m'); // '1m', '3m', '6m', '1y'
+  const [timeRange, setTimeRange] = useState('6m');
 
   const trends = analytics?.monthlyTrends || [
     { month: 'Jun', income: 130000, expenses: 62000, savings: 68000 },
@@ -46,7 +41,7 @@ export default function AnalyticsPage() {
     { month: 'This Month', income: summary.totalIncome || 163700, expenses: summary.totalExpense || 55287, savings: summary.monthlySavings || 108413 }
   ];
 
-  const colors = ['#10B981', '#3B82F6', '#F59E0B', '#8B5CF6', '#EC4899', '#14B8A6', '#6366F1'];
+  const colors = ['#7CFFB2', '#20D995', '#38BDF8', '#10B981', '#34D399', '#059669', '#A7F3D0'];
   const categoryData = Object.entries(summary.categoryTotals || {}).map(([name, value], i) => ({
     name,
     value,
@@ -59,18 +54,23 @@ export default function AnalyticsPage() {
     .slice(0, 5);
 
   return (
-    <div className="space-y-6 animate-fade-in pb-12">
+    <div className="space-y-6 pb-12">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl font-bold text-slate-900 tracking-tight">Spending Analytics</h1>
-          <p className="text-xs text-slate-500">
-            Historical trends, comparative analysis, and category distributions
+          <div className="flex items-center gap-2 mb-1">
+            <h1 className="text-2xl font-black text-white tracking-tight">Spending Intelligence & Analytics</h1>
+            <span className="text-[10px] font-bold bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30 px-2 py-0.5 rounded-full">
+              6-Month Trend
+            </span>
+          </div>
+          <p className="text-xs text-slate-400">
+            Historical cashflow trends, comparative analysis, and deep category distributions
           </p>
         </div>
 
         {/* Time Range Selector */}
-        <div className="flex items-center gap-1 bg-white p-1 rounded-xl border border-slate-200 text-xs font-semibold">
+        <div className="flex items-center gap-1 bg-[#071512] p-1 rounded-xl border border-white/[0.08] text-xs font-bold">
           {[
             { id: '1m', label: '30 Days' },
             { id: '3m', label: '90 Days' },
@@ -82,8 +82,8 @@ export default function AnalyticsPage() {
               onClick={() => setTimeRange(t.id)}
               className={`px-3 py-1.5 rounded-lg transition-all ${
                 timeRange === t.id
-                  ? 'bg-emerald-50 text-emerald-800 font-bold border border-emerald-200/60 shadow-2xs'
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-[#7CFFB2] text-[#071512] shadow-[0_0_10px_rgba(124,255,178,0.4)]'
+                  : 'text-slate-400 hover:text-white'
               }`}
             >
               {t.label}
@@ -93,34 +93,30 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Main Bar Chart: Inflow vs Outflow */}
-      <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
+      <div className="glass-panel p-6 rounded-2xl shadow-[0_10px_35px_rgba(0,0,0,0.5)]">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
           <div>
-            <h3 className="font-bold text-slate-900 text-sm">Monthly Inflow vs Outflow Trends</h3>
-            <p className="text-xs text-slate-400">Comparing income, expenses, and retained savings over time</p>
+            <h3 className="font-extrabold text-white text-base">Inflow vs Outflow Trajectory</h3>
+            <p className="text-xs text-slate-400">Tracking monthly income against expenses and net surplus</p>
           </div>
           <div className="flex items-center gap-3 text-xs font-medium">
             <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-              <span className="text-slate-600">Income</span>
+              <span className="w-2.5 h-2.5 rounded-full bg-[#7CFFB2] shadow-[0_0_8px_#7CFFB2]"></span>
+              <span className="text-slate-300">Income Inflow</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-rose-400"></span>
-              <span className="text-slate-600">Expenses</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-sky-500"></span>
-              <span className="text-slate-600">Savings</span>
+              <span className="w-2.5 h-2.5 rounded-full bg-[#F43F5E] shadow-[0_0_8px_#F43F5E]"></span>
+              <span className="text-slate-300">Expense Outflow</span>
             </div>
           </div>
         </div>
 
-        <div className="h-72 w-full">
+        <div className="h-72 w-full mt-4">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={trends} margin={{ top: 10, right: 10, left: -15, bottom: 0 }}>
-              <XAxis dataKey="month" stroke="#94A3B8" fontSize={11} tickLine={false} axisLine={false} />
+            <BarChart data={trends} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+              <XAxis dataKey="month" stroke="#64748B" fontSize={11} tickLine={false} axisLine={false} />
               <YAxis
-                stroke="#94A3B8"
+                stroke="#64748B"
                 fontSize={11}
                 tickLine={false}
                 axisLine={false}
@@ -129,38 +125,36 @@ export default function AnalyticsPage() {
               <Tooltip
                 formatter={(val) => [formatCurrency(val), '']}
                 contentStyle={{
-                  backgroundColor: '#FFFFFF',
-                  borderColor: '#E2E8F0',
+                  backgroundColor: 'rgba(13, 33, 27, 0.9)',
+                  borderColor: 'rgba(124, 255, 178, 0.25)',
+                  color: '#FFFFFF',
                   borderRadius: '12px',
-                  fontSize: '12px'
+                  fontSize: '12px',
+                  boxShadow: '0 8px 30px rgba(0,0,0,0.6)'
                 }}
               />
-              <Bar dataKey="income" fill="#10B981" radius={[4, 4, 0, 0]} barSize={20} />
-              <Bar dataKey="expenses" fill="#F43F5E" radius={[4, 4, 0, 0]} barSize={20} />
-              <Bar dataKey="savings" fill="#0284C7" radius={[4, 4, 0, 0]} barSize={20} />
+              <Bar dataKey="income" fill="#7CFFB2" radius={[6, 6, 0, 0]} maxBarSize={32} />
+              <Bar dataKey="expenses" fill="#F43F5E" radius={[6, 6, 0, 0]} maxBarSize={32} />
             </BarChart>
           </ResponsiveContainer>
         </div>
       </div>
 
-      {/* Two Column Section: Category Distribution & Top Expenses */}
+      {/* Two Column Grid: Category Breakdown Donut & Top Outflow Merchants */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Category Distribution Chart */}
-        <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col justify-between">
+        {/* Category Breakdown Donut */}
+        <div className="glass-panel p-5 rounded-2xl flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between mb-1">
-              <h3 className="font-bold text-slate-900 text-sm">Category Expenditure Share</h3>
-              <span className="text-xs text-slate-400 font-medium">{categoryData.length} active categories</span>
-            </div>
-            <p className="text-xs text-slate-400 mb-4">Proportional breakdown of all expenses</p>
+            <h3 className="font-extrabold text-white text-sm mb-1">Expense Category Distribution</h3>
+            <p className="text-xs text-slate-400 mb-4">Detailed proportion across spending classes</p>
 
-            <div className="h-56 w-full">
+            <div className="h-52 w-full flex items-center justify-center relative">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
                     data={categoryData}
-                    innerRadius={60}
-                    outerRadius={88}
+                    innerRadius={65}
+                    outerRadius={95}
                     paddingAngle={3}
                     dataKey="value"
                   >
@@ -170,69 +164,74 @@ export default function AnalyticsPage() {
                   </Pie>
                   <Tooltip
                     formatter={(val) => [formatCurrency(val), '']}
-                    contentStyle={{ backgroundColor: '#FFFFFF', borderRadius: '8px', fontSize: '11px' }}
+                    contentStyle={{
+                      backgroundColor: 'rgba(13, 33, 27, 0.9)',
+                      borderColor: 'rgba(124, 255, 178, 0.2)',
+                      color: '#FFFFFF',
+                      borderRadius: '8px',
+                      fontSize: '11px'
+                    }}
                   />
                 </PieChart>
               </ResponsiveContainer>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-slate-100 text-xs">
-            {categoryData.map((cat) => (
-              <div key={cat.name} className="flex items-center justify-between p-1.5 rounded-lg bg-slate-50">
-                <div className="flex items-center gap-1.5 truncate">
-                  <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: cat.color }}></span>
-                  <span className="text-slate-600 truncate">{cat.name}</span>
+          <div className="grid grid-cols-2 gap-2 mt-4 pt-4 border-t border-white/[0.08] text-xs">
+            {categoryData.map((c) => (
+              <div key={c.name} className="flex items-center justify-between p-2 rounded-xl glass-card">
+                <div className="flex items-center gap-2 truncate">
+                  <span className="w-2.5 h-2.5 rounded-full shrink-0 shadow-[0_0_6px_currentColor]" style={{ backgroundColor: c.color }} />
+                  <span className="text-slate-300 font-medium truncate">{c.name}</span>
                 </div>
-                <span className="font-bold text-slate-800 shrink-0">{formatCurrency(cat.value)}</span>
+                <span className="font-bold text-white ml-2 shrink-0">{formatCurrency(c.value)}</span>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Highest Spending Transactions */}
-        <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col justify-between">
+        {/* Top 5 High-Volume Outflows */}
+        <div className="glass-panel p-5 rounded-2xl flex flex-col justify-between">
           <div>
-            <h3 className="font-bold text-slate-900 text-sm mb-1">Highest Spending Outflows</h3>
-            <p className="text-xs text-slate-400 mb-4">Largest single debits recorded in current billing cycle</p>
+            <h3 className="font-extrabold text-white text-sm mb-1">Top Outflow Transactions</h3>
+            <p className="text-xs text-slate-400 mb-4">Highest individual expense transactions this period</p>
 
             <div className="space-y-3">
               {topTransactions.map((tx, idx) => (
                 <div
                   key={tx.id}
-                  className="p-3 rounded-xl border border-slate-100 flex items-center justify-between"
+                  className="p-3 rounded-xl glass-card flex items-center justify-between"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-7 h-7 rounded-lg bg-slate-100 flex items-center justify-center font-bold text-xs text-slate-600">
+                    <div className="w-8 h-8 rounded-lg bg-white/[0.06] border border-white/[0.08] text-slate-300 flex items-center justify-center font-bold text-xs">
                       #{idx + 1}
                     </div>
                     <div>
-                      <div className="font-bold text-slate-800 text-xs">{tx.description}</div>
-                      <div className="text-[11px] text-slate-400 mt-0.5">
-                        {tx.category} • {tx.date}
+                      <div className="text-xs font-bold text-white">{tx.description}</div>
+                      <div className="text-[11px] text-slate-400 flex items-center gap-2">
+                        <span>{tx.category}</span>
+                        <span>•</span>
+                        <span>{tx.date}</span>
                       </div>
                     </div>
                   </div>
+
                   <div className="text-right">
-                    <div className="font-black text-slate-900 text-xs">
+                    <div className="text-xs font-black text-rose-400">
                       -{formatCurrency(tx.amount)}
                     </div>
-                    <span className="text-[10px] text-slate-400">{tx.paymentMethod}</span>
+                    <span className="text-[10px] text-slate-400 font-mono">
+                      {tx.paymentMethod}
+                    </span>
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* AI Observation Card */}
-          <div className="mt-4 p-3.5 rounded-xl bg-emerald-50/60 border border-emerald-100 text-xs space-y-1">
-            <div className="flex items-center gap-1.5 text-emerald-800 font-bold">
-              <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-              <span>AI Observation</span>
-            </div>
-            <p className="text-slate-600 leading-relaxed text-[11px]">
-              Your fixed housing commitments comprise 57% of your total expenditures, which is normal for metro living. Discretionary spending variability remains well within healthy thresholds (&lt;12% deviation month-over-month).
-            </p>
+          <div className="p-3.5 glass-card rounded-xl text-xs text-slate-300 mt-4 border-[#7CFFB2]/20">
+            <span className="font-bold text-[#7CFFB2] block mb-1">Neural AI Insight</span>
+            <span>Your single largest outflow was rent/mortgage at ₹35,000, which represents 63.3% of total monthly expenses.</span>
           </div>
         </div>
       </div>

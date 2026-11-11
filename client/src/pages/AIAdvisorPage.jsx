@@ -1,20 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useApp } from '../context/AppContext';
 import api from '../services/api';
 import {
   Sparkles,
   Send,
   Loader2,
-  Bot,
-  User,
-  ShieldCheck,
-  TrendingDown,
-  AlertCircle,
-  HelpCircle,
-  CheckCircle2,
   Zap,
-  Target,
-  ArrowRight
+  TrendingDown,
+  CheckCircle2,
+  Cpu,
+  Shield,
+  Activity,
+  Compass,
+  ArrowUpRight
 } from 'lucide-react';
 
 export default function AIAdvisorPage() {
@@ -23,7 +22,6 @@ export default function AIAdvisorPage() {
     summary,
     budgets,
     healthScore,
-    aiSummary,
     currencySymbol,
     formatCurrency
   } = useApp();
@@ -32,16 +30,16 @@ export default function AIAdvisorPage() {
     {
       id: 'welcome',
       role: 'assistant',
-      content: `### 👋 Welcome to SpendWise AI Financial Advisor
+      content: `👋 **Greetings, Aditya.** I am your SpendWise Neural Financial Advisor.
 
-I have analyzed your **${transactions.length} active transactions**, **${budgets.length} category budgets**, and recurring subscriptions.
+I have executed a real-time audit across your **${transactions.length} active transactions**, **${budgets.length} category budgets**, and verified recurring subscriptions.
 
-**Current Financial Highlights**:
-- **Monthly Net Savings**: **${formatCurrency(summary.monthlySavings)}** (${summary.savingsRate}% savings rate)
-- **Financial Health Score**: **${healthScore?.score || 97}/100** (${healthScore?.grade || 'A+'})
-- **Top Outflow Category**: **${Object.entries(summary.categoryTotals || {})[0]?.[0] || 'Housing'}**
+**Current Intelligence Highlights**:
+• **Monthly Retained Surplus**: **${formatCurrency(summary.monthlySavings)}** (${summary.savingsRate}% savings discipline)
+• **Neural Financial Health**: **${healthScore?.score || 97}/100** (${healthScore?.grade || 'A+'} Prime)
+• **Top Expenditure Vector**: **${Object.entries(summary.categoryTotals || {})[0]?.[0] || 'Housing'}**
 
-Select any question below or type your custom inquiry to get real data-driven guidance.`,
+Select any query chip below or submit your custom financial question to receive data-grounded insights.`,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ]);
@@ -114,124 +112,191 @@ Select any question below or type your custom inquiry to get real data-driven gu
   };
 
   return (
-    <div className="space-y-6 animate-fade-in pb-12">
+    <div className="space-y-6 pb-12">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-xl font-bold text-slate-900 tracking-tight">AI Financial Advisor</h1>
-            <span className="text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full flex items-center gap-1">
-              <Sparkles className="w-3 h-3 text-emerald-600" />
-              <span>Real-Time Engine</span>
+          <div className="flex items-center gap-2 mb-1">
+            <h1 className="text-2xl font-black text-white tracking-tight">SpendWise Neural Advisor</h1>
+            <span className="text-[10px] font-bold bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30 px-2 py-0.5 rounded-full flex items-center gap-1 shadow-[0_0_10px_rgba(124,255,178,0.2)]">
+              <Sparkles className="w-3 h-3 text-[#7CFFB2]" />
+              <span>Gemini 1.5 Pro Live</span>
             </span>
           </div>
-          <p className="text-xs text-slate-500">
-            Intelligent spending analysis, personalized savings strategies, and proactive advice
+          <p className="text-xs text-slate-400">
+            Intelligent spending analysis, personalized savings strategies, and proactive ledger intelligence
           </p>
+        </div>
+
+        {/* Neural Engine Status Card */}
+        <div className="flex items-center gap-3 px-3.5 py-2 glass-card rounded-xl border-[#7CFFB2]/20">
+          <div className="relative flex h-3 w-3">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#7CFFB2] opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-[#7CFFB2]"></span>
+          </div>
+          <div className="text-left">
+            <div className="text-[10px] font-mono font-bold text-white uppercase tracking-wider">Neural Context</div>
+            <div className="text-[10px] text-[#7CFFB2] font-mono">100% Grounded in Live Data</div>
+          </div>
         </div>
       </div>
 
-      {/* Main Two Column Layout: Chat on Left/Center, Insights on Right */}
+      {/* Main Two Column Layout: Chat Window on Left, Intelligence Widgets on Right */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-        {/* Chat Window */}
-        <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-200/80 shadow-xs flex flex-col h-[700px] overflow-hidden">
-          {/* Chat Header */}
-          <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold shadow-2xs">
-                <Sparkles className="w-4 h-4" />
+        {/* Chat Interface Glass Container */}
+        <div className="lg:col-span-2 glass-panel rounded-2xl flex flex-col h-[740px] overflow-hidden relative shadow-[0_10px_40px_rgba(0,0,0,0.6)]">
+          {/* Chat Header with Glowing Orb */}
+          <div className="p-4 border-b border-[#7CFFB2]/15 flex items-center justify-between bg-[#071512]/70 relative">
+            <div className="flex items-center gap-3">
+              {/* Glowing High-Tech AI Indicator Orb */}
+              <div className="relative w-9 h-9 flex items-center justify-center">
+                <motion.div
+                  className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#7CFFB2] to-[#20D995] opacity-75 blur-xs"
+                  animate={{
+                    scale: [1, 1.1, 1],
+                    opacity: [0.6, 0.9, 0.6]
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                />
+                <div className="relative w-8 h-8 rounded-xl bg-[#071512] flex items-center justify-center text-[#7CFFB2] shadow-inner">
+                  <Sparkles className="w-4 h-4 text-[#7CFFB2]" />
+                </div>
               </div>
+
               <div>
-                <h3 className="font-bold text-slate-900 text-xs">SpendWise AI Financial Assistant</h3>
-                <span className="text-[10px] text-emerald-700 font-medium flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                  Active & Grounded in Live Account Transactions
+                <h3 className="font-extrabold text-white text-xs flex items-center gap-1.5">
+                  <span>SpendWise Intelligence Interface</span>
+                </h3>
+                <span className="text-[10px] text-[#7CFFB2] font-mono flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#7CFFB2] animate-pulse"></span>
+                  Listening & Auditing Active Transactions
                 </span>
               </div>
             </div>
-            <span className="text-[11px] font-mono text-slate-400">Gemini 1.5 / Intelligent Analytics</span>
+
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-mono text-slate-400 bg-white/[0.04] px-2 py-0.5 rounded border border-white/[0.08]">
+                Gemini Pro 1.5 + Heuristics
+              </span>
+            </div>
           </div>
 
           {/* Messages Stream */}
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
-            {messages.map((m) => {
-              const isAssistant = m.role === 'assistant';
-              return (
-                <div
-                  key={m.id}
-                  className={`flex items-start gap-3 ${isAssistant ? '' : 'flex-row-reverse'}`}
-                >
-                  <div
-                    className={`w-7 h-7 rounded-xl flex items-center justify-center shrink-0 text-xs font-bold ${
-                      isAssistant
-                        ? 'bg-emerald-50 text-emerald-700 border border-emerald-200/60'
-                        : 'bg-slate-900 text-white'
-                    }`}
+            <AnimatePresence initial={false}>
+              {messages.map((m) => {
+                const isAssistant = m.role === 'assistant';
+                return (
+                  <motion.div
+                    key={m.id}
+                    initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.2 }}
+                    className={`flex items-start gap-3 ${isAssistant ? '' : 'flex-row-reverse'}`}
                   >
-                    {isAssistant ? <Sparkles className="w-3.5 h-3.5" /> : 'AS'}
-                  </div>
-
-                  <div className={`max-w-[85%] space-y-1`}>
                     <div
-                      className={`p-3.5 rounded-2xl text-xs leading-relaxed ${
+                      className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 text-xs font-black shadow-xs ${
                         isAssistant
-                          ? 'bg-slate-50 border border-slate-200/70 text-slate-800'
-                          : 'bg-emerald-600 text-white font-medium'
+                          ? 'bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30 shadow-[0_0_10px_rgba(124,255,178,0.2)]'
+                          : 'bg-gradient-to-br from-[#7CFFB2] to-[#20D995] text-[#071512]'
                       }`}
                     >
-                      {/* Markdown formatted response parsing */}
-                      <div className="space-y-2 whitespace-pre-wrap">
-                        {m.content}
-                      </div>
+                      {isAssistant ? <Sparkles className="w-4 h-4" /> : 'AS'}
+                    </div>
 
-                      {m.source && (
-                        <div className="mt-2 pt-2 border-t border-slate-200/60 text-[10px] text-slate-400 flex items-center justify-between">
-                          <span>Verified against local transactions</span>
-                          <span className="font-mono">{m.source}</span>
+                    <div className={`max-w-[85%] space-y-1`}>
+                      <div
+                        className={`p-4 rounded-2xl text-xs leading-relaxed ${
+                          isAssistant
+                            ? 'glass-panel text-slate-200 border-[#7CFFB2]/20'
+                            : 'bg-gradient-to-r from-[#7CFFB2]/20 to-[#20D995]/20 border border-[#7CFFB2]/35 text-white font-medium shadow-[0_0_20px_rgba(124,255,178,0.1)]'
+                        }`}
+                      >
+                        <div className="space-y-2 whitespace-pre-wrap">
+                          {m.content}
                         </div>
-                      )}
+
+                        {m.source && (
+                          <div className="mt-3 pt-2.5 border-t border-white/[0.08] text-[10px] text-slate-400 flex items-center justify-between font-mono">
+                            <span className="flex items-center gap-1 text-[#7CFFB2]">
+                              <Shield className="w-3 h-3" />
+                              <span>Verified Against Live Database</span>
+                            </span>
+                            <span>{m.source}</span>
+                          </div>
+                        )}
+                      </div>
+                      <div
+                        className={`text-[10px] text-slate-500 px-1 font-mono ${
+                          isAssistant ? 'text-left' : 'text-right'
+                        }`}
+                      >
+                        {m.timestamp}
+                      </div>
                     </div>
-                    <div
-                      className={`text-[10px] text-slate-400 px-1 ${
-                        isAssistant ? 'text-left' : 'text-right'
-                      }`}
-                    >
-                      {m.timestamp}
-                    </div>
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
+
+            {/* Live Data Scanning Radar Animation on Loading */}
+            {loading && (
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex items-start gap-3"
+              >
+                <div className="w-8 h-8 rounded-xl bg-[#7CFFB2]/20 border border-[#7CFFB2]/40 text-[#7CFFB2] flex items-center justify-center">
+                  <Cpu className="w-4 h-4 animate-spin" />
+                </div>
+                <div className="p-4 rounded-2xl glass-panel border-[#7CFFB2]/30 text-xs flex flex-col gap-2 min-w-[280px]">
+                  <div className="flex items-center gap-2 text-[#7CFFB2] font-semibold">
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Neural Scanning Active Transactions...</span>
+                  </div>
+                  {/* Glowing progress scanning bar */}
+                  <div className="w-full h-1.5 rounded-full bg-[#071512] overflow-hidden">
+                    <motion.div
+                      className="h-full bg-gradient-to-r from-[#20D995] to-[#7CFFB2] rounded-full"
+                      animate={{
+                        x: ['-100%', '100%']
+                      }}
+                      transition={{
+                        repeat: Infinity,
+                        duration: 1.2,
+                        ease: 'easeInOut'
+                      }}
+                      style={{ width: '45%' }}
+                    />
                   </div>
                 </div>
-              );
-            })}
-
-            {loading && (
-              <div className="flex items-start gap-3">
-                <div className="w-7 h-7 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center justify-center">
-                  <Sparkles className="w-3.5 h-3.5 animate-spin" />
-                </div>
-                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-500 text-xs flex items-center gap-2">
-                  <Loader2 className="w-3.5 h-3.5 animate-spin text-emerald-600" />
-                  <span>Analyzing account ledger and formulating financial advice...</span>
-                </div>
-              </div>
+              </motion.div>
             )}
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Quick Suggested Prompts Pills */}
-          <div className="p-3 border-t border-slate-100 bg-slate-50/30 overflow-x-auto">
-            <div className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-2">
-              Suggested Questions
+          {/* Quick Suggested Prompt Pills */}
+          <div className="p-3 border-t border-[#7CFFB2]/15 bg-[#071512]/60 overflow-x-auto">
+            <div className="text-[10px] font-bold text-[#7CFFB2] uppercase tracking-wider mb-2 flex items-center gap-1.5">
+              <Compass className="w-3 h-3" />
+              <span>Suggested Advisory Prompts</span>
             </div>
-            <div className="flex gap-1.5 flex-wrap">
+            <div className="flex gap-2 flex-wrap">
               {suggestedQuestions.map((q, i) => (
-                <button
+                <motion.button
                   key={i}
+                  whileHover={{ scale: 1.03, y: -1 }}
+                  whileTap={{ scale: 0.97 }}
                   onClick={() => handleSendMessage(q)}
                   disabled={loading}
-                  className="px-2.5 py-1 rounded-lg bg-white hover:bg-emerald-50 text-slate-700 hover:text-emerald-800 border border-slate-200 hover:border-emerald-200 text-[11px] font-medium transition-colors disabled:opacity-50"
+                  className="px-3 py-1.5 rounded-xl glass-card hover:border-[#7CFFB2]/50 text-slate-300 hover:text-white text-[11px] font-medium transition-all disabled:opacity-50"
                 >
                   {q}
-                </button>
+                </motion.button>
               ))}
             </div>
           </div>
@@ -242,61 +307,65 @@ Select any question below or type your custom inquiry to get real data-driven gu
               e.preventDefault();
               handleSendMessage();
             }}
-            className="p-3 border-t border-slate-200 bg-white flex items-center gap-2"
+            className="p-3 border-t border-[#7CFFB2]/15 bg-[#071512]/90 flex items-center gap-2"
           >
             <input
               type="text"
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
-              placeholder="Ask anything about your money, spending, or savings goals..."
+              placeholder="Ask anything regarding your spending, budgets, or savings target..."
               disabled={loading}
-              className="flex-1 px-3.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-slate-800 placeholder-slate-400"
+              className="flex-1 px-4 py-2.5 text-xs glass-input rounded-xl placeholder-slate-500 font-medium"
             />
-            <button
+            <motion.button
               type="submit"
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
               disabled={loading || !inputMessage.trim()}
-              className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-colors disabled:opacity-40 flex items-center gap-1.5 shadow-2xs shadow-emerald-600/20"
+              className="px-5 py-2.5 btn-mint rounded-xl text-xs font-bold transition-all disabled:opacity-40 flex items-center gap-2"
             >
               <Send className="w-3.5 h-3.5" />
-              <span>Ask</span>
-            </button>
+              <span>Send</span>
+            </motion.button>
           </form>
 
-          {/* Disclaimer Footer */}
-          <div className="px-4 py-2 bg-slate-50 border-t border-slate-100 text-[10px] text-slate-400 text-center">
-            Disclaimer: SpendWise AI recommendations are for informational purposes only, not professional financial advice.
+          {/* Informational Disclaimer Footer */}
+          <div className="px-4 py-2 bg-[#071512] border-t border-white/[0.06] text-[10px] text-slate-500 text-center flex items-center justify-center gap-1.5">
+            <Shield className="w-3 h-3 text-[#7CFFB2]/60" />
+            <span>SpendWise AI recommendations are data-grounded insights for informational purposes, not certified financial advice.</span>
           </div>
         </div>
 
-        {/* Right Sidebar: Health Score, Challenges, Subscriptions Insights */}
-        <div className="space-y-4">
+        {/* Right Intelligence Column: Health Score, Challenges, Proactive Insights */}
+        <div className="space-y-5">
           {/* Financial Health Score Widget */}
-          <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
+          <div className="glass-panel p-5 rounded-2xl relative overflow-hidden space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-slate-800">Financial Health Score</span>
-              <span className="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full">
-                {healthScore?.grade || 'A+'} Grade
+              <span className="text-xs font-bold text-white tracking-wide uppercase">Financial Health Score</span>
+              <span className="text-[10px] font-black bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30 px-2.5 py-0.5 rounded-full shadow-[0_0_10px_rgba(124,255,178,0.25)]">
+                {healthScore?.grade || 'A+'} Prime
               </span>
             </div>
 
             <div className="flex items-baseline gap-2">
-              <span className="text-3xl font-black text-slate-900 tracking-tight">
+              <span className="text-4xl font-black text-white tracking-tight">
                 {healthScore?.score || 97}
               </span>
-              <span className="text-xs text-slate-400 font-medium">/ 100 ({healthScore?.statusText || 'Optimal Growth'})</span>
+              <span className="text-xs text-[#7CFFB2] font-semibold">/ 100 ({healthScore?.statusText || 'Optimal Growth'})</span>
             </div>
 
-            <div className="space-y-2 text-xs">
+            {/* Glowing Breakdown Bars */}
+            <div className="space-y-2.5 text-xs">
               <div>
                 <div className="flex justify-between text-[11px] mb-1">
-                  <span className="text-slate-500">Savings Rate Discipline</span>
-                  <span className="font-semibold text-slate-800">
+                  <span className="text-slate-400">Savings Rate Discipline</span>
+                  <span className="font-bold text-[#7CFFB2]">
                     {healthScore?.breakdown?.savingsDiscipline || 95}%
                   </span>
                 </div>
-                <div className="w-full h-1.5 rounded-full bg-slate-100 overflow-hidden">
+                <div className="w-full h-1.5 rounded-full bg-[#071512] overflow-hidden border border-white/[0.08]">
                   <div
-                    className="h-full bg-emerald-500 rounded-full"
+                    className="h-full bg-gradient-to-r from-[#20D995] to-[#7CFFB2] rounded-full shadow-[0_0_8px_#7CFFB2]"
                     style={{ width: `${healthScore?.breakdown?.savingsDiscipline || 95}%` }}
                   />
                 </div>
@@ -304,14 +373,14 @@ Select any question below or type your custom inquiry to get real data-driven gu
 
               <div>
                 <div className="flex justify-between text-[11px] mb-1">
-                  <span className="text-slate-500">Budget Adherence</span>
-                  <span className="font-semibold text-slate-800">
+                  <span className="text-slate-400">Budget Adherence</span>
+                  <span className="font-bold text-[#7CFFB2]">
                     {healthScore?.breakdown?.budgetAdherence || 90}%
                   </span>
                 </div>
-                <div className="w-full h-1.5 rounded-full bg-slate-100 overflow-hidden">
+                <div className="w-full h-1.5 rounded-full bg-[#071512] overflow-hidden border border-white/[0.08]">
                   <div
-                    className="h-full bg-emerald-500 rounded-full"
+                    className="h-full bg-gradient-to-r from-[#20D995] to-[#7CFFB2] rounded-full shadow-[0_0_8px_#7CFFB2]"
                     style={{ width: `${healthScore?.breakdown?.budgetAdherence || 90}%` }}
                   />
                 </div>
@@ -319,14 +388,14 @@ Select any question below or type your custom inquiry to get real data-driven gu
 
               <div>
                 <div className="flex justify-between text-[11px] mb-1">
-                  <span className="text-slate-500">Subscription Burn Ratio</span>
-                  <span className="font-semibold text-slate-800">
+                  <span className="text-slate-400">Subscription Burn Ratio</span>
+                  <span className="font-bold text-[#7CFFB2]">
                     {healthScore?.breakdown?.subscriptionRatio || 85}%
                   </span>
                 </div>
-                <div className="w-full h-1.5 rounded-full bg-slate-100 overflow-hidden">
+                <div className="w-full h-1.5 rounded-full bg-[#071512] overflow-hidden border border-white/[0.08]">
                   <div
-                    className="h-full bg-emerald-500 rounded-full"
+                    className="h-full bg-gradient-to-r from-[#20D995] to-[#7CFFB2] rounded-full shadow-[0_0_8px_#7CFFB2]"
                     style={{ width: `${healthScore?.breakdown?.subscriptionRatio || 85}%` }}
                   />
                 </div>
@@ -335,34 +404,37 @@ Select any question below or type your custom inquiry to get real data-driven gu
           </div>
 
           {/* AI Weekly Savings Challenge */}
-          <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-3">
-            <div className="flex items-center gap-2 text-emerald-800">
-              <Zap className="w-4 h-4 text-emerald-600" />
-              <span className="text-xs font-bold">AI Savings Challenge</span>
+          <div className="glass-panel p-5 rounded-2xl space-y-3">
+            <div className="flex items-center gap-2 text-[#7CFFB2]">
+              <Zap className="w-4 h-4 fill-[#7CFFB2]/20" />
+              <span className="text-xs font-bold">AI Savings Sprint</span>
             </div>
 
-            <div className="p-3 rounded-xl bg-emerald-50/60 border border-emerald-100 space-y-1.5">
+            <div className="p-3.5 rounded-xl glass-card space-y-2">
               <div className="flex justify-between items-center text-xs">
-                <span className="font-bold text-slate-900">Zero Food-Delivery Weekend</span>
-                <span className="text-emerald-700 font-bold">+{currencySymbol}1,200</span>
+                <span className="font-bold text-white">Zero Food-Delivery Weekend</span>
+                <span className="text-[#7CFFB2] font-black">+{currencySymbol}1,200</span>
               </div>
-              <p className="text-[11px] text-slate-600">
-                Cook homemade meals this weekend to save {currencySymbol}1,200 on courier restaurant orders.
+              <p className="text-[11px] text-slate-300 leading-relaxed">
+                Cook homemade meals this weekend to save {currencySymbol}1,200 on courier restaurant fees.
               </p>
               <div className="pt-1">
-                <div className="w-full h-1.5 rounded-full bg-emerald-200/60 overflow-hidden">
-                  <div className="h-full bg-emerald-600 rounded-full w-3/5" />
+                <div className="w-full h-1.5 rounded-full bg-[#071512] overflow-hidden border border-white/[0.08]">
+                  <div className="h-full bg-gradient-to-r from-[#20D995] to-[#7CFFB2] rounded-full w-3/5" />
                 </div>
-                <span className="text-[10px] text-slate-400 mt-1 block">60% completed</span>
+                <span className="text-[10px] text-[#7CFFB2] mt-1 block font-mono">60% completed</span>
               </div>
             </div>
           </div>
 
-          {/* Key Observation Card */}
-          <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-2 text-xs">
-            <span className="font-bold text-slate-900 block">Proactive Advice</span>
-            <p className="text-slate-600 leading-relaxed text-[11px]">
-              You have <strong>{formatCurrency(summary.monthlySavings)}</strong> in unallocated surplus this month. We recommend directing <strong>{currencySymbol}10,000</strong> toward your <em>Emergency Fund</em> to reach your year-end target 6 weeks earlier.
+          {/* Proactive Observation Card */}
+          <div className="glass-panel p-5 rounded-2xl space-y-2 text-xs">
+            <div className="flex items-center gap-2 text-white font-bold mb-1">
+              <Activity className="w-4 h-4 text-[#7CFFB2]" />
+              <span>Algorithmic Optimization</span>
+            </div>
+            <p className="text-slate-300 leading-relaxed text-[11px]">
+              You have accumulated <strong>{formatCurrency(summary.monthlySavings)}</strong> in net unallocated surplus. We recommend redirecting <strong>{currencySymbol}10,000</strong> toward your <em>Emergency Fund</em> to achieve your target 6 weeks ahead of schedule.
             </p>
           </div>
         </div>

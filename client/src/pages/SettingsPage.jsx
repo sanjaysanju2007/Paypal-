@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { useApp } from '../context/AppContext';
 import api from '../services/api';
 import {
-  Settings,
   CreditCard,
   Globe,
   Sliders,
   CheckCircle2,
-  ShieldCheck,
   Save,
   Loader2,
-  AlertCircle
+  AlertCircle,
+  Sparkles,
+  Shield,
+  Lock
 } from 'lucide-react';
 
 export default function SettingsPage() {
@@ -51,7 +53,7 @@ export default function SettingsPage() {
       const res = await api.updateSettings(formData);
       if (res.success) {
         setSettings(res.data);
-        setSuccessMsg('Settings updated successfully!');
+        setSuccessMsg('Settings successfully updated and synchronized!');
         refreshAll();
         setTimeout(() => setSuccessMsg(null), 3000);
       }
@@ -63,159 +65,165 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="space-y-6 animate-fade-in pb-12 max-w-3xl">
+    <div className="space-y-6 pb-12 max-w-3xl">
       {/* Header */}
       <div>
-        <h1 className="text-xl font-bold text-slate-900 tracking-tight">System & Account Settings</h1>
-        <p className="text-xs text-slate-500">
-          Configure currency standards, PayPal sandbox keys, and automated threshold alerts
+        <div className="flex items-center gap-2 mb-1">
+          <h1 className="text-2xl font-black text-white tracking-tight">System & Account Settings</h1>
+          <span className="text-[10px] font-bold bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30 px-2 py-0.5 rounded-full">
+            Config Master
+          </span>
+        </div>
+        <p className="text-xs text-slate-400">
+          Configure financial currency standards, PayPal sandbox keys, and automated threshold alerts
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {successMsg && (
-          <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+          <div className="p-3.5 rounded-xl bg-[#7CFFB2]/15 border border-[#7CFFB2]/30 text-[#7CFFB2] text-xs flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-[#7CFFB2]" />
             <span>{successMsg}</span>
           </div>
         )}
 
         {errorMsg && (
-          <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 text-rose-600" />
+          <div className="p-3.5 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 text-rose-400" />
             <span>{errorMsg}</span>
           </div>
         )}
 
-        {/* Currency Card */}
-        <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
-          <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
-            <Globe className="w-4 h-4 text-emerald-600" />
-            <h3 className="font-bold text-slate-900 text-sm">Currency & Localization</h3>
+        {/* Currency Standards */}
+        <div className="glass-panel p-5 rounded-2xl space-y-4">
+          <div className="flex items-center gap-2 pb-3 border-b border-white/[0.08]">
+            <Globe className="w-4 h-4 text-[#7CFFB2]" />
+            <h3 className="font-extrabold text-white text-sm">Currency & Denomination Standards</h3>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {[
-              { code: 'INR', symbol: '₹', label: 'Indian Rupee (₹)' },
-              { code: 'USD', symbol: '$', label: 'US Dollar ($)' },
-              { code: 'EUR', symbol: '€', label: 'Euro (€)' },
-              { code: 'GBP', symbol: '£', label: 'British Pound (£)' }
-            ].map((c) => (
-              <button
-                key={c.code}
-                type="button"
-                onClick={() => setFormData({ ...formData, currency: c.code })}
-                className={`p-3 rounded-xl border text-center transition-all ${
-                  formData.currency === c.code
-                    ? 'border-emerald-600 bg-emerald-50/60 text-emerald-900 font-bold shadow-2xs'
-                    : 'border-slate-200 hover:border-slate-300 text-slate-700'
-                }`}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+            <div>
+              <label className="block text-slate-300 font-bold mb-1 uppercase tracking-wider text-[10px]">Primary Ledger Currency</label>
+              <select
+                value={formData.currency}
+                onChange={(e) => setFormData({ ...formData, currency: e.target.value })}
+                className="w-full px-3.5 py-2.5 glass-input rounded-xl bg-[#071512]"
               >
-                <div className="text-base">{c.symbol}</div>
-                <div className="text-xs mt-1">{c.code}</div>
-              </button>
-            ))}
+                <option value="INR">INR (₹ - Indian Rupee)</option>
+                <option value="USD">USD ($ - US Dollar)</option>
+                <option value="EUR">EUR (€ - Euro)</option>
+                <option value="GBP">GBP (£ - British Pound)</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-slate-300 font-bold mb-1 uppercase tracking-wider text-[10px]">Brand Instance Label</label>
+              <input
+                type="text"
+                value={formData.appName}
+                onChange={(e) => setFormData({ ...formData, appName: e.target.value })}
+                className="w-full px-3.5 py-2.5 glass-input rounded-xl font-bold"
+              />
+            </div>
           </div>
         </div>
 
-        {/* PayPal Sandbox Credentials Card */}
-        <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+        {/* PayPal Sandbox Environment Configuration */}
+        <div className="glass-panel p-5 rounded-2xl space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-white/[0.08]">
             <div className="flex items-center gap-2">
-              <CreditCard className="w-4 h-4 text-[#0070BA]" />
-              <h3 className="font-bold text-slate-900 text-sm">PayPal Sandbox REST API Configuration</h3>
+              <CreditCard className="w-4 h-4 text-[#7CFFB2]" />
+              <h3 className="font-extrabold text-white text-sm">PayPal Sandbox REST API Credentials</h3>
             </div>
-            <span className="text-[10px] font-bold bg-sky-50 text-sky-700 border border-sky-200 px-2 py-0.5 rounded">
-              acsPaypal
+            <span className="text-[10px] font-mono text-[#7CFFB2] bg-[#7CFFB2]/10 border border-[#7CFFB2]/20 px-2 py-0.5 rounded-full">
+              Sandbox Live
             </span>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-3 text-xs">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
+              <label className="block text-slate-300 font-bold mb-1 uppercase tracking-wider text-[10px]">
+                PayPal App Name
+              </label>
+              <input
+                type="text"
+                value={formData.paypalAppName}
+                onChange={(e) => setFormData({ ...formData, paypalAppName: e.target.value })}
+                className="w-full px-3.5 py-2.5 glass-input rounded-xl font-mono text-xs"
+              />
+            </div>
+
+            <div>
+              <label className="block text-slate-300 font-bold mb-1 uppercase tracking-wider text-[10px]">
                 PayPal Sandbox Client ID
               </label>
               <input
                 type="text"
-                required
                 value={formData.paypalClientId}
                 onChange={(e) => setFormData({ ...formData, paypalClientId: e.target.value })}
-                className="w-full px-3.5 py-2 text-xs font-mono bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-emerald-500 text-slate-800"
+                className="w-full px-3.5 py-2.5 glass-input rounded-xl font-mono text-[11px]"
               />
-              <span className="text-[10px] text-slate-400 mt-0.5 block">
-                Public client identifier used by the official PayPal JavaScript SDK.
-              </span>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
-                PayPal Client Secret (Stored Securely in Backend)
+              <label className="block text-slate-300 font-bold mb-1 uppercase tracking-wider text-[10px]">
+                PayPal Sandbox Client Secret (Backend Secure Storage)
               </label>
-              <input
-                type="password"
-                placeholder="Enter client secret for backend REST token generation"
-                value={formData.paypalClientSecret}
-                onChange={(e) => setFormData({ ...formData, paypalClientSecret: e.target.value })}
-                className="w-full px-3.5 py-2 text-xs font-mono bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-emerald-500 text-slate-800"
-              />
-              <span className="text-[10px] text-slate-400 mt-0.5 block">
-                Never shared with the browser. Kept protected in backend memory.
-              </span>
-            </div>
-
-            <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
-                PayPal Environment Base URL
-              </label>
-              <input
-                type="text"
-                disabled
-                value="https://api-m.sandbox.paypal.com"
-                className="w-full px-3.5 py-2 text-xs font-mono bg-slate-100 border border-slate-200 rounded-xl text-slate-500 cursor-not-allowed"
-              />
+              <div className="relative">
+                <input
+                  type="password"
+                  value={formData.paypalClientSecret || '••••••••••••••••••••••••••••••••••••••••••••••••'}
+                  onChange={(e) => setFormData({ ...formData, paypalClientSecret: e.target.value })}
+                  placeholder="Leave untouched to keep active backend secret key"
+                  className="w-full px-3.5 py-2.5 glass-input rounded-xl font-mono text-xs pr-10"
+                />
+                <Lock className="w-3.5 h-3.5 text-[#7CFFB2] absolute right-3 top-1/2 -translate-y-1/2" />
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Budget Alert Thresholds */}
-        <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
-          <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
-            <Sliders className="w-4 h-4 text-emerald-600" />
-            <h3 className="font-bold text-slate-900 text-sm">Automated Alerts & Discipline</h3>
+        {/* AI & Automation Thresholds */}
+        <div className="glass-panel p-5 rounded-2xl space-y-4">
+          <div className="flex items-center gap-2 pb-3 border-b border-white/[0.08]">
+            <Sliders className="w-4 h-4 text-[#7CFFB2]" />
+            <h3 className="font-extrabold text-white text-sm">Automated Alerts & AI Thresholds</h3>
           </div>
 
-          <div>
-            <div className="flex justify-between items-center text-xs mb-2">
-              <span className="font-semibold text-slate-700">Budget Warning Trigger Threshold</span>
-              <span className="font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                {formData.monthlyBudgetAlertThreshold}%
+          <div className="text-xs space-y-3">
+            <div>
+              <div className="flex justify-between text-xs mb-1">
+                <span className="text-slate-300 font-bold">Monthly Budget Warning Threshold</span>
+                <span className="font-bold text-[#7CFFB2]">{formData.monthlyBudgetAlertThreshold}%</span>
+              </div>
+              <input
+                type="range"
+                min="50"
+                max="95"
+                step="5"
+                value={formData.monthlyBudgetAlertThreshold}
+                onChange={(e) => setFormData({ ...formData, monthlyBudgetAlertThreshold: Number(e.target.value) })}
+                className="w-full accent-[#7CFFB2]"
+              />
+              <span className="text-[10px] text-slate-400 mt-1 block">
+                Trigger dashboard warnings and AI proactive recommendations when category spending passes this percentage.
               </span>
             </div>
-            <input
-              type="range"
-              min="50"
-              max="95"
-              step="5"
-              value={formData.monthlyBudgetAlertThreshold}
-              onChange={(e) => setFormData({ ...formData, monthlyBudgetAlertThreshold: Number(e.target.value) })}
-              className="w-full accent-emerald-600 cursor-pointer"
-            />
-            <span className="text-[11px] text-slate-400 mt-1 block">
-              SpendWise triggers an alert whenever category spending crosses this percentage of its limit.
-            </span>
           </div>
         </div>
 
-        {/* Save Changes Button */}
+        {/* Save Button */}
         <div className="flex justify-end">
-          <button
+          <motion.button
             type="submit"
             disabled={saving}
-            className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-xs shadow-emerald-600/30 flex items-center gap-2 transition-all disabled:opacity-50"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            className="px-6 py-2.5 btn-mint rounded-xl text-xs font-extrabold flex items-center gap-2 shadow-[0_0_20px_rgba(124,255,178,0.3)]"
           >
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-            <span>Save Settings</span>
-          </button>
+            <span>Save & Apply Settings</span>
+          </motion.button>
         </div>
       </form>
     </div>

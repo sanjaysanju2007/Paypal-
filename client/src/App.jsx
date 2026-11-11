@@ -1,5 +1,7 @@
 import React from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { AppProvider, useApp } from './context/AppContext';
+import AnimatedBackground from './components/common/AnimatedBackground';
 import Sidebar from './components/layout/Sidebar';
 import Navbar from './components/layout/Navbar';
 
@@ -32,48 +34,61 @@ function MainLayout() {
   const renderActivePage = () => {
     switch (activeTab) {
       case 'overview':
-        return <Overview />;
+        return <Overview key="overview" />;
       case 'transactions':
-        return <TransactionsPage />;
+        return <TransactionsPage key="transactions" />;
       case 'payments':
-        return <PaymentsPage />;
+        return <PaymentsPage key="payments" />;
       case 'budgets':
-        return <BudgetsPage />;
+        return <BudgetsPage key="budgets" />;
       case 'ai-advisor':
-        return <AIAdvisorPage />;
+        return <AIAdvisorPage key="ai-advisor" />;
       case 'analytics':
-        return <AnalyticsPage />;
+        return <AnalyticsPage key="analytics" />;
       case 'goals':
-        return <SavingsGoalsPage />;
+        return <SavingsGoalsPage key="goals" />;
       case 'recurring':
-        return <RecurringPage />;
+        return <RecurringPage key="recurring" />;
       case 'reports':
-        return <ReportsPage />;
+        return <ReportsPage key="reports" />;
       case 'settings':
-        return <SettingsPage />;
+        return <SettingsPage key="settings" />;
       case 'help':
-        return <HelpCenterPage />;
+        return <HelpCenterPage key="help" />;
       case 'profile':
-        return <ProfilePage />;
+        return <ProfilePage key="profile" />;
       default:
-        return <Overview />;
+        return <Overview key="default-overview" />;
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] flex flex-col font-sans text-slate-900 selection:bg-emerald-100 selection:text-emerald-900">
-      {/* Fixed Left Sidebar */}
+    <div className="min-h-screen bg-[#071512] text-slate-100 flex flex-col font-sans relative selection:bg-[#7CFFB2]/20 selection:text-[#7CFFB2]">
+      {/* Moving Ambient Glow Background */}
+      <AnimatedBackground />
+
+      {/* Fixed Frosted Glass Sidebar */}
       <Sidebar />
 
-      {/* Top Navbar */}
+      {/* Top Floating Glass Navbar */}
       <Navbar />
 
-      {/* Main Content Area */}
-      <main className="ml-64 pt-20 px-6 sm:px-8 pb-12 flex-1 max-w-7xl">
-        {renderActivePage()}
+      {/* Main Content Area with Page Motion */}
+      <main className="ml-64 pt-24 px-6 sm:px-8 pb-16 flex-1 max-w-[1600px] relative z-10">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 12, filter: 'blur(4px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, y: -8, filter: 'blur(4px)' }}
+            transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {renderActivePage()}
+          </motion.div>
+        </AnimatePresence>
       </main>
 
-      {/* Global Modals */}
+      {/* Global Glass Modals */}
       <AddTransactionModal />
       <PayPalCheckoutModal />
       <AddBudgetModal />

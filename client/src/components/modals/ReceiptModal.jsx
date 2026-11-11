@@ -21,12 +21,12 @@ export default function ReceiptModal() {
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 15 }}
         transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-        className="glass-panel-elevated rounded-3xl w-full max-w-md overflow-hidden text-white relative shadow-[0_25px_60px_rgba(0,0,0,0.8)] border-[#7CFFB2]/25"
+        className="glass-panel-elevated rounded-3xl w-full max-w-md overflow-hidden text-white relative shadow-[0_25px_60px_rgba(0,0,0,0.8)] border-[#38BDF8]/25"
       >
         {/* Receipt Header */}
         <div className="px-6 py-4 border-b border-white/[0.08] flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <ShieldCheck className="w-5 h-5 text-[#7CFFB2] drop-shadow-[0_0_8px_rgba(124,255,178,0.5)]" />
+            <ShieldCheck className="w-5 h-5 text-[#38BDF8] drop-shadow-[0_0_8px_rgba(56,189,248,0.5)]" />
             <h3 className="font-extrabold text-white text-sm">PayPal Sandbox Official Receipt</h3>
           </div>
           <button
@@ -41,8 +41,8 @@ export default function ReceiptModal() {
         <div className="p-6 space-y-5" id="printable-receipt">
           {/* Brand & Status Banner */}
           <div className="text-center pb-4 border-b border-dashed border-white/[0.12]">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#7CFFB2]/15 border border-[#7CFFB2]/30 text-[#7CFFB2] text-xs font-bold rounded-full mb-2.5 shadow-[0_0_12px_rgba(124,255,178,0.2)]">
-              <CheckCircle2 className="w-3.5 h-3.5 text-[#7CFFB2]" />
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#38BDF8]/15 border border-[#38BDF8]/30 text-[#38BDF8] text-xs font-bold rounded-full mb-2.5 shadow-[0_0_12px_rgba(56,189,248,0.2)]">
+              <CheckCircle2 className="w-3.5 h-3.5 text-[#38BDF8]" />
               <span>Payment Captured Synchronously</span>
             </div>
             <div className="text-3xl font-black text-white tracking-tight">
@@ -59,7 +59,7 @@ export default function ReceiptModal() {
             </div>
             <div className="flex justify-between py-1 border-b border-white/[0.06]">
               <span className="text-slate-400">Capture ID</span>
-              <span className="font-bold text-[#7CFFB2] select-all">{payment.captureId || 'CAP-SB-44018'}</span>
+              <span className="font-bold text-[#38BDF8] select-all">{payment.captureId || 'CAP-SB-44018'}</span>
             </div>
             <div className="flex justify-between py-1 border-b border-white/[0.06]">
               <span className="text-slate-400">Environment</span>
@@ -75,33 +75,33 @@ export default function ReceiptModal() {
             </div>
             <div className="flex justify-between py-1">
               <span className="text-slate-400">Status</span>
-              <span className="font-bold text-[#7CFFB2] bg-[#7CFFB2]/15 px-2 py-0.5 rounded-full text-[10px] border border-[#7CFFB2]/25 font-sans">
+              <span className="font-bold text-[#38BDF8] bg-[#38BDF8]/15 px-2 py-0.5 rounded-full text-[10px] border border-[#38BDF8]/25 font-sans">
                 {payment.status || 'COMPLETED'}
               </span>
             </div>
           </div>
 
-          <div className="p-3 glass-card rounded-xl text-[11px] text-slate-400 leading-relaxed border-[#7CFFB2]/15">
+          <div className="p-3 glass-card rounded-xl text-[11px] text-slate-400 leading-relaxed border-[#38BDF8]/15">
             This transaction was executed in the official PayPal Sandbox developer sandbox under application <strong>acsPaypal</strong> and captured by the SpendWise AI backend services.
           </div>
         </div>
 
         {/* Modal Actions */}
-        <div className="px-6 py-4 bg-[#071512]/60 border-t border-white/[0.08] flex items-center justify-between">
+        <div className="px-6 py-4 bg-[#060913]/60 border-t border-white/[0.08] flex items-center justify-between">
           <motion.button
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             onClick={handlePrint}
             className="px-3.5 py-2 text-xs font-bold text-slate-300 hover:text-white glass-card rounded-xl flex items-center gap-2"
           >
-            <Printer className="w-3.5 h-3.5 text-[#7CFFB2]" />
+            <Printer className="w-3.5 h-3.5 text-[#38BDF8]" />
             <span>Print Receipt</span>
           </motion.button>
           <motion.button
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             onClick={() => closeModal('receiptModal')}
-            className="px-5 py-2 text-xs font-bold btn-mint rounded-xl"
+            className="px-5 py-2 text-xs font-bold btn-blue rounded-xl"
           >
             Close
           </motion.button>

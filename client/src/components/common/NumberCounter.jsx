@@ -44,3 +44,4 @@ export default function NumberCounter({ value = 0, prefix = '₹', duration = 80
     </span>
   );
 }
+

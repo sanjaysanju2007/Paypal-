@@ -8,8 +8,7 @@ import {
   Trash2,
   Edit2,
   Sparkles,
-  ShieldAlert,
-  ArrowRight
+  ShieldAlert
 } from 'lucide-react';
 
 export default function BudgetsPage() {
@@ -53,7 +52,7 @@ export default function BudgetsPage() {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <h1 className="text-2xl font-black text-white tracking-tight">Smart Budget Management</h1>
-            <span className="text-[10px] font-bold bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30 px-2 py-0.5 rounded-full">
+            <span className="text-[10px] font-bold bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 px-2 py-0.5 rounded-full">
               {budgets.length} Categories Active
             </span>
           </div>
@@ -66,7 +65,7 @@ export default function BudgetsPage() {
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
           onClick={() => openModal('addBudget')}
-          className="px-4 py-2.5 btn-mint rounded-xl text-xs font-bold flex items-center gap-2 shadow-[0_0_20px_rgba(124,255,178,0.3)] self-start sm:self-auto"
+          className="px-4 py-2.5 btn-blue rounded-xl text-xs font-bold flex items-center gap-2 shadow-[0_0_20px_rgba(37,99,235,0.4)] self-start sm:self-auto"
         >
           <Plus className="w-3.5 h-3.5" />
           <span>Create New Budget</span>
@@ -111,13 +110,13 @@ export default function BudgetsPage() {
 
         <div className="glass-card p-5 rounded-2xl">
           <span className="text-xs text-slate-400 font-bold uppercase tracking-wider block mb-1">Total Spent This Cycle</span>
-          <div className="text-2xl font-black text-[#7CFFB2]">{formatCurrency(totalSpent)}</div>
+          <div className="text-2xl font-black text-[#38BDF8]">{formatCurrency(totalSpent)}</div>
           <div className="text-[11px] text-slate-400 mt-1">{overallPercent}% of cumulative allowance utilized</div>
         </div>
 
         <div className="glass-card p-5 rounded-2xl">
           <span className="text-xs text-slate-400 font-bold uppercase tracking-wider block mb-1">Remaining Safety Cushion</span>
-          <div className="text-2xl font-black text-[#20D995]">{formatCurrency(totalRemaining)}</div>
+          <div className="text-2xl font-black text-[#60A5FA]">{formatCurrency(totalRemaining)}</div>
           <div className="text-[11px] text-slate-400 mt-1">Available for remaining month</div>
         </div>
       </div>
@@ -138,7 +137,7 @@ export default function BudgetsPage() {
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full shadow-[0_0_8px_currentColor]" style={{ backgroundColor: b.color || '#7CFFB2' }} />
+                    <span className="w-3 h-3 rounded-full shadow-[0_0_8px_currentColor]" style={{ backgroundColor: b.color || '#38BDF8' }} />
                     <h3 className="font-extrabold text-white text-sm">{b.category}</h3>
                   </div>
                   <div className="flex items-center gap-1">
@@ -170,7 +169,7 @@ export default function BudgetsPage() {
                         ? 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
                         : isNear
                         ? 'bg-amber-400/15 text-amber-300 border border-amber-400/30'
-                        : 'bg-[#7CFFB2]/10 text-[#7CFFB2] border border-[#7CFFB2]/20'
+                        : 'bg-[#38BDF8]/10 text-[#38BDF8] border border-[#38BDF8]/20'
                     }`}
                   >
                     {percent}%
@@ -178,14 +177,14 @@ export default function BudgetsPage() {
                 </div>
 
                 {/* Progress bar */}
-                <div className="w-full h-2 rounded-full bg-[#071512] overflow-hidden border border-white/[0.08]">
+                <div className="w-full h-2 rounded-full bg-[#060913] overflow-hidden border border-white/[0.08]">
                   <div
                     className={`h-full rounded-full transition-all duration-500 ${
                       isOver
                         ? 'bg-rose-500 shadow-[0_0_10px_#F43F5E]'
                         : isNear
                         ? 'bg-amber-400 shadow-[0_0_10px_#FBBF24]'
-                        : 'bg-gradient-to-r from-[#20D995] to-[#7CFFB2] shadow-[0_0_10px_rgba(124,255,178,0.5)]'
+                        : 'bg-gradient-to-r from-[#2563EB] to-[#38BDF8] shadow-[0_0_10px_rgba(56,189,248,0.5)]'
                     }`}
                     style={{ width: `${percent}%` }}
                   />

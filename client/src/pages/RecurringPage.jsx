@@ -6,10 +6,8 @@ import {
   Plus,
   SendHorizontal,
   Trash2,
-  Sparkles,
   RefreshCw,
   Calendar,
-  CreditCard,
   X
 } from 'lucide-react';
 
@@ -19,8 +17,7 @@ export default function RecurringPage() {
     currencySymbol,
     formatCurrency,
     openModal,
-    refreshAll,
-    setActiveTab
+    refreshAll
   } = useApp();
 
   const [deletingId, setDeletingId] = useState(null);
@@ -96,7 +93,7 @@ export default function RecurringPage() {
             <h1 className="text-2xl font-black text-white tracking-tight">
               Recurring Outflows & Subscriptions
             </h1>
-            <span className="text-[10px] font-bold bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30 px-2 py-0.5 rounded-full">
+            <span className="text-[10px] font-bold bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 px-2 py-0.5 rounded-full">
               Automated Detector Active
             </span>
           </div>
@@ -109,7 +106,7 @@ export default function RecurringPage() {
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
           onClick={() => setShowAddForm(!showAddForm)}
-          className="px-4 py-2.5 btn-mint rounded-xl text-xs font-bold flex items-center gap-2 shadow-[0_0_20px_rgba(124,255,178,0.3)] self-start sm:self-auto"
+          className="px-4 py-2.5 btn-blue rounded-xl text-xs font-bold flex items-center gap-2 shadow-[0_0_20px_rgba(37,99,235,0.4)] self-start sm:self-auto"
         >
           {showAddForm ? <X className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
           <span>{showAddForm ? 'Cancel' : 'Track Subscription'}</span>
@@ -121,12 +118,12 @@ export default function RecurringPage() {
         <div className="glass-card p-5 rounded-2xl">
           <span className="text-xs text-slate-400 font-bold uppercase tracking-wider block mb-1">Monthly Recurring Burn</span>
           <div className="text-2xl font-black text-white">{formatCurrency(totalMonthly)}</div>
-          <span className="text-[11px] text-[#7CFFB2] mt-1 block">Across {recurring.length} active service commitments</span>
+          <span className="text-[11px] text-[#38BDF8] mt-1 block font-bold">Across {recurring.length} active service commitments</span>
         </div>
 
         <div className="glass-card p-5 rounded-2xl">
           <span className="text-xs text-slate-400 font-bold uppercase tracking-wider block mb-1">Annualized Commitment</span>
-          <div className="text-2xl font-black text-[#20D995]">{formatCurrency(annualProjection)}</div>
+          <div className="text-2xl font-black text-[#60A5FA]">{formatCurrency(annualProjection)}</div>
           <span className="text-[11px] text-slate-400 mt-1">Projected 12-month renewal outlay</span>
         </div>
 
@@ -145,7 +142,7 @@ export default function RecurringPage() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             onSubmit={handleAddSubscription}
-            className="glass-panel p-5 rounded-2xl space-y-4 overflow-hidden border-[#7CFFB2]/30"
+            className="glass-panel p-5 rounded-2xl space-y-4 overflow-hidden border-[#38BDF8]/30"
           >
             <h3 className="font-extrabold text-white text-sm">Register New Recurring Subscription</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
@@ -171,7 +168,7 @@ export default function RecurringPage() {
                   placeholder="1999"
                   value={newSub.amount}
                   onChange={(e) => setNewSub({ ...newSub, amount: e.target.value })}
-                  className="w-full px-3.5 py-2 glass-input font-bold text-[#7CFFB2] rounded-xl"
+                  className="w-full px-3.5 py-2 glass-input font-bold text-[#38BDF8] rounded-xl"
                 />
               </div>
 
@@ -192,7 +189,7 @@ export default function RecurringPage() {
                 <select
                   value={newSub.paymentMethod}
                   onChange={(e) => setNewSub({ ...newSub, paymentMethod: e.target.value })}
-                  className="w-full px-3 py-2 glass-input rounded-xl bg-[#071512]"
+                  className="w-full px-3 py-2 glass-input rounded-xl bg-[#060913]"
                 >
                   <option value="PayPal Sandbox">PayPal Sandbox</option>
                   <option value="Credit Card">Credit Card</option>
@@ -211,7 +208,7 @@ export default function RecurringPage() {
               </button>
               <button
                 type="submit"
-                className="px-5 py-2 btn-mint rounded-xl text-xs font-bold"
+                className="px-5 py-2 btn-blue rounded-xl text-xs font-bold"
               >
                 Save Subscription
               </button>
@@ -231,7 +228,7 @@ export default function RecurringPage() {
             <div>
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30 flex items-center justify-center font-bold shadow-[0_0_10px_rgba(124,255,178,0.2)]">
+                  <div className="w-10 h-10 rounded-xl bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 flex items-center justify-center font-bold shadow-[0_0_10px_rgba(56,189,248,0.2)]">
                     <RefreshCw className="w-5 h-5" />
                   </div>
                   <div>
@@ -254,14 +251,14 @@ export default function RecurringPage() {
                   <span className="text-xl font-black text-white">{formatCurrency(sub.amount)}</span>
                   <span className="text-xs text-slate-400 ml-1">/ {sub.frequency || 'Monthly'}</span>
                 </div>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30 font-mono">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 font-mono">
                   {sub.status || 'Active'}
                 </span>
               </div>
 
               <div className="p-2.5 rounded-xl glass-card text-[11px] text-slate-400 flex items-center justify-between">
                 <span className="flex items-center gap-1.5">
-                  <Calendar className="w-3 h-3 text-[#7CFFB2]" /> Renews day {sub.billingCycleDate || '15'} of month
+                  <Calendar className="w-3 h-3 text-[#38BDF8]" /> Renews day {sub.billingCycleDate || '15'} of month
                 </span>
                 <span className="font-mono text-slate-300">{sub.paymentMethod}</span>
               </div>
@@ -273,9 +270,9 @@ export default function RecurringPage() {
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => handlePayViaPayPal(sub)}
-                className="px-3.5 py-1.5 glass-card hover:border-[#7CFFB2]/50 text-slate-200 hover:text-[#7CFFB2] rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors"
+                className="px-3.5 py-1.5 glass-card hover:border-[#38BDF8]/50 text-slate-200 hover:text-[#38BDF8] rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors"
               >
-                <SendHorizontal className="w-3.5 h-3.5 text-[#7CFFB2]" />
+                <SendHorizontal className="w-3.5 h-3.5 text-[#38BDF8]" />
                 <span>Pay via PayPal</span>
               </motion.button>
             </div>

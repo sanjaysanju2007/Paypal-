@@ -11,9 +11,7 @@ import {
   Trash2,
   Edit2,
   Eye,
-  X,
-  Filter,
-  Calendar
+  X
 } from 'lucide-react';
 
 export default function TransactionsPage() {
@@ -113,7 +111,7 @@ export default function TransactionsPage() {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <h1 className="text-2xl font-black text-white tracking-tight">Financial Ledger</h1>
-            <span className="text-[10px] font-bold bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30 px-2 py-0.5 rounded-full">
+            <span className="text-[10px] font-bold bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 px-2 py-0.5 rounded-full">
               {filteredTransactions.length} Records
             </span>
           </div>
@@ -129,14 +127,14 @@ export default function TransactionsPage() {
             onClick={handleExportCSV}
             className="px-3.5 py-2.5 glass-card rounded-xl text-xs font-bold text-slate-200 hover:text-white flex items-center gap-2"
           >
-            <Download className="w-3.5 h-3.5 text-[#7CFFB2]" />
+            <Download className="w-3.5 h-3.5 text-[#38BDF8]" />
             <span>Export CSV</span>
           </motion.button>
           <motion.button
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             onClick={() => openModal('addTransaction')}
-            className="px-4 py-2.5 btn-mint rounded-xl text-xs font-bold flex items-center gap-2 shadow-[0_0_20px_rgba(124,255,178,0.3)]"
+            className="px-4 py-2.5 btn-blue rounded-xl text-xs font-bold flex items-center gap-2 shadow-[0_0_20px_rgba(37,99,235,0.4)]"
           >
             <Plus className="w-3.5 h-3.5" />
             <span>Add Transaction</span>
@@ -148,7 +146,7 @@ export default function TransactionsPage() {
       <div className="glass-panel p-4 rounded-2xl space-y-3 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
           {/* Tabs: All / Inflow / Outflow */}
-          <div className="flex items-center gap-1 bg-[#071512] p-1 rounded-xl border border-white/[0.08] text-xs font-bold">
+          <div className="flex items-center gap-1 bg-[#060913] p-1 rounded-xl border border-white/[0.08] text-xs font-bold">
             {[
               { id: 'all', label: 'All Records' },
               { id: 'income', label: 'Income (+)' },
@@ -159,7 +157,7 @@ export default function TransactionsPage() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`px-3 py-1.5 rounded-lg transition-all ${
                   activeTab === tab.id
-                    ? 'bg-[#7CFFB2] text-[#071512] shadow-[0_0_10px_rgba(124,255,178,0.4)]'
+                    ? 'bg-[#38BDF8] text-[#060913] shadow-[0_0_10px_rgba(56,189,248,0.4)]'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
@@ -196,11 +194,11 @@ export default function TransactionsPage() {
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="w-full px-3 py-1.5 glass-input rounded-xl bg-[#071512] text-xs"
+              className="w-full px-3 py-1.5 glass-input rounded-xl bg-[#060913] text-xs"
             >
               <option value="all">All Categories</option>
               {categories.filter(c => c !== 'all').map((c) => (
-                <option key={c} value={c} className="bg-[#071512] text-white">{c}</option>
+                <option key={c} value={c} className="bg-[#060913] text-white">{c}</option>
               ))}
             </select>
           </div>
@@ -210,7 +208,7 @@ export default function TransactionsPage() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="w-full px-3 py-1.5 glass-input rounded-xl bg-[#071512] text-xs"
+              className="w-full px-3 py-1.5 glass-input rounded-xl bg-[#060913] text-xs"
             >
               <option value="date-desc">Newest First</option>
               <option value="date-asc">Oldest First</option>
@@ -251,7 +249,7 @@ export default function TransactionsPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-white/[0.08] bg-[#071512]/70 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                <tr className="border-b border-white/[0.08] bg-[#060913]/70 text-[11px] font-bold uppercase tracking-wider text-slate-400">
                   <th className="py-3 px-4">Description / Merchant</th>
                   <th className="py-3 px-4">Category</th>
                   <th className="py-3 px-4">Date</th>
@@ -276,7 +274,7 @@ export default function TransactionsPage() {
                           <div
                             className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${
                               isIncome
-                                ? 'bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30'
+                                ? 'bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 shadow-[0_0_10px_rgba(56,189,248,0.2)]'
                                 : 'bg-white/[0.06] text-slate-300 border border-white/[0.08]'
                             }`}
                           >
@@ -302,20 +300,20 @@ export default function TransactionsPage() {
                       <td className="py-3.5 px-4 text-slate-300 whitespace-nowrap">
                         <span className="font-medium">{tx.paymentMethod || 'Bank Transfer'}</span>
                         {tx.paymentMethod === 'PayPal Sandbox' && (
-                          <span className="ml-1.5 text-[9px] bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30 px-1 py-0.2 rounded font-mono">
+                          <span className="ml-1.5 text-[9px] bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 px-1 py-0.2 rounded font-mono font-bold">
                             SDK
                           </span>
                         )}
                       </td>
 
                       <td className="py-3.5 px-4 text-right whitespace-nowrap">
-                        <span className={`font-black ${isIncome ? 'text-[#7CFFB2]' : 'text-white'}`}>
+                        <span className={`font-black ${isIncome ? 'text-[#38BDF8]' : 'text-white'}`}>
                           {isIncome ? '+' : '-'}{formatCurrency(tx.amount)}
                         </span>
                       </td>
 
                       <td className="py-3.5 px-4 text-center whitespace-nowrap">
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#7CFFB2]/10 text-[#7CFFB2] border border-[#7CFFB2]/25 font-mono">
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#38BDF8]/10 text-[#38BDF8] border border-[#38BDF8]/25 font-mono">
                           {tx.status || 'Completed'}
                         </span>
                       </td>
@@ -324,14 +322,14 @@ export default function TransactionsPage() {
                         <div className="flex items-center justify-end gap-1.5">
                           <button
                             onClick={() => openModal('viewTransaction', tx)}
-                            className="p-1.5 rounded-lg glass-card hover:border-[#7CFFB2]/50 text-slate-300 hover:text-white"
+                            className="p-1.5 rounded-lg glass-card hover:border-[#38BDF8]/50 text-slate-300 hover:text-white"
                             title="View Details"
                           >
-                            <Eye className="w-3.5 h-3.5 text-[#7CFFB2]" />
+                            <Eye className="w-3.5 h-3.5 text-[#38BDF8]" />
                           </button>
                           <button
                             onClick={() => openModal('editTransaction', tx)}
-                            className="p-1.5 rounded-lg glass-card hover:border-[#7CFFB2]/50 text-slate-300 hover:text-white"
+                            className="p-1.5 rounded-lg glass-card hover:border-[#38BDF8]/50 text-slate-300 hover:text-white"
                             title="Edit"
                           >
                             <Edit2 className="w-3.5 h-3.5" />

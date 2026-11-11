@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useApp } from '../context/AppContext';
 import NumberCounter from '../components/common/NumberCounter';
 import {
@@ -14,11 +14,7 @@ import {
   ArrowRight,
   ChevronRight,
   Eye,
-  EyeOff,
-  ShieldCheck,
-  Zap,
-  Activity,
-  Layers
+  EyeOff
 } from 'lucide-react';
 import {
   ResponsiveContainer,
@@ -57,12 +53,12 @@ export default function Overview() {
     { month: 'Nov', income: summary.totalIncome || 163700, expenses: summary.totalExpense || 55287 },
   ];
 
-  // Electric Mint & Emerald Theme Palette
-  const mintCategoryColors = ['#7CFFB2', '#20D995', '#38BDF8', '#10B981', '#34D399', '#059669'];
+  // Electric Blue & Cyan Glassmorphism Theme Palette
+  const blueCategoryColors = ['#38BDF8', '#2563EB', '#60A5FA', '#6366F1', '#0EA5E9', '#818CF8'];
   const categoryChartData = Object.entries(summary.categoryTotals || {}).map(([name, value], i) => ({
     name,
     value,
-    color: mintCategoryColors[i % mintCategoryColors.length]
+    color: blueCategoryColors[i % blueCategoryColors.length]
   }));
 
   const recentTransactions = transactions.slice(0, 5);
@@ -94,8 +90,8 @@ export default function Overview() {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <h1 className="text-2xl font-black text-white tracking-tight">Executive Dashboard</h1>
-            <span className="text-[10px] font-mono font-bold bg-[#7CFFB2]/10 text-[#7CFFB2] border border-[#7CFFB2]/20 px-2 py-0.5 rounded-full flex items-center gap-1 shadow-[0_0_10px_rgba(124,255,178,0.15)]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#7CFFB2] animate-pulse"></span>
+            <span className="text-[10px] font-mono font-bold bg-[#38BDF8]/10 text-[#38BDF8] border border-[#38BDF8]/20 px-2 py-0.5 rounded-full flex items-center gap-1 shadow-[0_0_10px_rgba(56,189,248,0.15)]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#38BDF8] animate-pulse"></span>
               Live Sync
             </span>
           </div>
@@ -111,14 +107,14 @@ export default function Overview() {
             onClick={() => openModal('addTransaction')}
             className="px-3.5 py-2.5 glass-card rounded-xl text-xs font-bold text-slate-200 hover:text-white flex items-center gap-2 shadow-xs"
           >
-            <Plus className="w-3.5 h-3.5 text-[#7CFFB2]" />
+            <Plus className="w-3.5 h-3.5 text-[#38BDF8]" />
             <span>Add Transaction</span>
           </motion.button>
           <motion.button
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             onClick={() => openModal('paypalCheckout')}
-            className="px-4 py-2.5 btn-mint rounded-xl text-xs font-extrabold flex items-center gap-2 shadow-[0_0_20px_rgba(124,255,178,0.3)]"
+            className="px-4 py-2.5 btn-blue rounded-xl text-xs font-extrabold flex items-center gap-2 shadow-[0_0_20px_rgba(37,99,235,0.4)]"
           >
             <SendHorizontal className="w-3.5 h-3.5" />
             <span>Pay with PayPal</span>
@@ -129,20 +125,20 @@ export default function Overview() {
       {/* 4 Premium Glass KPI Metric Cards */}
       <motion.div variants={itemVariants} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* TOTAL BALANCE CARD (Hero Glass Card with Floating Ambient Glow) */}
-        <div className="glass-panel p-5 rounded-2xl relative overflow-hidden group hover:border-[#7CFFB2]/40 transition-all">
-          <div className="absolute -right-6 -bottom-6 w-28 h-28 bg-[#7CFFB2]/15 rounded-full blur-xl pointer-events-none group-hover:bg-[#7CFFB2]/25 transition-all" />
+        <div className="glass-panel p-5 rounded-2xl relative overflow-hidden group hover:border-[#38BDF8]/40 transition-all">
+          <div className="absolute -right-6 -bottom-6 w-28 h-28 bg-[#38BDF8]/15 rounded-full blur-xl pointer-events-none group-hover:bg-[#38BDF8]/25 transition-all" />
           
           <div className="flex items-center justify-between mb-3 relative z-10">
             <span className="text-xs font-bold text-slate-400 tracking-wide uppercase">Total Net Balance</span>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setHideBalance(!hideBalance)}
-                className="text-slate-400 hover:text-[#7CFFB2] transition-colors p-1"
+                className="text-slate-400 hover:text-[#38BDF8] transition-colors p-1"
                 title={hideBalance ? "Show Balance" : "Hide Balance"}
               >
                 {hideBalance ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
               </button>
-              <div className="w-8 h-8 rounded-xl bg-[#7CFFB2]/15 border border-[#7CFFB2]/30 text-[#7CFFB2] flex items-center justify-center shadow-[0_0_12px_rgba(124,255,178,0.2)]">
+              <div className="w-8 h-8 rounded-xl bg-[#38BDF8]/15 border border-[#38BDF8]/30 text-[#38BDF8] flex items-center justify-center shadow-[0_0_12px_rgba(56,189,248,0.2)]">
                 <Wallet className="w-4 h-4" />
               </div>
             </div>
@@ -157,7 +153,7 @@ export default function Overview() {
           </div>
 
           <div className="mt-2.5 flex items-center gap-1.5 text-[11px] relative z-10">
-            <span className="inline-flex items-center text-[#7CFFB2] font-bold bg-[#7CFFB2]/10 px-2 py-0.5 rounded-md border border-[#7CFFB2]/25">
+            <span className="inline-flex items-center text-[#38BDF8] font-bold bg-[#38BDF8]/10 px-2 py-0.5 rounded-md border border-[#38BDF8]/25">
               <TrendingUp className="w-3 h-3 mr-1" /> +5.4%
             </span>
             <span className="text-slate-400">vs last month</span>
@@ -168,7 +164,7 @@ export default function Overview() {
         <div className="glass-card p-5 rounded-2xl relative overflow-hidden">
           <div className="flex items-center justify-between mb-3">
             <span className="text-xs font-bold text-slate-400 tracking-wide uppercase">Total Inflow</span>
-            <div className="w-8 h-8 rounded-xl bg-[#20D995]/15 border border-[#20D995]/30 text-[#20D995] flex items-center justify-center shadow-[0_0_10px_rgba(32,217,149,0.2)]">
+            <div className="w-8 h-8 rounded-xl bg-[#2563EB]/15 border border-[#2563EB]/30 text-[#60A5FA] flex items-center justify-center shadow-[0_0_10px_rgba(37,99,235,0.2)]">
               <ArrowUpRight className="w-4 h-4" />
             </div>
           </div>
@@ -176,7 +172,7 @@ export default function Overview() {
             {hideBalance ? '••••••' : <NumberCounter value={summary.totalIncome} prefix={currencySymbol} />}
           </div>
           <div className="mt-2.5 flex items-center gap-1.5 text-[11px] text-slate-400">
-            <span className="text-[#7CFFB2] font-bold">2 active streams</span>
+            <span className="text-[#38BDF8] font-bold">2 active streams</span>
             <span>(Salary & Freelance)</span>
           </div>
         </div>
@@ -204,7 +200,7 @@ export default function Overview() {
         <div className="glass-card p-5 rounded-2xl relative overflow-hidden">
           <div className="flex items-center justify-between mb-3">
             <span className="text-xs font-bold text-slate-400 tracking-wide uppercase">Monthly Savings</span>
-            <div className="w-8 h-8 rounded-xl bg-[#7CFFB2]/15 border border-[#7CFFB2]/30 text-[#7CFFB2] flex items-center justify-center shadow-[0_0_10px_rgba(124,255,178,0.2)]">
+            <div className="w-8 h-8 rounded-xl bg-[#38BDF8]/15 border border-[#38BDF8]/30 text-[#38BDF8] flex items-center justify-center shadow-[0_0_10px_rgba(56,189,248,0.2)]">
               <PiggyBank className="w-4 h-4" />
             </div>
           </div>
@@ -212,7 +208,7 @@ export default function Overview() {
             {hideBalance ? '••••••' : <NumberCounter value={summary.monthlySavings} prefix={currencySymbol} />}
           </div>
           <div className="mt-2.5 flex items-center gap-1.5 text-[11px]">
-            <span className="text-[#7CFFB2] font-bold bg-[#7CFFB2]/10 px-2 py-0.5 rounded-md border border-[#7CFFB2]/20">
+            <span className="text-[#38BDF8] font-bold bg-[#38BDF8]/10 px-2 py-0.5 rounded-md border border-[#38BDF8]/20">
               {summary.savingsRate}% Rate
             </span>
             <span className="text-slate-400">Benchmark: 30%</span>
@@ -223,16 +219,16 @@ export default function Overview() {
       {/* AI Financial Summary Banner */}
       <motion.div 
         variants={itemVariants}
-        className="glass-panel p-5 rounded-2xl relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-[#7CFFB2]/25 shadow-[0_0_30px_rgba(124,255,178,0.08)]"
+        className="glass-panel p-5 rounded-2xl relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-[#38BDF8]/25 shadow-[0_0_30px_rgba(56,189,248,0.1)]"
       >
         <div className="flex items-start gap-3.5 relative z-10">
-          <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#7CFFB2] to-[#20D995] text-[#071512] flex items-center justify-center shrink-0 shadow-[0_0_20px_rgba(124,255,178,0.4)]">
-            <Sparkles className="w-5 h-5 fill-[#071512]" />
+          <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#38BDF8] to-[#2563EB] text-white flex items-center justify-center shrink-0 shadow-[0_0_20px_rgba(56,189,248,0.4)]">
+            <Sparkles className="w-5 h-5 fill-white" />
           </div>
           <div>
             <div className="flex items-center gap-2 mb-1">
               <h3 className="font-extrabold text-white text-sm">SpendWise Neural Summary</h3>
-              <span className="text-[10px] font-bold bg-[#7CFFB2]/15 text-[#7CFFB2] px-2 py-0.5 rounded-full border border-[#7CFFB2]/30">
+              <span className="text-[10px] font-bold bg-[#38BDF8]/15 text-[#38BDF8] px-2 py-0.5 rounded-full border border-[#38BDF8]/30">
                 Live Insights
               </span>
             </div>
@@ -249,7 +245,7 @@ export default function Overview() {
           className="shrink-0 px-4 py-2.5 btn-glass rounded-xl text-xs font-bold transition-all flex items-center gap-2 relative z-10"
         >
           <span>Deep AI Audit</span>
-          <ArrowRight className="w-3.5 h-3.5 text-[#7CFFB2]" />
+          <ArrowRight className="w-3.5 h-3.5 text-[#38BDF8]" />
         </motion.button>
       </motion.div>
 
@@ -266,14 +262,14 @@ export default function Overview() {
             </div>
 
             {/* Time range switcher */}
-            <div className="flex items-center gap-1 bg-[#071512]/60 p-1 rounded-xl border border-white/[0.08]">
+            <div className="flex items-center gap-1 bg-[#060913]/60 p-1 rounded-xl border border-white/[0.08]">
               {['7D', '30D', '90D', '1Y'].map((range) => (
                 <button
                   key={range}
                   onClick={() => setTimeRange(range)}
                   className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all ${
                     timeRange === range
-                      ? 'bg-[#7CFFB2] text-[#071512] shadow-[0_0_10px_rgba(124,255,178,0.4)]'
+                      ? 'bg-[#38BDF8] text-[#060913] shadow-[0_0_10px_rgba(56,189,248,0.4)]'
                       : 'text-slate-400 hover:text-white'
                   }`}
                 >
@@ -287,9 +283,9 @@ export default function Overview() {
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                 <defs>
-                  <linearGradient id="mintIncomeGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#7CFFB2" stopOpacity={0.35} />
-                    <stop offset="95%" stopColor="#7CFFB2" stopOpacity={0.0} />
+                  <linearGradient id="blueIncomeGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#38BDF8" stopOpacity={0.4} />
+                    <stop offset="95%" stopColor="#38BDF8" stopOpacity={0.0} />
                   </linearGradient>
                   <linearGradient id="roseExpenseGrad" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#F43F5E" stopOpacity={0.25} />
@@ -313,9 +309,9 @@ export default function Overview() {
                 <Tooltip
                   formatter={(val) => [formatCurrency(val), '']}
                   contentStyle={{
-                    backgroundColor: 'rgba(13, 33, 27, 0.9)',
+                    backgroundColor: 'rgba(13, 21, 39, 0.92)',
                     backdropFilter: 'blur(12px)',
-                    borderColor: 'rgba(124, 255, 178, 0.2)',
+                    borderColor: 'rgba(56, 189, 248, 0.25)',
                     color: '#FFFFFF',
                     borderRadius: '12px',
                     fontSize: '12px',
@@ -326,10 +322,10 @@ export default function Overview() {
                   type="monotone"
                   dataKey="income"
                   name="Income Inflow"
-                  stroke="#7CFFB2"
+                  stroke="#38BDF8"
                   strokeWidth={2.5}
                   fillOpacity={1}
-                  fill="url(#mintIncomeGrad)"
+                  fill="url(#blueIncomeGrad)"
                 />
                 <Area
                   type="monotone"
@@ -352,7 +348,7 @@ export default function Overview() {
               <h3 className="font-bold text-white text-sm">Expense Categories</h3>
               <button
                 onClick={() => setActiveTab('analytics')}
-                className="text-[11px] font-bold text-[#7CFFB2] hover:underline"
+                className="text-[11px] font-bold text-[#38BDF8] hover:underline"
               >
                 Full Analytics
               </button>
@@ -376,8 +372,8 @@ export default function Overview() {
                   <Tooltip
                     formatter={(val) => [formatCurrency(val), '']}
                     contentStyle={{
-                      backgroundColor: 'rgba(13, 33, 27, 0.9)',
-                      borderColor: 'rgba(124, 255, 178, 0.2)',
+                      backgroundColor: 'rgba(13, 21, 39, 0.92)',
+                      borderColor: 'rgba(56, 189, 248, 0.25)',
                       color: '#FFFFFF',
                       borderRadius: '8px',
                       fontSize: '11px'
@@ -387,7 +383,7 @@ export default function Overview() {
               </ResponsiveContainer>
               <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
                 <span className="text-[10px] text-slate-400 font-medium">Largest Slice</span>
-                <span className="text-xs font-bold text-[#7CFFB2]">
+                <span className="text-xs font-bold text-[#38BDF8]">
                   {categoryChartData[0]?.name || 'Housing'}
                 </span>
               </div>
@@ -419,7 +415,7 @@ export default function Overview() {
             </div>
             <button
               onClick={() => setActiveTab('transactions')}
-              className="text-xs font-bold text-[#7CFFB2] hover:underline flex items-center gap-1"
+              className="text-xs font-bold text-[#38BDF8] hover:underline flex items-center gap-1"
             >
               <span>View All</span>
               <ChevronRight className="w-3.5 h-3.5" />
@@ -440,14 +436,14 @@ export default function Overview() {
                     <div
                       className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
                         isIncome
-                          ? 'bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30 shadow-[0_0_10px_rgba(124,255,178,0.2)]'
+                          ? 'bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 shadow-[0_0_10px_rgba(56,189,248,0.2)]'
                           : 'bg-white/[0.06] text-slate-300 border border-white/[0.08]'
                       }`}
                     >
                       {isIncome ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
                     </div>
                     <div>
-                      <div className="text-xs font-bold text-white group-hover:text-[#7CFFB2] transition-colors leading-tight">
+                      <div className="text-xs font-bold text-white group-hover:text-[#38BDF8] transition-colors leading-tight">
                         {tx.description}
                       </div>
                       <div className="text-[11px] text-slate-400 flex items-center gap-2 mt-0.5">
@@ -455,7 +451,7 @@ export default function Overview() {
                         <span>•</span>
                         <span>{tx.date}</span>
                         {tx.paymentMethod === 'PayPal Sandbox' && (
-                          <span className="text-[10px] bg-[#7CFFB2]/10 text-[#7CFFB2] border border-[#7CFFB2]/20 px-1.5 rounded font-mono">
+                          <span className="text-[10px] bg-[#38BDF8]/10 text-[#38BDF8] border border-[#38BDF8]/20 px-1.5 rounded font-mono">
                             PayPal
                           </span>
                         )}
@@ -466,12 +462,12 @@ export default function Overview() {
                   <div className="text-right">
                     <div
                       className={`text-xs font-bold ${
-                        isIncome ? 'text-[#7CFFB2]' : 'text-slate-200'
+                        isIncome ? 'text-[#38BDF8]' : 'text-slate-200'
                       }`}
                     >
                       {isIncome ? '+' : '-'}{formatCurrency(tx.amount)}
                     </div>
-                    <span className="text-[10px] text-[#7CFFB2] bg-[#7CFFB2]/10 border border-[#7CFFB2]/20 px-1.5 py-0.5 rounded font-mono">
+                    <span className="text-[10px] text-[#38BDF8] bg-[#38BDF8]/10 border border-[#38BDF8]/20 px-1.5 py-0.5 rounded font-mono">
                       {tx.status || 'Completed'}
                     </span>
                   </div>
@@ -488,7 +484,7 @@ export default function Overview() {
               <h3 className="font-bold text-white text-sm">Monthly Budgets</h3>
               <button
                 onClick={() => setActiveTab('budgets')}
-                className="text-[11px] font-bold text-[#7CFFB2] hover:underline"
+                className="text-[11px] font-bold text-[#38BDF8] hover:underline"
               >
                 Manage
               </button>
@@ -510,14 +506,14 @@ export default function Overview() {
                       </span>
                     </div>
                     {/* Glowing Progress Track */}
-                    <div className="w-full h-2 rounded-full bg-[#071512] border border-white/[0.08] overflow-hidden">
+                    <div className="w-full h-2 rounded-full bg-[#060913] border border-white/[0.08] overflow-hidden">
                       <div
                         className={`h-full rounded-full transition-all duration-500 ${
                           isOver
                             ? 'bg-rose-500 shadow-[0_0_10px_#F43F5E]'
                             : isWarning
                             ? 'bg-amber-400 shadow-[0_0_10px_#FBBF24]'
-                            : 'bg-gradient-to-r from-[#20D995] to-[#7CFFB2] shadow-[0_0_10px_rgba(124,255,178,0.5)]'
+                            : 'bg-gradient-to-r from-[#2563EB] to-[#38BDF8] shadow-[0_0_10px_rgba(56,189,248,0.5)]'
                         }`}
                         style={{ width: `${percent}%` }}
                       />
@@ -539,7 +535,7 @@ export default function Overview() {
               onClick={() => openModal('addBudget')}
               className="w-full py-2.5 glass-card rounded-xl text-xs font-bold text-slate-300 hover:text-white flex items-center justify-center gap-1.5"
             >
-              <Plus className="w-3.5 h-3.5 text-[#7CFFB2]" />
+              <Plus className="w-3.5 h-3.5 text-[#38BDF8]" />
               <span>Create New Budget</span>
             </motion.button>
           </div>

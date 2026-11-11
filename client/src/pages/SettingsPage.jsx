@@ -10,8 +10,6 @@ import {
   Save,
   Loader2,
   AlertCircle,
-  Sparkles,
-  Shield,
   Lock
 } from 'lucide-react';
 
@@ -70,7 +68,7 @@ export default function SettingsPage() {
       <div>
         <div className="flex items-center gap-2 mb-1">
           <h1 className="text-2xl font-black text-white tracking-tight">System & Account Settings</h1>
-          <span className="text-[10px] font-bold bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30 px-2 py-0.5 rounded-full">
+          <span className="text-[10px] font-bold bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 px-2 py-0.5 rounded-full">
             Config Master
           </span>
         </div>
@@ -81,8 +79,8 @@ export default function SettingsPage() {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {successMsg && (
-          <div className="p-3.5 rounded-xl bg-[#7CFFB2]/15 border border-[#7CFFB2]/30 text-[#7CFFB2] text-xs flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-[#7CFFB2]" />
+          <div className="p-3.5 rounded-xl bg-[#38BDF8]/15 border border-[#38BDF8]/30 text-[#38BDF8] text-xs flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-[#38BDF8]" />
             <span>{successMsg}</span>
           </div>
         )}
@@ -97,7 +95,7 @@ export default function SettingsPage() {
         {/* Currency Standards */}
         <div className="glass-panel p-5 rounded-2xl space-y-4">
           <div className="flex items-center gap-2 pb-3 border-b border-white/[0.08]">
-            <Globe className="w-4 h-4 text-[#7CFFB2]" />
+            <Globe className="w-4 h-4 text-[#38BDF8]" />
             <h3 className="font-extrabold text-white text-sm">Currency & Denomination Standards</h3>
           </div>
 
@@ -107,7 +105,7 @@ export default function SettingsPage() {
               <select
                 value={formData.currency}
                 onChange={(e) => setFormData({ ...formData, currency: e.target.value })}
-                className="w-full px-3.5 py-2.5 glass-input rounded-xl bg-[#071512]"
+                className="w-full px-3.5 py-2.5 glass-input rounded-xl bg-[#060913]"
               >
                 <option value="INR">INR (₹ - Indian Rupee)</option>
                 <option value="USD">USD ($ - US Dollar)</option>
@@ -132,10 +130,10 @@ export default function SettingsPage() {
         <div className="glass-panel p-5 rounded-2xl space-y-4">
           <div className="flex items-center justify-between pb-3 border-b border-white/[0.08]">
             <div className="flex items-center gap-2">
-              <CreditCard className="w-4 h-4 text-[#7CFFB2]" />
+              <CreditCard className="w-4 h-4 text-[#38BDF8]" />
               <h3 className="font-extrabold text-white text-sm">PayPal Sandbox REST API Credentials</h3>
             </div>
-            <span className="text-[10px] font-mono text-[#7CFFB2] bg-[#7CFFB2]/10 border border-[#7CFFB2]/20 px-2 py-0.5 rounded-full">
+            <span className="text-[10px] font-mono text-[#38BDF8] bg-[#38BDF8]/10 border border-[#38BDF8]/20 px-2 py-0.5 rounded-full font-bold">
               Sandbox Live
             </span>
           </div>
@@ -177,7 +175,7 @@ export default function SettingsPage() {
                   placeholder="Leave untouched to keep active backend secret key"
                   className="w-full px-3.5 py-2.5 glass-input rounded-xl font-mono text-xs pr-10"
                 />
-                <Lock className="w-3.5 h-3.5 text-[#7CFFB2] absolute right-3 top-1/2 -translate-y-1/2" />
+                <Lock className="w-3.5 h-3.5 text-[#38BDF8] absolute right-3 top-1/2 -translate-y-1/2" />
               </div>
             </div>
           </div>
@@ -186,7 +184,7 @@ export default function SettingsPage() {
         {/* AI & Automation Thresholds */}
         <div className="glass-panel p-5 rounded-2xl space-y-4">
           <div className="flex items-center gap-2 pb-3 border-b border-white/[0.08]">
-            <Sliders className="w-4 h-4 text-[#7CFFB2]" />
+            <Sliders className="w-4 h-4 text-[#38BDF8]" />
             <h3 className="font-extrabold text-white text-sm">Automated Alerts & AI Thresholds</h3>
           </div>
 
@@ -194,7 +192,7 @@ export default function SettingsPage() {
             <div>
               <div className="flex justify-between text-xs mb-1">
                 <span className="text-slate-300 font-bold">Monthly Budget Warning Threshold</span>
-                <span className="font-bold text-[#7CFFB2]">{formData.monthlyBudgetAlertThreshold}%</span>
+                <span className="font-bold text-[#38BDF8]">{formData.monthlyBudgetAlertThreshold}%</span>
               </div>
               <input
                 type="range"
@@ -203,7 +201,7 @@ export default function SettingsPage() {
                 step="5"
                 value={formData.monthlyBudgetAlertThreshold}
                 onChange={(e) => setFormData({ ...formData, monthlyBudgetAlertThreshold: Number(e.target.value) })}
-                className="w-full accent-[#7CFFB2]"
+                className="w-full accent-[#38BDF8]"
               />
               <span className="text-[10px] text-slate-400 mt-1 block">
                 Trigger dashboard warnings and AI proactive recommendations when category spending passes this percentage.
@@ -219,7 +217,7 @@ export default function SettingsPage() {
             disabled={saving}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
-            className="px-6 py-2.5 btn-mint rounded-xl text-xs font-extrabold flex items-center gap-2 shadow-[0_0_20px_rgba(124,255,178,0.3)]"
+            className="px-6 py-2.5 btn-blue rounded-xl text-xs font-extrabold flex items-center gap-2 shadow-[0_0_20px_rgba(37,99,235,0.4)]"
           >
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
             <span>Save & Apply Settings</span>

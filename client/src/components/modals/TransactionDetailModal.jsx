@@ -37,7 +37,7 @@ export default function TransactionDetailModal() {
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 15 }}
         transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-        className="glass-panel-elevated rounded-3xl w-full max-w-md overflow-hidden text-white relative shadow-[0_25px_60px_rgba(0,0,0,0.8)] border-[#7CFFB2]/25"
+        className="glass-panel-elevated rounded-3xl w-full max-w-md overflow-hidden text-white relative shadow-[0_25px_60px_rgba(0,0,0,0.8)] border-[#38BDF8]/25"
       >
         {/* Header */}
         <div className="px-6 py-4 border-b border-white/[0.08] flex items-center justify-between">
@@ -45,7 +45,7 @@ export default function TransactionDetailModal() {
             <div
               className={`w-9 h-9 rounded-xl flex items-center justify-center ${
                 isIncome
-                  ? 'bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30 shadow-[0_0_10px_rgba(124,255,178,0.2)]'
+                  ? 'bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 shadow-[0_0_10px_rgba(56,189,248,0.2)]'
                   : 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
               }`}
             >
@@ -70,12 +70,12 @@ export default function TransactionDetailModal() {
             <h4 className="text-sm font-semibold text-slate-300 mb-1">{tx.description}</h4>
             <div
               className={`text-3xl font-black tracking-tight ${
-                isIncome ? 'text-[#7CFFB2]' : 'text-white'
+                isIncome ? 'text-[#38BDF8]' : 'text-white'
               }`}
             >
               {isIncome ? '+' : '-'}{currencySymbol}{Number(tx.amount || 0).toLocaleString()}
             </div>
-            <div className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-bold bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30 shadow-[0_0_10px_rgba(124,255,178,0.15)]">
+            <div className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-bold bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 shadow-[0_0_10px_rgba(56,189,248,0.15)]">
               <CheckCircle2 className="w-3.5 h-3.5" />
               <span>{tx.status || 'Completed'}</span>
             </div>
@@ -84,7 +84,7 @@ export default function TransactionDetailModal() {
           <div className="space-y-3 text-xs">
             <div className="flex items-center justify-between">
               <span className="text-slate-400 flex items-center gap-1.5">
-                <Tag className="w-3.5 h-3.5 text-[#7CFFB2]" /> Category
+                <Tag className="w-3.5 h-3.5 text-[#38BDF8]" /> Category
               </span>
               <span className="font-bold text-white bg-white/[0.06] border border-white/[0.08] px-2.5 py-1 rounded-lg">
                 {tx.category}
@@ -93,14 +93,14 @@ export default function TransactionDetailModal() {
 
             <div className="flex items-center justify-between">
               <span className="text-slate-400 flex items-center gap-1.5">
-                <Calendar className="w-3.5 h-3.5 text-[#7CFFB2]" /> Date
+                <Calendar className="w-3.5 h-3.5 text-[#38BDF8]" /> Date
               </span>
               <span className="font-medium text-slate-200">{tx.date}</span>
             </div>
 
             <div className="flex items-center justify-between">
               <span className="text-slate-400 flex items-center gap-1.5">
-                <CreditCard className="w-3.5 h-3.5 text-[#7CFFB2]" /> Payment Channel
+                <CreditCard className="w-3.5 h-3.5 text-[#38BDF8]" /> Payment Channel
               </span>
               <span className="font-semibold text-slate-200">{tx.paymentMethod || 'Bank Transfer'}</span>
             </div>
@@ -108,7 +108,7 @@ export default function TransactionDetailModal() {
             {tx.paypalOrderId && (
               <div className="flex items-center justify-between">
                 <span className="text-slate-400">PayPal Order ID</span>
-                <span className="font-mono font-medium text-[#7CFFB2] bg-[#7CFFB2]/10 border border-[#7CFFB2]/20 px-2 py-0.5 rounded text-[11px]">
+                <span className="font-mono font-medium text-[#38BDF8] bg-[#38BDF8]/10 border border-[#38BDF8]/20 px-2 py-0.5 rounded text-[11px]">
                   {tx.paypalOrderId}
                 </span>
               </div>
@@ -126,7 +126,7 @@ export default function TransactionDetailModal() {
         </div>
 
         {/* Footer Actions */}
-        <div className="px-6 py-4 bg-[#071512]/60 border-t border-white/[0.08] flex items-center justify-between">
+        <div className="px-6 py-4 bg-[#060913]/60 border-t border-white/[0.08] flex items-center justify-between">
           <button
             onClick={handleDelete}
             className="px-3.5 py-2 text-xs font-bold text-rose-400 hover:text-rose-300 glass-card hover:border-rose-500/40 rounded-xl flex items-center gap-1.5 transition-colors"
@@ -137,14 +137,14 @@ export default function TransactionDetailModal() {
           <div className="flex items-center gap-2">
             <button
               onClick={handleEdit}
-              className="px-4 py-2 text-xs font-bold glass-card hover:border-[#7CFFB2]/40 rounded-xl text-slate-200 hover:text-white flex items-center gap-1.5"
+              className="px-4 py-2 text-xs font-bold glass-card hover:border-[#38BDF8]/40 rounded-xl text-slate-200 hover:text-white flex items-center gap-1.5"
             >
-              <Edit3 className="w-3.5 h-3.5 text-[#7CFFB2]" />
+              <Edit3 className="w-3.5 h-3.5 text-[#38BDF8]" />
               <span>Edit</span>
             </button>
             <button
               onClick={() => closeModal('viewTransaction')}
-              className="px-5 py-2 text-xs font-bold btn-mint rounded-xl"
+              className="px-5 py-2 text-xs font-bold btn-blue rounded-xl"
             >
               Done
             </button>

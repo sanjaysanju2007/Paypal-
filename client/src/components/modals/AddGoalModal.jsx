@@ -42,7 +42,7 @@ export default function AddGoalModal() {
         currentAmount: Number(currentAmount) || 0,
         targetDate: targetDate || '2027-01-01',
         category,
-        color: '#7CFFB2'
+        color: '#38BDF8'
       });
       closeModal('addGoal');
       refreshAll();
@@ -60,11 +60,11 @@ export default function AddGoalModal() {
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 15 }}
         transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-        className="glass-panel-elevated rounded-3xl w-full max-w-md overflow-hidden text-white relative shadow-[0_25px_60px_rgba(0,0,0,0.8)] border-[#7CFFB2]/25"
+        className="glass-panel-elevated rounded-3xl w-full max-w-md overflow-hidden text-white relative shadow-[0_25px_60px_rgba(0,0,0,0.8)] border-[#38BDF8]/25"
       >
         <div className="px-6 py-4 border-b border-white/[0.08] flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30 flex items-center justify-center font-bold">
+            <div className="w-8 h-8 rounded-xl bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 flex items-center justify-center font-bold">
               <Target className="w-4 h-4" />
             </div>
             <div>
@@ -110,7 +110,7 @@ export default function AddGoalModal() {
                 placeholder="200000"
                 value={targetAmount}
                 onChange={(e) => setTargetAmount(e.target.value)}
-                className="w-full px-4 py-2.5 text-xs font-black text-[#7CFFB2] glass-input rounded-xl"
+                className="w-full px-4 py-2.5 text-xs font-black text-[#38BDF8] glass-input rounded-xl"
               />
             </div>
             <div>
@@ -142,7 +142,7 @@ export default function AddGoalModal() {
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full px-3 py-2.5 text-xs glass-input rounded-xl bg-[#071512]"
+                className="w-full px-3 py-2.5 text-xs glass-input rounded-xl bg-[#060913]"
               >
                 <option value="Tech & Gadgets">Tech & Gadgets</option>
                 <option value="Emergency Fund">Emergency Fund</option>
@@ -167,7 +167,7 @@ export default function AddGoalModal() {
               disabled={loading}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              className="px-5 py-2.5 text-xs font-bold btn-mint rounded-xl flex items-center gap-2"
+              className="px-5 py-2.5 text-xs font-bold btn-blue rounded-xl flex items-center gap-2"
             >
               {loading && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
               <span>Lock Goal Target</span>

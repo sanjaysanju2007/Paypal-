@@ -49,7 +49,7 @@ export default function PayPalCheckoutModal() {
         particleCount: 80,
         spread: 70,
         origin: { y: 0.6 },
-        colors: ['#7CFFB2', '#20D995', '#38BDF8', '#FFFFFF']
+        colors: ['#38BDF8', '#2563EB', '#60A5FA', '#FFFFFF']
       });
     } catch (e) {
       // safe fallback
@@ -169,21 +169,21 @@ export default function PayPalCheckoutModal() {
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 15 }}
         transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-        className="glass-panel-elevated rounded-3xl w-full max-w-lg overflow-hidden text-white relative shadow-[0_20px_60px_rgba(0,0,0,0.8)] border-[#7CFFB2]/25"
+        className="glass-panel-elevated rounded-3xl w-full max-w-lg overflow-hidden text-white relative shadow-[0_20px_60px_rgba(0,0,0,0.8)] border-[#38BDF8]/25"
       >
         {/* Subtle Ambient Glow behind Header */}
-        <div className="absolute -top-12 -left-12 w-36 h-36 bg-[#7CFFB2]/20 rounded-full blur-2xl pointer-events-none" />
+        <div className="absolute -top-12 -left-12 w-36 h-36 bg-[#38BDF8]/20 rounded-full blur-2xl pointer-events-none" />
 
         {/* Modal Header */}
         <div className="px-6 py-4 border-b border-white/[0.08] flex items-center justify-between relative z-10">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#7CFFB2] to-[#20D995] text-[#071512] flex items-center justify-center font-black shadow-[0_0_15px_rgba(124,255,178,0.3)]">
-              <CreditCard className="w-5 h-5 fill-[#071512]" />
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#38BDF8] to-[#2563EB] text-[#060913] flex items-center justify-center font-black shadow-[0_0_15px_rgba(56,189,248,0.3)]">
+              <CreditCard className="w-5 h-5 fill-[#060913]" />
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <h3 className="font-extrabold text-white text-base">PayPal Sandbox Checkout</h3>
-                <span className="text-[10px] font-mono font-bold bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30 px-2 py-0.5 rounded-full">
+                <span className="text-[10px] font-mono font-bold bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 px-2 py-0.5 rounded-full">
                   acsPaypal
                 </span>
               </div>
@@ -205,14 +205,14 @@ export default function PayPalCheckoutModal() {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-              className="w-16 h-16 bg-[#7CFFB2]/15 border border-[#7CFFB2]/40 text-[#7CFFB2] rounded-full flex items-center justify-center mx-auto shadow-[0_0_30px_rgba(124,255,178,0.4)]"
+              className="w-16 h-16 bg-[#38BDF8]/15 border border-[#38BDF8]/40 text-[#38BDF8] rounded-full flex items-center justify-center mx-auto shadow-[0_0_30px_rgba(56,189,248,0.4)]"
             >
               <CheckCircle2 className="w-9 h-9" />
             </motion.div>
             <div>
               <h4 className="text-xl font-black text-white">Payment Confirmed!</h4>
               <p className="text-xs text-slate-300 mt-1">
-                Your payment of <strong className="text-[#7CFFB2]">{currencySymbol}{Number(paymentSuccess.amount).toLocaleString()}</strong> to <strong className="text-white">{paymentSuccess.recipient}</strong> has been synchronously captured by PayPal Sandbox.
+                Your payment of <strong className="text-[#38BDF8]">{currencySymbol}{Number(paymentSuccess.amount).toLocaleString()}</strong> to <strong className="text-white">{paymentSuccess.recipient}</strong> has been synchronously captured by PayPal Sandbox.
               </p>
             </div>
 
@@ -223,11 +223,11 @@ export default function PayPalCheckoutModal() {
               </div>
               <div className="flex justify-between py-1 border-b border-white/[0.06]">
                 <span className="text-slate-400">Capture ID:</span>
-                <span className="font-bold text-[#7CFFB2] select-all">{paymentSuccess.captureId}</span>
+                <span className="font-bold text-[#38BDF8] select-all">{paymentSuccess.captureId}</span>
               </div>
               <div className="flex justify-between py-1 border-b border-white/[0.06]">
                 <span className="text-slate-400">Status:</span>
-                <span className="px-2 py-0.5 bg-[#7CFFB2]/15 text-[#7CFFB2] rounded-full font-bold text-[10px] border border-[#7CFFB2]/25">
+                <span className="px-2 py-0.5 bg-[#38BDF8]/15 text-[#38BDF8] rounded-full font-bold text-[10px] border border-[#38BDF8]/25">
                   {paymentSuccess.status}
                 </span>
               </div>
@@ -243,14 +243,14 @@ export default function PayPalCheckoutModal() {
                   closeModal('paypalCheckout');
                   openModal('receiptModal', paymentSuccess);
                 }}
-                className="px-4 py-2.5 glass-card hover:border-[#7CFFB2]/50 text-slate-200 hover:text-white rounded-xl text-xs font-bold flex items-center gap-2 transition-all"
+                className="px-4 py-2.5 glass-card hover:border-[#38BDF8]/50 text-slate-200 hover:text-white rounded-xl text-xs font-bold flex items-center gap-2 transition-all"
               >
-                <Receipt className="w-3.5 h-3.5 text-[#7CFFB2]" />
+                <Receipt className="w-3.5 h-3.5 text-[#38BDF8]" />
                 <span>View Digital Receipt</span>
               </button>
               <button
                 onClick={() => closeModal('paypalCheckout')}
-                className="px-6 py-2.5 btn-mint rounded-xl text-xs font-bold"
+                className="px-6 py-2.5 btn-blue rounded-xl text-xs font-bold"
               >
                 Done
               </button>
@@ -290,7 +290,7 @@ export default function PayPalCheckoutModal() {
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
                   placeholder="1500"
-                  className="w-full px-4 py-2.5 text-xs font-bold text-[#7CFFB2] glass-input rounded-xl"
+                  className="w-full px-4 py-2.5 text-xs font-bold text-[#38BDF8] glass-input rounded-xl"
                 />
                 <span className="text-[10px] text-slate-400 mt-1 block font-mono">
                   ≈ ${usdAmount} USD in sandbox
@@ -314,13 +314,13 @@ export default function PayPalCheckoutModal() {
             {/* Checkout Mode Toggle */}
             <div className="flex items-center justify-between pt-1">
               <span className="text-xs font-bold text-slate-300">Checkout Mode:</span>
-              <div className="flex items-center gap-1 bg-[#071512] p-1 rounded-xl border border-white/[0.08] text-[11px] font-bold">
+              <div className="flex items-center gap-1 bg-[#060913] p-1 rounded-xl border border-white/[0.08] text-[11px] font-bold">
                 <button
                   type="button"
                   onClick={() => setCheckoutMode('sdk')}
                   className={`px-3 py-1 rounded-lg transition-all ${
                     checkoutMode === 'sdk' 
-                      ? 'bg-[#7CFFB2] text-[#071512] shadow-[0_0_10px_rgba(124,255,178,0.4)]' 
+                      ? 'bg-[#38BDF8] text-[#060913] shadow-[0_0_10px_rgba(56,189,248,0.4)]' 
                       : 'text-slate-400 hover:text-white'
                   }`}
                 >
@@ -331,7 +331,7 @@ export default function PayPalCheckoutModal() {
                   onClick={() => setCheckoutMode('simulate')}
                   className={`px-3 py-1 rounded-lg transition-all ${
                     checkoutMode === 'simulate' 
-                      ? 'bg-[#7CFFB2] text-[#071512] shadow-[0_0_10px_rgba(124,255,178,0.4)]' 
+                      ? 'bg-[#38BDF8] text-[#060913] shadow-[0_0_10px_rgba(56,189,248,0.4)]' 
                       : 'text-slate-400 hover:text-white'
                   }`}
                 >
@@ -342,17 +342,17 @@ export default function PayPalCheckoutModal() {
 
             {/* Mode 1: Official PayPal SDK Buttons */}
             {checkoutMode === 'sdk' ? (
-              <div className="mt-3 p-4 rounded-2xl glass-card border-[#7CFFB2]/20">
+              <div className="mt-3 p-4 rounded-2xl glass-card border-[#38BDF8]/20">
                 <div className="flex items-center justify-between mb-3 text-xs">
                   <span className="text-slate-300 font-medium">PayPal Sandbox Gateway:</span>
-                  <span className="text-[10px] font-mono text-[#7CFFB2] bg-[#7CFFB2]/10 border border-[#7CFFB2]/30 px-2 py-0.5 rounded-full">
+                  <span className="text-[10px] font-mono text-[#38BDF8] bg-[#38BDF8]/10 border border-[#38BDF8]/30 px-2 py-0.5 rounded-full">
                     App: acsPaypal
                   </span>
                 </div>
 
                 {isProcessing && (
                   <div className="py-6 flex flex-col items-center justify-center text-xs text-slate-300 gap-2">
-                    <Loader2 className="w-6 h-6 animate-spin text-[#7CFFB2]" />
+                    <Loader2 className="w-6 h-6 animate-spin text-[#38BDF8]" />
                     <span>Communicating with PayPal Sandbox servers...</span>
                   </div>
                 )}
@@ -389,9 +389,9 @@ export default function PayPalCheckoutModal() {
               </div>
             ) : (
               /* Mode 2: Instant Test Sandbox Simulation */
-              <div className="mt-3 p-4 rounded-2xl glass-card border-[#7CFFB2]/30 space-y-3">
-                <div className="flex items-center gap-2 text-[#7CFFB2] text-xs font-bold">
-                  <Sparkles className="w-4 h-4 fill-[#7CFFB2]/20" />
+              <div className="mt-3 p-4 rounded-2xl glass-card border-[#38BDF8]/30 space-y-3">
+                <div className="flex items-center gap-2 text-[#38BDF8] text-xs font-bold">
+                  <Sparkles className="w-4 h-4 fill-[#38BDF8]/20" />
                   <span>Instant Sandbox Simulation Checkout</span>
                 </div>
                 <p className="text-[11px] text-slate-300 leading-relaxed">
@@ -403,7 +403,7 @@ export default function PayPalCheckoutModal() {
                   whileTap={{ scale: 0.98 }}
                   onClick={handleSimulatePayment}
                   disabled={isProcessing || !amount}
-                  className="w-full py-2.5 px-4 btn-mint rounded-xl text-xs font-extrabold flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="w-full py-2.5 px-4 btn-blue rounded-xl text-xs font-extrabold flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   {isProcessing ? (
                     <Loader2 className="w-4 h-4 animate-spin" />

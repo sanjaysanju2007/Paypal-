@@ -17,6 +17,18 @@
   },
   "transactions": [
     {
+      "id": "tx-pp-628683",
+      "description": "PayPal: Regress Merchant",
+      "category": "Payment Transfer",
+      "type": "expense",
+      "amount": 2500,
+      "date": "2026-11-11",
+      "paymentMethod": "PayPal Sandbox",
+      "status": "Completed",
+      "paypalOrderId": "8999600698694831C",
+      "notes": "Regression test capture"
+    },
+    {
       "id": "tx-pp-089636",
       "description": "PayPal: Test Vendor",
       "category": "Payment Transfer",
@@ -352,6 +364,19 @@
     }
   ],
   "payments": [
+    {
+      "id": "pay-628680",
+      "orderId": "8999600698694831C",
+      "captureId": "CAP-SB-2145476",
+      "recipient": "Regress Merchant",
+      "amount": 2500,
+      "currency": "INR",
+      "status": "COMPLETED",
+      "type": "OUTGOING",
+      "timestamp": "2026-11-11T15:07:08.680Z",
+      "payerEmail": "sb-buyer@personal.example.com",
+      "note": "Regression test capture"
+    },
     {
       "id": "pay-089634",
       "orderId": "ORDER-SB-2089628995",

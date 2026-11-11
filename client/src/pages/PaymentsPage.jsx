@@ -11,10 +11,7 @@ import {
   RefreshCw,
   ArrowUpRight,
   ArrowDownRight,
-  ExternalLink,
-  Lock,
-  Zap,
-  CheckCircle2
+  Lock
 } from 'lucide-react';
 
 export default function PaymentsPage() {
@@ -61,7 +58,7 @@ export default function PaymentsPage() {
             <h1 className="text-2xl font-black text-white tracking-tight">
               PayPal Gateway & Payments
             </h1>
-            <span className="text-[10px] font-bold bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30 px-2 py-0.5 rounded-full shadow-[0_0_10px_rgba(124,255,178,0.2)]">
+            <span className="text-[10px] font-bold bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 px-2 py-0.5 rounded-full shadow-[0_0_10px_rgba(56,189,248,0.2)]">
               REST v2 & SDK
             </span>
           </div>
@@ -78,13 +75,13 @@ export default function PaymentsPage() {
             className="p-2.5 glass-card rounded-xl text-slate-300 hover:text-white"
             title="Refresh History"
           >
-            <RefreshCw className="w-4 h-4 text-[#7CFFB2]" />
+            <RefreshCw className="w-4 h-4 text-[#38BDF8]" />
           </motion.button>
           <motion.button
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             onClick={() => openModal('paypalCheckout')}
-            className="px-4 py-2.5 btn-mint rounded-xl text-xs font-bold flex items-center gap-2 shadow-[0_0_20px_rgba(124,255,178,0.3)]"
+            className="px-4 py-2.5 btn-blue rounded-xl text-xs font-bold flex items-center gap-2 shadow-[0_0_20px_rgba(37,99,235,0.4)]"
           >
             <SendHorizontal className="w-3.5 h-3.5" />
             <span>Launch PayPal Checkout</span>
@@ -102,16 +99,16 @@ export default function PaymentsPage() {
             <div>
               <div className="flex items-center gap-2.5">
                 <span className="font-extrabold text-white text-base">acsPaypal Sandbox Gateway</span>
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#7CFFB2]/15 text-[#7CFFB2] text-[11px] font-bold border border-[#7CFFB2]/30 shadow-[0_0_10px_rgba(124,255,178,0.2)]">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#38BDF8]/15 text-[#38BDF8] text-[11px] font-bold border border-[#38BDF8]/30 shadow-[0_0_10px_rgba(56,189,248,0.2)]">
                   <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#7CFFB2] opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#7CFFB2]"></span>
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#38BDF8] opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#38BDF8]"></span>
                   </span>
                   <span>Active & Verified</span>
                 </span>
               </div>
               <p className="text-xs text-slate-400 mt-0.5">
-                Official REST endpoint: <code className="font-mono text-[#7CFFB2]">https://api-m.sandbox.paypal.com</code>
+                Official REST endpoint: <code className="font-mono text-[#38BDF8]">https://api-m.sandbox.paypal.com</code>
               </p>
             </div>
           </div>
@@ -120,7 +117,7 @@ export default function PaymentsPage() {
             <div className="text-right hidden sm:block">
               <span className="text-[10px] uppercase tracking-wider text-slate-400 block font-mono">Environment</span>
               <span className="text-xs font-bold text-white flex items-center gap-1 justify-end">
-                <Lock className="w-3 h-3 text-[#7CFFB2]" />
+                <Lock className="w-3 h-3 text-[#38BDF8]" />
                 <span>Tier 1 Sandbox Developer</span>
               </span>
             </div>
@@ -131,7 +128,7 @@ export default function PaymentsPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 text-xs">
           <div className="md:col-span-2 p-3.5 rounded-xl glass-card flex items-center justify-between gap-3">
             <div className="truncate">
-              <span className="text-[#7CFFB2] font-mono font-bold block text-[10px] uppercase tracking-wider">
+              <span className="text-[#38BDF8] font-mono font-bold block text-[10px] uppercase tracking-wider">
                 Public Frontend Client ID
               </span>
               <code className="text-[11px] font-mono text-slate-200 font-medium truncate block mt-0.5">
@@ -141,23 +138,23 @@ export default function PaymentsPage() {
             <motion.button
               whileTap={{ scale: 0.9 }}
               onClick={copyClientId}
-              className="shrink-0 p-2 glass-card hover:border-[#7CFFB2]/50 text-slate-300 hover:text-white rounded-lg transition-colors"
+              className="shrink-0 p-2 glass-card hover:border-[#38BDF8]/50 text-slate-300 hover:text-white rounded-lg transition-colors"
               title="Copy Client ID"
             >
-              {copied ? <Check className="w-4 h-4 text-[#7CFFB2]" /> : <Copy className="w-4 h-4 text-[#7CFFB2]" />}
+              {copied ? <Check className="w-4 h-4 text-[#38BDF8]" /> : <Copy className="w-4 h-4 text-[#38BDF8]" />}
             </motion.button>
           </div>
 
-          <div className="p-3.5 rounded-xl glass-card flex items-center justify-between border-[#7CFFB2]/30">
+          <div className="p-3.5 rounded-xl glass-card flex items-center justify-between border-[#38BDF8]/30">
             <div>
-              <span className="text-[#7CFFB2] font-mono font-bold block text-[10px] uppercase tracking-wider">
+              <span className="text-[#38BDF8] font-mono font-bold block text-[10px] uppercase tracking-wider">
                 Backend REST Order Capture
               </span>
               <span className="text-xs font-bold text-white">
                 Synchronous Capture Ready
               </span>
             </div>
-            <ShieldCheck className="w-6 h-6 text-[#7CFFB2] drop-shadow-[0_0_8px_rgba(124,255,178,0.5)]" />
+            <ShieldCheck className="w-6 h-6 text-[#38BDF8] drop-shadow-[0_0_8px_rgba(56,189,248,0.5)]" />
           </div>
         </div>
       </div>
@@ -169,7 +166,7 @@ export default function PaymentsPage() {
           <div className="text-xl font-black text-white">
             {formatCurrency(totalOutgoing + totalIncoming)}
           </div>
-          <span className="text-[11px] text-[#7CFFB2] font-mono mt-1 block">
+          <span className="text-[11px] text-[#38BDF8] font-mono mt-1 block font-bold">
             {payments.length} verified sandbox orders
           </span>
         </div>
@@ -186,7 +183,7 @@ export default function PaymentsPage() {
 
         <div className="glass-card p-4 rounded-2xl">
           <span className="text-xs text-slate-400 font-bold uppercase tracking-wider block mb-1">Incoming Payouts</span>
-          <div className="text-xl font-black text-[#7CFFB2]">
+          <div className="text-xl font-black text-[#38BDF8]">
             +{formatCurrency(totalIncoming)}
           </div>
           <span className="text-[11px] text-slate-400 mt-1 block">
@@ -197,7 +194,7 @@ export default function PaymentsPage() {
 
       {/* Payment History Section */}
       <div className="glass-panel rounded-2xl overflow-hidden shadow-[0_10px_35px_rgba(0,0,0,0.5)]">
-        <div className="p-4 border-b border-white/[0.08] flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#071512]/50">
+        <div className="p-4 border-b border-white/[0.08] flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#060913]/50">
           <div>
             <h3 className="font-bold text-white text-sm">PayPal Payment Ledger</h3>
             <p className="text-xs text-slate-400">
@@ -205,7 +202,7 @@ export default function PaymentsPage() {
             </p>
           </div>
 
-          <div className="flex items-center gap-1 bg-[#071512] p-1 rounded-xl border border-white/[0.08] text-xs font-semibold">
+          <div className="flex items-center gap-1 bg-[#060913] p-1 rounded-xl border border-white/[0.08] text-xs font-semibold">
             {[
               { id: 'all', label: 'All Orders' },
               { id: 'outgoing', label: 'Sent' },
@@ -216,7 +213,7 @@ export default function PaymentsPage() {
                 onClick={() => setFilterType(tab.id)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                   filterType === tab.id
-                    ? 'bg-[#7CFFB2] text-[#071512] shadow-[0_0_10px_rgba(124,255,178,0.4)]'
+                    ? 'bg-[#38BDF8] text-[#060913] shadow-[0_0_10px_rgba(56,189,248,0.4)]'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
@@ -234,7 +231,7 @@ export default function PaymentsPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-white/[0.08] bg-[#071512]/70 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                <tr className="border-b border-white/[0.08] bg-[#060913]/70 text-[11px] font-bold uppercase tracking-wider text-slate-400">
                   <th className="py-3 px-4">Recipient / Payer</th>
                   <th className="py-3 px-4">PayPal Order ID</th>
                   <th className="py-3 px-4">Capture ID</th>
@@ -258,7 +255,7 @@ export default function PaymentsPage() {
                           <div
                             className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${
                               isIncoming
-                                ? 'bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30'
+                                ? 'bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30'
                                 : 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
                             }`}
                           >
@@ -275,7 +272,7 @@ export default function PaymentsPage() {
                         {p.orderId}
                       </td>
 
-                      <td className="py-3.5 px-4 font-mono text-[11px] text-[#7CFFB2] select-all">
+                      <td className="py-3.5 px-4 font-mono text-[11px] text-[#38BDF8] select-all">
                         {p.captureId || 'N/A'}
                       </td>
 
@@ -284,13 +281,13 @@ export default function PaymentsPage() {
                       </td>
 
                       <td className="py-3.5 px-4 text-right whitespace-nowrap">
-                        <span className={`font-black ${isIncoming ? 'text-[#7CFFB2]' : 'text-white'}`}>
+                        <span className={`font-black ${isIncoming ? 'text-[#38BDF8]' : 'text-white'}`}>
                           {isIncoming ? '+' : '-'}{formatCurrency(p.amount)}
                         </span>
                       </td>
 
                       <td className="py-3.5 px-4 text-center whitespace-nowrap">
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#7CFFB2]/10 text-[#7CFFB2] border border-[#7CFFB2]/25 shadow-[0_0_8px_rgba(124,255,178,0.2)]">
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#38BDF8]/10 text-[#38BDF8] border border-[#38BDF8]/25 shadow-[0_0_8px_rgba(56,189,248,0.2)]">
                           {p.status || 'COMPLETED'}
                         </span>
                       </td>
@@ -300,9 +297,9 @@ export default function PaymentsPage() {
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           onClick={() => openModal('receiptModal', p)}
-                          className="px-2.5 py-1 glass-card hover:border-[#7CFFB2]/50 text-slate-200 hover:text-[#7CFFB2] rounded-lg font-bold inline-flex items-center gap-1.5 text-[11px] transition-colors"
+                          className="px-2.5 py-1 glass-card hover:border-[#38BDF8]/50 text-slate-200 hover:text-[#38BDF8] rounded-lg font-bold inline-flex items-center gap-1.5 text-[11px] transition-colors"
                         >
-                          <Receipt className="w-3 h-3 text-[#7CFFB2]" />
+                          <Receipt className="w-3.5 h-3.5 text-[#38BDF8]" />
                           <span>Receipt</span>
                         </motion.button>
                       </td>

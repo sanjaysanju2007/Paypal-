@@ -63,7 +63,7 @@ function MainLayout() {
   };
 
   return (
-    <div className="min-h-screen bg-[#071512] text-slate-100 flex flex-col font-sans relative selection:bg-[#7CFFB2]/20 selection:text-[#7CFFB2]">
+    <div className="min-h-screen bg-[#060913] text-slate-100 flex flex-col font-sans relative selection:bg-[#38BDF8]/20 selection:text-[#38BDF8]">
       {/* Moving Ambient Glow Background */}
       <AnimatedBackground />
 

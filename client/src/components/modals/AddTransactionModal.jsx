@@ -133,7 +133,7 @@ export default function AddTransactionModal() {
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 15 }}
         transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-        className="glass-panel-elevated rounded-3xl w-full max-w-lg overflow-hidden text-white relative shadow-[0_25px_60px_rgba(0,0,0,0.8)] border-[#7CFFB2]/25"
+        className="glass-panel-elevated rounded-3xl w-full max-w-lg overflow-hidden text-white relative shadow-[0_25px_60px_rgba(0,0,0,0.8)] border-[#38BDF8]/25"
       >
         {/* Header */}
         <div className="px-6 py-4 border-b border-white/[0.08] flex items-center justify-between">
@@ -163,7 +163,7 @@ export default function AddTransactionModal() {
           )}
 
           {/* Type Toggle: Inflow vs Outflow */}
-          <div className="grid grid-cols-2 gap-2 p-1 bg-[#071512] rounded-xl border border-white/[0.08]">
+          <div className="grid grid-cols-2 gap-2 p-1 bg-[#060913] rounded-xl border border-white/[0.08]">
             <button
               type="button"
               onClick={() => setFormData(prev => ({ ...prev, type: 'expense' }))}
@@ -181,7 +181,7 @@ export default function AddTransactionModal() {
               onClick={() => setFormData(prev => ({ ...prev, type: 'income' }))}
               className={`py-2 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition-all ${
                 formData.type === 'income'
-                  ? 'bg-[#7CFFB2]/20 text-[#7CFFB2] border border-[#7CFFB2]/30 shadow-[0_0_10px_rgba(124,255,178,0.2)]'
+                  ? 'bg-[#38BDF8]/20 text-[#38BDF8] border border-[#38BDF8]/30 shadow-[0_0_10px_rgba(56,189,248,0.2)]'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -200,7 +200,7 @@ export default function AddTransactionModal() {
                 type="button"
                 onClick={handleAiCategorize}
                 disabled={aiSuggesting || !formData.description}
-                className="text-[10px] text-[#7CFFB2] hover:text-[#20D995] font-bold flex items-center gap-1 disabled:opacity-40"
+                className="text-[10px] text-[#38BDF8] hover:text-[#60A5FA] font-bold flex items-center gap-1 disabled:opacity-40"
               >
                 <Sparkles className="w-3 h-3" />
                 <span>{aiSuggesting ? 'Analyzing...' : 'AI Categorize'}</span>
@@ -215,7 +215,7 @@ export default function AddTransactionModal() {
               className="w-full px-4 py-2.5 text-xs glass-input rounded-xl"
             />
             {aiFeedback && (
-              <p className="text-[11px] text-[#7CFFB2] mt-1 flex items-center gap-1">
+              <p className="text-[11px] text-[#38BDF8] mt-1 flex items-center gap-1">
                 <Check className="w-3 h-3" />
                 <span>{aiFeedback}</span>
               </p>
@@ -235,7 +235,7 @@ export default function AddTransactionModal() {
                 value={formData.amount}
                 onChange={(e) => setFormData(prev => ({ ...prev, amount: e.target.value }))}
                 placeholder="2500"
-                className="w-full px-4 py-2.5 text-xs font-black text-[#7CFFB2] glass-input rounded-xl"
+                className="w-full px-4 py-2.5 text-xs font-black text-[#38BDF8] glass-input rounded-xl"
               />
             </div>
             <div>
@@ -261,10 +261,10 @@ export default function AddTransactionModal() {
               <select
                 value={formData.category}
                 onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
-                className="w-full px-3 py-2.5 text-xs glass-input rounded-xl bg-[#071512]"
+                className="w-full px-3 py-2.5 text-xs glass-input rounded-xl bg-[#060913]"
               >
                 {categories.map((c) => (
-                  <option key={c} value={c} className="bg-[#071512] text-white">{c}</option>
+                  <option key={c} value={c} className="bg-[#060913] text-white">{c}</option>
                 ))}
               </select>
             </div>
@@ -275,10 +275,10 @@ export default function AddTransactionModal() {
               <select
                 value={formData.paymentMethod}
                 onChange={(e) => setFormData(prev => ({ ...prev, paymentMethod: e.target.value }))}
-                className="w-full px-3 py-2.5 text-xs glass-input rounded-xl bg-[#071512]"
+                className="w-full px-3 py-2.5 text-xs glass-input rounded-xl bg-[#060913]"
               >
                 {paymentMethods.map((m) => (
-                  <option key={m} value={m} className="bg-[#071512] text-white">{m}</option>
+                  <option key={m} value={m} className="bg-[#060913] text-white">{m}</option>
                 ))}
               </select>
             </div>
@@ -315,7 +315,7 @@ export default function AddTransactionModal() {
               disabled={loading}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              className="px-5 py-2.5 btn-mint rounded-xl text-xs font-bold flex items-center gap-2"
+              className="px-5 py-2.5 btn-blue rounded-xl text-xs font-bold flex items-center gap-2"
             >
               {loading && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
               <span>{editItem ? 'Save Updates' : 'Add to Ledger'}</span>

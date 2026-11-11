@@ -4,10 +4,7 @@ import { useApp } from '../context/AppContext';
 import {
   CreditCard,
   Sparkles,
-  ExternalLink,
-  HelpCircle,
-  Shield,
-  Zap
+  ExternalLink
 } from 'lucide-react';
 
 export default function HelpCenterPage() {
@@ -37,7 +34,7 @@ export default function HelpCenterPage() {
       <div>
         <div className="flex items-center gap-2 mb-1">
           <h1 className="text-2xl font-black text-white tracking-tight">Help & Knowledge Center</h1>
-          <span className="text-[10px] font-bold bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30 px-2 py-0.5 rounded-full">
+          <span className="text-[10px] font-bold bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 px-2 py-0.5 rounded-full">
             Documentation
           </span>
         </div>
@@ -48,8 +45,8 @@ export default function HelpCenterPage() {
 
       {/* Quick Start Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="glass-panel p-5 rounded-2xl space-y-2 border-[#7CFFB2]/20">
-          <div className="w-9 h-9 rounded-xl bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30 flex items-center justify-center font-bold">
+        <div className="glass-panel p-5 rounded-2xl space-y-2 border-[#38BDF8]/20">
+          <div className="w-9 h-9 rounded-xl bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 flex items-center justify-center font-bold">
             <CreditCard className="w-4 h-4" />
           </div>
           <h3 className="font-extrabold text-white text-sm">Testing PayPal Sandbox</h3>
@@ -58,16 +55,16 @@ export default function HelpCenterPage() {
           </p>
           <button
             onClick={() => openModal('paypalCheckout')}
-            className="pt-1 text-xs font-bold text-[#7CFFB2] hover:underline inline-flex items-center gap-1"
+            className="pt-1 text-xs font-bold text-[#38BDF8] hover:underline inline-flex items-center gap-1"
           >
             <span>Launch PayPal Modal</span>
             <ExternalLink className="w-3 h-3" />
           </button>
         </div>
 
-        <div className="glass-panel p-5 rounded-2xl space-y-2 border-[#7CFFB2]/20">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#7CFFB2] to-[#20D995] text-[#071512] flex items-center justify-center font-bold shadow-[0_0_12px_rgba(124,255,178,0.3)]">
-            <Sparkles className="w-4 h-4 fill-[#071512]" />
+        <div className="glass-panel p-5 rounded-2xl space-y-2 border-[#38BDF8]/20">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#38BDF8] to-[#2563EB] text-white flex items-center justify-center font-bold shadow-[0_0_12px_rgba(56,189,248,0.3)]">
+            <Sparkles className="w-4 h-4 fill-white" />
           </div>
           <h3 className="font-extrabold text-white text-sm">AI Advisor Grounding</h3>
           <p className="text-xs text-slate-300 leading-relaxed">
@@ -81,7 +78,7 @@ export default function HelpCenterPage() {
         {faqs.map((f, i) => (
           <div key={i} className="p-4 sm:p-5 space-y-2">
             <h4 className="font-bold text-white text-sm flex items-center gap-2.5">
-              <span className="w-5 h-5 rounded-full bg-[#7CFFB2]/15 text-[#7CFFB2] border border-[#7CFFB2]/30 flex items-center justify-center text-xs shrink-0 font-bold">
+              <span className="w-5 h-5 rounded-full bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 flex items-center justify-center text-xs shrink-0 font-bold">
                 ?
               </span>
               <span>{f.q}</span>

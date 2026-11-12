@@ -169,7 +169,7 @@ export default function PayPalCheckoutModal() {
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 15 }}
         transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-        className="glass-panel-elevated rounded-3xl w-full max-w-lg overflow-hidden text-[#10233F] dark:text-white relative shadow-[0_20px_60px_rgba(0,0,0,0.8)] border-blue-500/25 dark:border-[#38BDF8]/25"
+        className="glass-panel-elevated rounded-3xl w-full max-w-lg max-h-[90vh] overflow-y-auto text-[#10233F] dark:text-white relative shadow-[0_20px_60px_rgba(0,0,0,0.8)] border-blue-500/25 dark:border-[#38BDF8]/25"
       >
         {/* Subtle Ambient Glow behind Header */}
         <div className="absolute -top-12 -left-12 w-36 h-36 bg-[#38BDF8]/20 rounded-full blur-2xl pointer-events-none" />

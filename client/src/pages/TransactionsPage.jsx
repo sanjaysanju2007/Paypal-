@@ -120,7 +120,7 @@ export default function TransactionsPage() {
           </p>
         </div>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex flex-wrap items-center gap-2.5">
           <motion.button
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
@@ -146,7 +146,7 @@ export default function TransactionsPage() {
       <div className="glass-panel p-4 rounded-2xl space-y-3 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
           {/* Tabs: All / Inflow / Outflow */}
-          <div className="flex items-center gap-1 bg-[#060913] p-1 rounded-xl border border-white/[0.08] text-xs font-bold">
+          <div className="flex items-center gap-1 bg-[#060913] p-1 rounded-xl border border-white/[0.08] text-xs font-bold overflow-x-auto">
             {[
               { id: 'all', label: 'All Records' },
               { id: 'income', label: 'Income (+)' },
@@ -247,7 +247,7 @@ export default function TransactionsPage() {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+            <table className="w-full text-left border-collapse min-w-[640px]">
               <thead>
                 <tr className="border-b border-white/[0.08] bg-[#060913]/70 text-[11px] font-bold uppercase tracking-wider text-slate-400">
                   <th className="py-3 px-4">Description / Merchant</th>

@@ -6,6 +6,15 @@ const AppContext = createContext(null);
 export function AppProvider({ children }) {
   const [activeTab, setActiveTab] = useState('overview');
   const [searchQuery, setSearchQuery] = useState('');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = useCallback(() => {
+    setMobileMenuOpen(prev => !prev);
+  }, []);
+
+  const closeMobileMenu = useCallback(() => {
+    setMobileMenuOpen(false);
+  }, []);
   
   // Theme state: 'light' (Frosted Blue) or 'dark' (Midnight Navy)
   const [theme, setTheme] = useState(() => {
@@ -210,6 +219,10 @@ export function AppProvider({ children }) {
     isDark: theme === 'dark',
     setTheme,
     toggleTheme,
+    mobileMenuOpen,
+    setMobileMenuOpen,
+    toggleMobileMenu,
+    closeMobileMenu,
     modalState,
     openModal,
     closeModal,

@@ -67,7 +67,7 @@ export default function PaymentsPage() {
           </p>
         </div>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex flex-wrap items-center gap-2.5">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -202,7 +202,7 @@ export default function PaymentsPage() {
             </p>
           </div>
 
-          <div className="flex items-center gap-1 bg-[#060913] p-1 rounded-xl border border-white/[0.08] text-xs font-semibold">
+          <div className="flex items-center gap-1 bg-[#060913] p-1 rounded-xl border border-white/[0.08] text-xs font-semibold overflow-x-auto">
             {[
               { id: 'all', label: 'All Orders' },
               { id: 'outgoing', label: 'Sent' },
@@ -211,7 +211,7 @@ export default function PaymentsPage() {
               <button
                 key={tab.id}
                 onClick={() => setFilterType(tab.id)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap ${
                   filterType === tab.id
                     ? 'bg-[#38BDF8] text-[#060913] shadow-[0_0_10px_rgba(56,189,248,0.4)]'
                     : 'text-slate-400 hover:text-white'
@@ -229,7 +229,7 @@ export default function PaymentsPage() {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+            <table className="w-full text-left border-collapse min-w-[700px]">
               <thead>
                 <tr className="border-b border-white/[0.08] bg-[#060913]/70 text-[11px] font-bold uppercase tracking-wider text-slate-400">
                   <th className="py-3 px-4">Recipient / Payer</th>

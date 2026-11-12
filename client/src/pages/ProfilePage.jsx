@@ -73,26 +73,26 @@ export default function ProfilePage() {
         <h3 className="font-extrabold text-white text-sm">Authorized Financial Rails</h3>
 
         <div className="space-y-3 text-xs">
-          <div className="p-4 rounded-2xl glass-card flex items-center justify-between border-[#38BDF8]/20">
+          <div className="p-4 rounded-2xl glass-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-[#38BDF8]/20">
             <div className="flex items-center gap-3.5">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#003087] to-[#0070BA] text-white flex items-center justify-center font-bold shadow-[0_0_15px_rgba(0,112,186,0.3)]">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#003087] to-[#0070BA] text-white flex items-center justify-center font-bold shadow-[0_0_15px_rgba(0,112,186,0.3)] shrink-0">
                 <CreditCard className="w-5 h-5" />
               </div>
-              <div>
+              <div className="truncate">
                 <div className="font-bold text-white">PayPal Sandbox Wallet (acsPaypal)</div>
-                <div className="text-[11px] text-[#38BDF8] font-mono mt-0.5">
+                <div className="text-[11px] text-[#38BDF8] font-mono mt-0.5 truncate">
                   Client ID: BAAmDmQ9•••pt-rC4
                 </div>
               </div>
             </div>
-            <span className="text-[10px] font-bold bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 px-2.5 py-1 rounded-full font-mono">
+            <span className="text-[10px] font-bold bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 px-2.5 py-1 rounded-full font-mono shrink-0">
               Live Connected
             </span>
           </div>
 
-          <div className="p-4 rounded-2xl glass-card flex items-center justify-between">
+          <div className="p-4 rounded-2xl glass-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div className="flex items-center gap-3.5">
-              <div className="w-10 h-10 rounded-xl bg-white/[0.06] border border-white/[0.08] text-slate-300 flex items-center justify-center font-bold">
+              <div className="w-10 h-10 rounded-xl bg-white/[0.06] border border-white/[0.08] text-slate-300 flex items-center justify-center font-bold shrink-0">
                 <Building className="w-5 h-5" />
               </div>
               <div>
@@ -100,7 +100,7 @@ export default function ProfilePage() {
                 <div className="text-[11px] text-slate-400 font-mono mt-0.5">Automated payroll intake active</div>
               </div>
             </div>
-            <span className="text-[10px] font-bold bg-white/[0.06] text-slate-300 border border-white/[0.08] px-2.5 py-1 rounded-full font-mono">
+            <span className="text-[10px] font-bold bg-white/[0.06] text-slate-300 border border-white/[0.08] px-2.5 py-1 rounded-full font-mono shrink-0">
               Primary Node
             </span>
           </div>

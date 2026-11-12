@@ -17,19 +17,6 @@
   },
   "transactions": [
     {
-      "id": "tx-299456",
-      "description": "Otaa vadda buisness",
-      "amount": 172,
-      "type": "expense",
-      "category": "Food & Dining",
-      "date": "2026-11-11",
-      "paymentMethod": "Credit Card",
-      "status": "Completed",
-      "notes": "all oil items availabble",
-      "paypalOrderId": null,
-      "createdAt": "2026-11-11T15:51:39.456Z"
-    },
-    {
       "id": "tx-pp-089636",
       "description": "PayPal: Test Vendor",
       "category": "Payment Transfer",
@@ -201,6 +188,22 @@
     }
   ],
   "budgets": [
+    {
+      "id": "b-440984",
+      "category": "Food & Dining",
+      "limit": 100,
+      "period": "Monthly",
+      "color": "#38BDF8",
+      "icon": "Wallet"
+    },
+    {
+      "id": "b-572981",
+      "category": "Food & Dining",
+      "limit": 20000,
+      "period": "Monthly",
+      "color": "#0EA5E9",
+      "icon": "Wallet"
+    },
     {
       "id": "b-001",
       "category": "Food & Dining",

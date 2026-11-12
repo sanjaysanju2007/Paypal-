@@ -73,7 +73,7 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Time Range Selector */}
-        <div className="flex items-center gap-1 bg-slate-200/60 dark:bg-[#060913] p-1 rounded-xl border border-blue-500/15 dark:border-white/[0.08] text-xs font-bold">
+        <div className="flex items-center gap-1 bg-slate-200/60 dark:bg-[#060913] p-1 rounded-xl border border-blue-500/15 dark:border-white/[0.08] text-xs font-bold overflow-x-auto">
           {[
             { id: '1m', label: '30 Days' },
             { id: '3m', label: '90 Days' },
@@ -83,7 +83,7 @@ export default function AnalyticsPage() {
             <button
               key={t.id}
               onClick={() => setTimeRange(t.id)}
-              className={`px-3 py-1.5 rounded-lg transition-all ${
+              className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap ${
                 timeRange === t.id
                   ? 'bg-[#2563EB] dark:bg-[#38BDF8] text-white dark:text-[#060913] shadow-[0_0_10px_rgba(37,99,235,0.3)] dark:shadow-[0_0_10px_rgba(56,189,248,0.4)]'
                   : 'text-slate-600 dark:text-slate-400 hover:text-[#10233F] dark:hover:text-white'
@@ -181,7 +181,7 @@ export default function AnalyticsPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-2 mt-4 pt-4 border-t border-white/[0.08] text-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4 pt-4 border-t border-white/[0.08] text-xs">
             {categoryData.map((c) => (
               <div key={c.name} className="flex items-center justify-between p-2 rounded-xl glass-card">
                 <div className="flex items-center gap-2 truncate">

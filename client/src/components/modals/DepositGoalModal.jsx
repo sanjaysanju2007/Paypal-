@@ -51,7 +51,7 @@ export default function DepositGoalModal() {
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 15 }}
         transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-        className="glass-panel-elevated rounded-3xl w-full max-w-sm overflow-hidden text-[#10233F] dark:text-white relative shadow-[0_25px_60px_rgba(0,0,0,0.8)] border-blue-500/25 dark:border-[#38BDF8]/25"
+        className="glass-panel-elevated rounded-3xl w-full max-w-sm max-h-[90vh] overflow-y-auto text-[#10233F] dark:text-white relative shadow-[0_25px_60px_rgba(0,0,0,0.8)] border-blue-500/25 dark:border-[#38BDF8]/25"
       >
         <div className="px-6 py-4 border-b border-blue-500/15 dark:border-white/[0.08] flex items-center justify-between">
           <div className="flex items-center gap-2.5">

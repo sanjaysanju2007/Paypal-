@@ -92,7 +92,7 @@ export default function Overview() {
       <motion.div variants={itemVariants} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <h1 className="text-2xl font-black text-white tracking-tight">Executive Dashboard</h1>
+            <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight">Executive Dashboard</h1>
             <span className="text-[10px] font-mono font-bold bg-[#38BDF8]/10 text-[#38BDF8] border border-[#38BDF8]/20 px-2 py-0.5 rounded-full flex items-center gap-1 shadow-[0_0_10px_rgba(56,189,248,0.15)]">
               <span className="w-1.5 h-1.5 rounded-full bg-[#38BDF8] animate-pulse"></span>
               Live Sync
@@ -103,7 +103,7 @@ export default function Overview() {
           </p>
         </div>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex flex-wrap items-center gap-2.5">
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -147,7 +147,7 @@ export default function Overview() {
             </div>
           </div>
 
-          <div className="text-2xl font-black text-white tracking-tight relative z-10">
+          <div className="text-xl sm:text-2xl font-black text-white tracking-tight relative z-10">
             {hideBalance ? (
               <span className="tracking-widest text-slate-400">••••••••••</span>
             ) : (
@@ -171,7 +171,7 @@ export default function Overview() {
               <ArrowUpRight className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-black text-white tracking-tight">
+          <div className="text-xl sm:text-2xl font-black text-white tracking-tight">
             {hideBalance ? '••••••' : <NumberCounter value={summary.totalIncome} prefix={currencySymbol} />}
           </div>
           <div className="mt-2.5 flex items-center gap-1.5 text-[11px] text-slate-400">
@@ -188,7 +188,7 @@ export default function Overview() {
               <ArrowDownRight className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-black text-white tracking-tight">
+          <div className="text-xl sm:text-2xl font-black text-white tracking-tight">
             {hideBalance ? '••••••' : <NumberCounter value={summary.totalExpense} prefix={currencySymbol} />}
           </div>
           <div className="mt-2.5 flex items-center gap-1.5 text-[11px] text-slate-400">
@@ -207,7 +207,7 @@ export default function Overview() {
               <PiggyBank className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-black text-white tracking-tight">
+          <div className="text-xl sm:text-2xl font-black text-white tracking-tight">
             {hideBalance ? '••••••' : <NumberCounter value={summary.monthlySavings} prefix={currencySymbol} />}
           </div>
           <div className="mt-2.5 flex items-center gap-1.5 text-[11px]">

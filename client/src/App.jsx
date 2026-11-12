@@ -73,8 +73,8 @@ function MainLayout() {
       {/* Top Floating Glass Navbar */}
       <Navbar />
 
-      {/* Main Content Area with Page Motion */}
-      <main className="ml-64 pt-24 px-6 sm:px-8 pb-16 flex-1 max-w-[1600px] relative z-10">
+      {/* Main Content Area with Responsive Margin and Page Motion */}
+      <main className="ml-0 lg:ml-64 pt-20 sm:pt-24 px-3 sm:px-6 md:px-8 pb-16 flex-1 w-full lg:w-[calc(100%-16rem)] min-w-0 relative z-10 overflow-x-hidden">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}

@@ -143,7 +143,7 @@ Select any query chip below or submit your custom financial question to receive 
       {/* Main Two Column Layout: Chat Window on Left, Intelligence Widgets on Right */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
         {/* Chat Interface Glass Container */}
-        <div className="lg:col-span-2 glass-panel rounded-2xl flex flex-col h-[740px] overflow-hidden relative shadow-[0_10px_40px_rgba(0,0,0,0.6)]">
+        <div className="lg:col-span-2 glass-panel rounded-2xl flex flex-col h-[580px] sm:h-[650px] lg:h-[740px] overflow-hidden relative shadow-[0_10px_40px_rgba(0,0,0,0.6)]">
           {/* Chat Header with Glowing Orb */}
           <div className="p-4 border-b border-[#38BDF8]/15 flex items-center justify-between bg-[#060913]/70 relative">
             <div className="flex items-center gap-3">
@@ -284,7 +284,7 @@ Select any query chip below or submit your custom financial question to receive 
               <Compass className="w-3 h-3" />
               <span>Suggested Advisory Prompts</span>
             </div>
-            <div className="flex gap-2 flex-wrap">
+            <div className="flex gap-2 overflow-x-auto pb-1 sm:flex-wrap">
               {suggestedQuestions.map((q, i) => (
                 <motion.button
                   key={i}
@@ -292,7 +292,7 @@ Select any query chip below or submit your custom financial question to receive 
                   whileTap={{ scale: 0.97 }}
                   onClick={() => handleSendMessage(q)}
                   disabled={loading}
-                  className="px-3 py-1.5 rounded-xl glass-card hover:border-[#38BDF8]/50 text-slate-300 hover:text-white text-[11px] font-medium transition-all disabled:opacity-50"
+                  className="px-3 py-1.5 rounded-xl glass-card hover:border-[#38BDF8]/50 text-slate-300 hover:text-white text-[11px] font-medium transition-all disabled:opacity-50 whitespace-nowrap"
                 >
                   {q}
                 </motion.button>

@@ -64,7 +64,7 @@ export default function ReportsPage() {
           </p>
         </div>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex flex-wrap items-center gap-2.5">
           <motion.button
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
@@ -87,7 +87,7 @@ export default function ReportsPage() {
       </div>
 
       {/* Printable Statement Sheet Container */}
-      <div className="glass-panel p-6 sm:p-8 rounded-3xl border-[#38BDF8]/20 shadow-[0_20px_50px_rgba(0,0,0,0.6)] space-y-6 max-w-4xl mx-auto">
+      <div className="glass-panel p-4 sm:p-6 md:p-8 rounded-3xl border-[#38BDF8]/20 shadow-[0_20px_50px_rgba(0,0,0,0.6)] space-y-6 max-w-4xl mx-auto">
         {/* Document Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-white/[0.08]">
           <div>
@@ -131,8 +131,8 @@ export default function ReportsPage() {
         {/* Category Breakdown Table */}
         <div>
           <h3 className="font-extrabold text-white text-sm mb-3">Outflow Breakdown by Economic Classification</h3>
-          <div className="border border-white/[0.08] rounded-2xl overflow-hidden glass-card">
-            <table className="w-full text-left text-xs">
+          <div className="border border-white/[0.08] rounded-2xl overflow-x-auto glass-card">
+            <table className="w-full text-left text-xs min-w-[340px]">
               <thead className="bg-[#060913]/70 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-white/[0.08]">
                 <tr>
                   <th className="py-2.5 px-4">Expense Classification</th>
@@ -157,15 +157,15 @@ export default function ReportsPage() {
         </div>
 
         {/* Audit Verification Seal */}
-        <div className="p-4 rounded-2xl glass-card border-[#38BDF8]/20 flex items-center justify-between text-xs">
+        <div className="p-4 rounded-2xl glass-card border-[#38BDF8]/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
           <div className="flex items-center gap-2.5">
-            <ShieldCheck className="w-5 h-5 text-[#38BDF8] drop-shadow-[0_0_8px_rgba(56,189,248,0.5)]" />
+            <ShieldCheck className="w-5 h-5 text-[#38BDF8] drop-shadow-[0_0_8px_rgba(56,189,248,0.5)] shrink-0" />
             <div>
               <span className="font-extrabold text-white block">SpendWise Cryptographic Verification Seal</span>
               <span className="text-[11px] text-slate-400">Reconciled against verified PayPal Sandbox orders and atomic ledger storage.</span>
             </div>
           </div>
-          <span className="font-mono text-[10px] text-[#38BDF8] bg-[#38BDF8]/10 border border-[#38BDF8]/25 px-2.5 py-1 rounded-full font-bold">
+          <span className="font-mono text-[10px] text-[#38BDF8] bg-[#38BDF8]/10 border border-[#38BDF8]/25 px-2.5 py-1 rounded-full font-bold self-start sm:self-auto shrink-0">
             SHA256: 9b2d•••8e1f
           </span>
         </div>
